@@ -2,7 +2,7 @@
 
 | Atributo   | Tipo    | PK | FK | Obrigatório | Descrição                     |
 | ---------- | ------- | -- | -- | ----------- | ----------------------------- |
-| ID_Facção  | Inteiro | ✅ |    | Sim         | Identificador único da facção |
+| ID_Facção  | INT | ✅ |    | Sim         | Identificador único da facção |
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Atributo | Tipo    | PK | FK | Obrigatório | Descrição                      |
 | -------- | ------- | -- | -- | ----------- | ------------------------------ |
-| ID_Ser   | Inteiro | ✅ |    | Sim         | Identificador único do ser     |
-| Tipo     | Texto   |    |    | Sim         | Tipo do ser (Prota, NPC, etc.) |
+| ID_Ser   | INT | ✅ |    | Sim         | Identificador único do ser     |
+| Tipo     | CHAR(100)   |    |    | Sim         | Tipo do ser (Prota, NPC, etc.) |
 
 ---
 
@@ -19,20 +19,20 @@
 
 | Atributo     | Tipo    | PK | FK            | Obrigatório | Descrição                  |
 | ------------ | ------- | -- | ------------- | ----------- | -------------------------- |
-| ID_Ser       | Inteiro | ✅ | Ser_Controle  | Sim         | Identificador do ser       |
-| Nome         | Texto   |    |               | Sim         | Nome do personagem         |
-| Max_HP       | Inteiro |    |               | Sim         | Vida máxima                |
-| Str          | Inteiro |    |               | Sim         | Força                      |
-| Dex          | Inteiro |    |               | Sim         | Destreza                   |
-| Def          | Inteiro |    |               | Sim         | Defesa                     |
-| Vantagens    | Texto   |    |               | Não         | Vantagens do personagem    |
-| Desvantagens | Texto   |    |               | Não         | Desvantagens do personagem |
-| Facção       | Inteiro |    | Facção        | Sim         | Facção à qual pertence     |
-| Fome         | Inteiro |    |               | Não         | Fome do personagem         |
-| Sede         | Inteiro |    |               | Não         | Sede                       |
-| Rad_Atual    | Inteiro |    |               | Não         | Radiação atual             |
-| Cap_Carga    | Inteiro |    |               | Não         | Capacidade de carga        |
-| Localização  | Texto   |    |               | Não         | Localização atual          |
+| ID_Ser       | INT | ✅ | Ser_Controle  | Sim         | Identificador do ser       |
+| Nome         | CHAR(100)   |    |               | Sim         | Nome do personagem         |
+| Max_HP       | INT |    |               | Sim         | Vida máxima                |
+| Str          | INT |    |               | Sim         | Força                      |
+| Dex          | INT |    |               | Sim         | Destreza                   |
+| Def          | INT |    |               | Sim         | Defesa                     |
+| Vantagens    | CHAR(100)   |    |               | Não         | Vantagens do personagem    |
+| Desvantagens | CHAR(100)   |    |               | Não         | Desvantagens do personagem |
+| Facção       | INT |    | Facção        | Sim         | Facção à qual pertence     |
+| Fome         | INT |    |               | Não         | Fome do personagem         |
+| Sede         | INT |    |               | Não         | Sede                       |
+| Rad_Atual    | INT |    |               | Não         | Radiação atual             |
+| Cap_Carga    | INT |    |               | Não         | Capacidade de carga        |
+| Localização  | CHAR(100)   |    |               | Não         | Localização atual          |
 
 ---
 
@@ -40,16 +40,16 @@
 
 | Atributo     | Tipo    | PK | FK     | Obrigatório | Descrição             |
 | ------------ | ------- | -- | ------ | ----------- | --------------------- |
-| ID_Ser       | Inteiro | ✅ |        | Sim         | ID do ser inteligente |
-| Nome         | Texto   |    |        | Sim         | Nome                  |
-| Max_HP       | Inteiro |    |        | Sim         | Vida máxima           |
-| Str          | Inteiro |    |        | Sim         | Força                 |
-| Dex          | Inteiro |    |        | Sim         | Destreza              |
-| Def          | Inteiro |    |        | Sim         | Defesa                |
-| Vantagens    | Texto   |    |        | Não         | Vantagens             |
-| Desvantagens | Texto   |    |        | Não         | Desvantagens          |
-| Alinhamento  | Texto   |    |        | Não         | Alinhamento moral     |
-| Facção       | Inteiro |    | Facção | Não         | Facção associada      |
+| ID_Ser       | INT | ✅ |        | Sim         | ID do ser inteligente |
+| Nome         | CHAR(100)   |    |        | Sim         | Nome                  |
+| Max_HP       | INT |    |        | Sim         | Vida máxima           |
+| Str          | INT |    |        | Sim         | Força                 |
+| Dex          | INT |    |        | Sim         | Destreza              |
+| Def          | INT |    |        | Sim         | Defesa                |
+| Vantagens    | CHAR(100)   |    |        | Não         | Vantagens             |
+| Desvantagens | CHAR(100)   |    |        | Não         | Desvantagens          |
+| Alinhamento  | CHAR(100)   |    |        | Não         | Alinhamento moral     |
+| Facção       | INT |    | Facção | Não         | Facção associada      |
 
 ---
 
@@ -57,16 +57,16 @@
 
 | Atributo     | Tipo    | PK | FK | Obrigatório | Descrição        |
 | ------------ | ------- | -- | -- | ----------- | ---------------- |
-| ID_Ser       | Inteiro | ✅ |    | Sim         | ID do ser        |
-| Nome         | Texto   |    |    | Sim         | Nome             |
-| Max_HP       | Inteiro |    |    | Sim         | Vida máxima      |
-| Str          | Inteiro |    |    | Sim         | Força            |
-| Dex          | Inteiro |    |    | Sim         | Destreza         |
-| Def          | Inteiro |    |    | Sim         | Defesa           |
-| Vantagens    | Texto   |    |    | Não         | Vantagens        |
-| Desvantagens | Texto   |    |    | Não         | Desvantagens     |
-| Rad_dano     | Inteiro |    |    | Não         | Dano de radiação |
-| Membros      | Texto   |    |    | Não         | Membros do corpo |
+| ID_Ser       | INT | ✅ |    | Sim         | ID do ser        |
+| Nome         | CHAR(100)   |    |    | Sim         | Nome             |
+| Max_HP       | INT |    |    | Sim         | Vida máxima      |
+| Str          | INT |    |    | Sim         | Força            |
+| Dex          | INT |    |    | Sim         | Destreza         |
+| Def          | INT |    |    | Sim         | Defesa           |
+| Vantagens    | CHAR(100)   |    |    | Não         | Vantagens        |
+| Desvantagens | CHAR(100)   |    |    | Não         | Desvantagens     |
+| Rad_dano     | INT |    |    | Não         | Dano de radiação |
+| Membros      | CHAR(100)   |    |    | Não         | Membros do corpo |
 
 ---
 
@@ -74,8 +74,8 @@
 
 | Atributo | Tipo    | PK | FK | Obrigatório | Descrição                    |
 | -------- | ------- | -- | -- | ----------- | ---------------------------- |
-| ID_Item  | Inteiro | ✅ |    | Sim         | ID do item                   |
-| Tipo     | Texto   |    |    | Sim         | Tipo de item (equip/mutação) |
+| ID_Item  | INT | ✅ |    | Sim         | ID do item                   |
+| Tipo     | CHAR(100)   |    |    | Sim         | Tipo de item (equip/mutação) |
 
 ---
 
@@ -83,8 +83,8 @@
 
 | Atributo     | Tipo    | PK | FK              | Obrigatório | Descrição                 |
 | ------------ | ------- | -- | --------------- | ----------- | ------------------------- |
-| ID_Item      | Inteiro | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
-| Nome         | Texto   |    |                 | Sim         | Nome                      |
+| ID_Item      | INT | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
+| Nome         | CHAR(100)   |    |                 | Sim         | Nome                      |
 
 ---
 
@@ -92,10 +92,10 @@
 
 | Atributo     | Tipo    | PK | FK              | Obrigatório | Descrição                 |
 | ------------ | ------- | -- | --------------- | ----------- | ------------------------- |
-| ID_Item      | Inteiro | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
-| Nome         | Texto   |    |                 | Sim         | Nome                      |
-| Nível        | Inteiro |    |                 | Sim         | Nível do item             |
-| Parte_Corpo  | Texto   |    |                 | Sim         | Parte do corpo afetada    |
+| ID_Item      | INT | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
+| Nome         | CHAR(100)   |    |                 | Sim         | Nome                      |
+| Nível        | INT |    |                 | Sim         | Nível do item             |
+| Parte_Corpo  | CHAR(100)   |    |                 | Sim         | Parte do corpo afetada    |
 
 ---
 
@@ -103,10 +103,10 @@
 
 | Atributo    | Tipo    | PK | FK              | Obrigatório | Descrição                 |
 | ------------| ------- | -- | --------------- | ----------- | ------------------------- |
-| ID_Item     | Inteiro | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
-| Nome        | Texto   |    |                 | Sim         | Nome                      |
-| Nível       | Inteiro |    |                 | Sim         | Nível do item             |
-| Parte_Corpo | Texto   |    |                 | Sim         | Parte do corpo afetada    |
+| ID_Item     | INT | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
+| Nome        | CHAR(100)   |    |                 | Sim         | Nome                      |
+| Nível       | INT |    |                 | Sim         | Nível do item             |
+| Parte_Corpo | CHAR(100)   |    |                 | Sim         | Parte do corpo afetada    |
 
 ---
 
@@ -114,9 +114,9 @@
 
 | Atributo        | Tipo    | PK | FK             | Obrigatório | Descrição             |
 | --------------- | ------- | -- | ---------------| ----------- | --------------------- |
-| Pos_Inventário  | Inteiro | ✅ |                | Sim         | Posição no inventário |
-| ID_Item         | Inteiro |    | Item_Controle  | Sim         | Item armazenado       |
-| Quantidade      | Inteiro |    |                | Sim         | Quantidade            |
+| Pos_Inventário  | INT | ✅ |                | Sim         | Posição no inventário |
+| ID_Item         | INT |    | Item_Controle  | Sim         | Item armazenado       |
+| Quantidade      | INT |    |                | Sim         | Quantidade            |
 
 ---
 
@@ -124,12 +124,12 @@
 
 | Atributo | Tipo    | PK | FK                    | Obrigatório | Descrição          |
 | -------- | ------- | -- | --------------------- | ----------- | -------------------|
-| ID_Ser   | Inteiro | ✅ | Ser_Controle          | Sim         | ID do ser          |
-| Cabeça   | Inteiro |    | Mutação               | Não         | Mutação na cabeça  |
-| Torso    | Inteiro |    | Mutação               | Não         | Mutação no torso   |
-| Mãos     | Inteiro |    | Mutação               | Não         | Mutação nas mãos   |
-| Pernas   | Inteiro |    | Mutação               | Não         | Mutação nas pernas |
-| Pés      | Inteiro |    | Mutação               | Não         | Mutação nos pés    |
+| ID_Ser   | INT | ✅ | Ser_Controle          | Sim         | ID do ser          |
+| Cabeça   | INT |    | Mutação               | Não         | Mutação na cabeça  |
+| Torso    | INT |    | Mutação               | Não         | Mutação no torso   |
+| Mãos     | INT |    | Mutação               | Não         | Mutação nas mãos   |
+| Pernas   | INT |    | Mutação               | Não         | Mutação nas pernas |
+| Pés      | INT |    | Mutação               | Não         | Mutação nos pés    |
 
 ---
 
@@ -137,12 +137,12 @@
 
 | Atributo | Tipo    | PK | FK                    | Obrigatório | Descrição                     |
 | -------- | ------- | -- | --------------------- | ----------- | ----------------------------- |
-| ID_Ser   | Inteiro | ✅ | Ser_Controle          | Sim         | ID do ser                     |
-| Cabeça   | Inteiro |    | Equipamento           | Não         | Equipamento na cabeça         |
-| Torso    | Inteiro |    | Equipamento           | Não         | Equipamento no torso          |
-| Mãos     | Inteiro |    | Equipamento           | Não         | Equipamento nas mãos          |
-| Pernas   | Inteiro |    | Equipamento           | Não         | Equipamento nas pernas        |
-| Pés      | Inteiro |    | Equipamento           | Não         | Equipamento nos pés           |
+| ID_Ser   | INT | ✅ | Ser_Controle          | Sim         | ID do ser                     |
+| Cabeça   | INT |    | Equipamento           | Não         | Equipamento na cabeça         |
+| Torso    | INT |    | Equipamento           | Não         | Equipamento no torso          |
+| Mãos     | INT |    | Equipamento           | Não         | Equipamento nas mãos          |
+| Pernas   | INT |    | Equipamento           | Não         | Equipamento nas pernas        |
+| Pés      | INT |    | Equipamento           | Não         | Equipamento nos pés           |
 
 ---
 
@@ -150,9 +150,9 @@
 
 | Atributo         | Tipo    | PK | FK      | Obrigatório | Descrição                  |
 | ---------------- | ------- | -- | ------- | ----------- | -------------------------- |
-| ID_Ser           | Inteiro | ✅ | ID_Ser  | Sim         | Qual NCP dropa             |
-| ID_Item          | Inteiro | ✅ | ID_Item | Sim         | Qual item dropa            |
-| Chance           | Inteiro |    |         | Sim         | Chance do NPC dropar algo  |
+| ID_Ser           | INT | ✅ | ID_Ser  | Sim         | Qual NCP dropa             |
+| ID_Item          | INT | ✅ | ID_Item | Sim         | Qual item dropa            |
+| Chance           | INT |    |         | Sim         | Chance do NPC dropar algo  |
 
 ---
 
@@ -160,9 +160,9 @@
 
 | Atributo | Tipo    | PK | FK           | Obrigatório | Descrição            |
 | -------- | ------- | -- | ------------ | ----------- | -------------------- |
-| ID_Item  | Inteiro | ✅ | Item_Controle| Sim         | Item relacionado     |
-| Atributo | Texto   | ✅ |              | Sim         | Atributo afetado     |
-| Valor    | Inteiro |    |              | Sim         | Valor da modificação |
+| ID_Item  | INT | ✅ | Item_Controle| Sim         | Item relacionado     |
+| Atributo | CHAR(100)   | ✅ |              | Sim         | Atributo afetado     |
+| Valor    | INT |    |              | Sim         | Valor da modificação |
 
 ---
 
@@ -170,10 +170,10 @@
 
 | Atributo    | Tipo    | PK | FK | Obrigatório | Descrição           |
 | ----------- | ------- | -- | -- | ----------- | ------------------- |
-| ID_PI       | Inteiro | ✅ |    | Sim         | Identificador único |
-| Nome        | Texto   |    |    | Sim         | Nome do local       |
-| Localização | Texto   |    |    | Sim         | Posição do local    |
-| Nível_Rad   | Inteiro |    |    | Sim         | Nível de radiação   |
+| ID_PI       | INT | ✅ |    | Sim         | Identificador único |
+| Nome        | CHAR(100)   |    |    | Sim         | Nome do local       |
+| Localização | CHAR(100)   |    |    | Sim         | Posição do local    |
+| Nível_Rad   | INT |    |    | Sim         | Nível de radiação   |
 
 ---
 
@@ -181,9 +181,9 @@
 
 | Atributo   | Tipo    | PK | FK | Obrigatório | Descrição           |
 | ---------- | ------- | -- | -- | ----------- | --------------------|
-| Nome       | Texto   | ✅ |    | Sim         | Nome da base        |
-| Localização| Inteiro |    |    | Sim         | Localização da base |
-| Nível_Rad  | Inteiro |    |    | Sim         | Nível de radiação   |
+| Nome       | CHAR(100)   | ✅ |    | Sim         | Nome da base        |
+| Localização| INT |    |    | Sim         | Localização da base |
+| Nível_Rad  | INT |    |    | Sim         | Nível de radiação   |
 
 ---
 
@@ -191,10 +191,10 @@
 
 | Atributo       | Tipo    | PK | FK | Obrigatório | Descrição                   |
 | -------------- | ------- | -- | -- | ----------- | --------------------------- |
-| ID_Instalação  | Inteiro | ✅ |    | Sim         | Identificador da instalação |
-| Nome           | Texto   |    |    | Sim         | Nome da instalação          |
-| Nível          | Inteiro |    |    | Sim         | Nível de dificuldade        |
-| Requisito      | Texto   |    |    | Não         | Requisito necessário        |
+| ID_Instalação  | INT | ✅ |    | Sim         | Identificador da instalação |
+| Nome           | CHAR(100)   |    |    | Sim         | Nome da instalação          |
+| Nível          | INT |    |    | Sim         | Nível de dificuldade        |
+| Requisito      | CHAR(100)   |    |    | Não         | Requisito necessário        |
 
 ---
 
@@ -202,8 +202,8 @@
 
 | Atributo         | Tipo    | PK | FK | Obrigatório | Descrição            |
 | ---------------- | ------- | -- | -- | ----------- | -------------------- |
-| ID_Evento        | Inteiro | ✅ |    | Sim         | ID do evento         |
-| Max_Ocorrências  | Texto   |    |    | Sim         | Ocorrências máximas  |
+| ID_Evento        | INT | ✅ |    | Sim         | ID do evento         |
+| Max_Ocorrências  | CHAR(100)   |    |    | Sim         | Ocorrências máximas  |
 
 ---
 
@@ -212,8 +212,8 @@
 
 | Atributo   | Tipo    | PK | FK                  | Obrigatório | Descrição                       |
 | ---------- | ------- | -- | ------------------- | ----------- | ------------------------------- |
-| ID_Evento  | Inteiro | ✅ | Evento              | Sim         | Identificador único evento      | 
-| ID_PI      | Inteiro | ✅ | Ponto de Interesse  | Sim         | Identificador único PI          |
+| ID_Evento  | INT | ✅ | Evento              | Sim         | Identificador único evento      | 
+| ID_PI      | INT | ✅ | Ponto de Interesse  | Sim         | Identificador único PI          |
 
 ---
 
@@ -221,9 +221,9 @@
 
 | Atributo   | Tipo    | PK | FK     | Obrigatório | Descrição             |
 | ---------- | ------- | -- | ------ | ----------- | ----------------------|
-| ID_Evento  | Inteiro | ✅ |        | Sim         | Evento relacionado    |
-| Req        | Texto   | ✅ |        | Sim         | Requisito para evento |
-| Status     | Texto   |    |        | Sim         | Status do requisito   |
+| ID_Evento  | INT | ✅ |        | Sim         | Evento relacionado    |
+| Req        | CHAR(100)   | ✅ |        | Sim         | Requisito para evento |
+| Status     | CHAR(100)   |    |        | Sim         | Status do requisito   |
 
 ---
 
@@ -231,9 +231,9 @@
 
 | Atributo   | Tipo    | PK | FK            | Obrigatório | Descrição              |
 | ---------- | ------- | -- | ------------- | ----------- | ---------------------- |
-| ID_Evento  | Inteiro | ✅ | Evento        | Sim         | Evento em questão      | 
-| ID_Ser     | Inteiro | ✅ | Ser_Controle  | Sim         | Ser que participa      |
-| Req        | Texto   |    | ID_Evento     | Sim         | Requisitos para evento |
+| ID_Evento  | INT | ✅ | Evento        | Sim         | Evento em questão      | 
+| ID_Ser     | INT | ✅ | Ser_Controle  | Sim         | Ser que participa      |
+| Req        | CHAR(100)   |    | ID_Evento     | Sim         | Requisitos para evento |
 
 ---
 
@@ -241,9 +241,9 @@
 
 | Atributo         | Tipo    | PK | FK     | Obrigatório | Descrição                  |
 | ---------------- | ------- | -- | ------ | ----------- | -------------------------- |
-| ID_Evento        | Inteiro | ✅ | Evento | Sim         | Evento relacionado         |
-| Max_Ocorrências  | Texto   |    |        | Sim         | Ocorrências máximas        |
-| Status           | Texto   |    |        | Sim         | Status da missão           |
-| Prox             | Texto   |    |        | Não         | Próxima missão, se existir |
+| ID_Evento        | INT | ✅ | Evento | Sim         | Evento relacionado         |
+| Max_Ocorrências  | CHAR(100)   |    |        | Sim         | Ocorrências máximas        |
+| Status           | CHAR(100)   |    |        | Sim         | Status da missão           |
+| Prox             | CHAR(100)   |    |        | Não         | Próxima missão, se existir |
 
 ---
