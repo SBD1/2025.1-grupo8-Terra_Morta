@@ -1,5 +1,7 @@
 # 🌍 Terra Morta
 
+![](./docs/assets/Logo_Terra_Morta.png)
+
 **Terra Morta** é um projeto de **RPG pós-apocalíptico** inspirado principalmente no universo da franquia **Fallout**. O jogo apresenta um mundo devastado, onde a civilização entrou em colapso após uma guerra nuclear e os poucos sobreviventes lutam para permanecer vivos.
 
 ---
