@@ -115,3 +115,65 @@
 | Nome        | Texto   |    |                 | Sim         | Nome                      |
 | Nível       | Inteiro |    |                 | Sim         | Nível do item             |
 | Parte_Corpo | Texto   |    |                 | Sim         | Parte do corpo afetada    |
+
+---
+### 🧩 **Inventário**
+
+| Atributo        | Tipo    | PK |      FK        | Obrigatório | Descrição             |
+| --------------- | ------- | -- | ---------------| ----------- | --------------------- |
+| Pos_Inventário  | Inteiro | ✅ |                | Sim         | Posição no inventário |
+| ID_Item         | Inteiro |    | Item_Controle  | Sim         | Item armazenado       |
+| Quantidade      | Inteiro |    |                | Sim         | Quantidade            |
+
+---
+
+### 🧩 **Item_Controle**
+
+| Atributo | Tipo    | PK | FK | Obrigatório | Descrição                    |
+| -------- | ------- | -- | -- | ----------- | ---------------------------- |
+| ID_Item  | Inteiro | ✅ |    | Sim         | ID do item                   |
+| Tipo     | Texto   |    |    | Sim         | Tipo de item (equip/mutação) |
+
+---
+
+### 🧩 **Modificador**
+
+| Atributo | Tipo    | PK |      FK     | Obrigatório | Descrição            |
+| -------- | ------- | -- | ------------| ----------- | -------------------- |
+| ID_Item  | Inteiro | ✅ |Item_Controle| Sim         | Item relacionado     |
+| Atributo | Texto   | ✅ |             | Sim         | Atributo afetado     |
+| Valor    | Inteiro |    |             | Sim         | Valor da modificação |
+
+---
+
+### 🧩 **Evento**
+
+| Atributo         | Tipo    | PK | FK | Obrigatório | Descrição            |
+| ---------------- | ------- | -- | -- | ----------- | -------------------- |
+| ID_Evento        | Inteiro | ✅ |    | Sim         | ID do evento         |
+| Max_Coordenadas  | Texto   |    |    | Sim         | Coordenadas máximas  |
+| Recompensa       | Texto   |    |    | Sim         | Recompensa do evento |
+
+---
+
+### 🧩 **Requisitos**
+
+| Atributo   | Tipo    | PK |   FK   | Obrigatório | Descrição             |
+| ---------- | ------- | -- | ------ | ----------- | ----------------------|
+| ID_Evento  | Inteiro | ✅ |        | Sim         | Evento relacionado    |
+| Req        | Texto   |    |        | Sim         | Requisito para evento |
+| Status     | Texto   |    |        | Sim         | Status do requisito   |
+
+---
+
+
+
+### 🧩 **EventoDropa**
+
+| Atributo   | Tipo    | PK | FK            | Obrigatório | Descrição              |
+| ---------- | ------- | -- | ------------- | ----------- | ---------------------- |
+| ID_Evento  | Inteiro | ✅ | Evento        | Sim         | Evento em questão      | 
+| ID_Ser     | Inteiro | ✅ | Ser_Controle  | Sim         | Ser que participa      |
+| Req        | Texto   |    | ID_Evento     | Sim         | Requisitos para evento |
+
+---
