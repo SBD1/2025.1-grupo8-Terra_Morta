@@ -42,10 +42,13 @@ O mundo de **Terra Morta** é recheado de ameaças, como:
 
 <p align="center">
     <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
+    
 </p>
 
 ---
+## Apresentações
 
+<a href="https://youtu.be/0W0nQhkjLXs">Apresentação 1</a> <br>
 ## Membros da Equipe 👥
 
 | [![](https://avatars.githubusercontent.com/EnzoEmir)](https://github.com/EnzoEmir) | [![](https://avatars.githubusercontent.com/VictorPontual)](https://github.com/VictorPontual) | [![](https://avatars.githubusercontent.com/Vitor-Ricardo-MS)](https://github.com/Vitor-Ricardo-MS) | [![](https://avatars.githubusercontent.com/IsaacMPereira)](https://github.com/IsaacMPereira) |
