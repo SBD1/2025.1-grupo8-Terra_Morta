@@ -11,7 +11,7 @@
 | Atributo | Tipo    | PK | FK | Obrigatório | Descrição                      |
 | -------- | ------- | -- | -- | ----------- | ------------------------------ |
 | ID_Ser   | INT | ✅ |    | Sim         | Identificador único do ser     |
-| Tipo     | CHAR(100)   |    |    | Sim         | Tipo do ser (Prota, NPC, etc.) |
+| Tipo     | CHAR(15)   |    |    | Sim         | Tipo do ser (Prota, NPC, etc.) |
 
 ---
 
@@ -25,14 +25,14 @@
 | Str          | INT |    |               | Sim         | Força                      |
 | Dex          | INT |    |               | Sim         | Destreza                   |
 | Def          | INT |    |               | Sim         | Defesa                     |
-| Vantagens    | CHAR(100)   |    |               | Não         | Vantagens do personagem    |
-| Desvantagens | CHAR(100)   |    |               | Não         | Desvantagens do personagem |
+| Vantagens    | CHAR(200)   |    |               | Não         | Vantagens do personagem    |
+| Desvantagens | CHAR(200)   |    |               | Não         | Desvantagens do personagem |
 | Facção       | INT |    | Facção        | Sim         | Facção à qual pertence     |
 | Fome         | INT |    |               | Não         | Fome do personagem         |
 | Sede         | INT |    |               | Não         | Sede                       |
 | Rad_Atual    | INT |    |               | Não         | Radiação atual             |
 | Cap_Carga    | INT |    |               | Não         | Capacidade de carga        |
-| Localização  | CHAR(100)   |    |               | Não         | Localização atual          |
+| Localização  | CHAR(20)   |    |               | Não         | Localização atual          |
 
 ---
 
@@ -46,9 +46,9 @@
 | Str          | INT |    |        | Sim         | Força                 |
 | Dex          | INT |    |        | Sim         | Destreza              |
 | Def          | INT |    |        | Sim         | Defesa                |
-| Vantagens    | CHAR(100)   |    |        | Não         | Vantagens             |
-| Desvantagens | CHAR(100)   |    |        | Não         | Desvantagens          |
-| Alinhamento  | CHAR(100)   |    |        | Não         | Alinhamento moral     |
+| Vantagens    | CHAR(200)   |    |        | Não         | Vantagens             |
+| Desvantagens | CHAR(200)   |    |        | Não         | Desvantagens          |
+| Alinhamento  | CHAR(15)   |    |        | Não         | Alinhamento moral     |
 | Facção       | INT |    | Facção | Não         | Facção associada      |
 
 ---
@@ -63,10 +63,10 @@
 | Str          | INT |    |    | Sim         | Força            |
 | Dex          | INT |    |    | Sim         | Destreza         |
 | Def          | INT |    |    | Sim         | Defesa           |
-| Vantagens    | CHAR(100)   |    |    | Não         | Vantagens        |
-| Desvantagens | CHAR(100)   |    |    | Não         | Desvantagens     |
+| Vantagens    | CHAR(200)   |    |    | Não         | Vantagens        |
+| Desvantagens | CHAR(200)   |    |    | Não         | Desvantagens     |
 | Rad_dano     | INT |    |    | Não         | Dano de radiação |
-| Membros      | CHAR(100)   |    |    | Não         | Membros do corpo |
+| Membros      | CHAR(10)   |    |    | Não         | Membros do corpo |
 
 ---
 
@@ -75,7 +75,7 @@
 | Atributo | Tipo    | PK | FK | Obrigatório | Descrição                    |
 | -------- | ------- | -- | -- | ----------- | ---------------------------- |
 | ID_Item  | INT | ✅ |    | Sim         | ID do item                   |
-| Tipo     | CHAR(100)   |    |    | Sim         | Tipo de item (equip/mutação) |
+| Tipo     | CHAR(15)   |    |    | Sim         | Tipo de item (equip/mutação) |
 
 ---
 
@@ -95,7 +95,7 @@
 | ID_Item      | INT | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
 | Nome         | CHAR(100)   |    |                 | Sim         | Nome                      |
 | Nível        | INT |    |                 | Sim         | Nível do item             |
-| Parte_Corpo  | CHAR(100)   |    |                 | Sim         | Parte do corpo afetada    |
+| Parte_Corpo  | CHAR(10)   |    |                 | Sim         | Parte do corpo afetada    |
 
 ---
 
@@ -106,7 +106,7 @@
 | ID_Item     | INT | ✅ |  Item_Controle  | Sim         | ID do equipamento/mutação |
 | Nome        | CHAR(100)   |    |                 | Sim         | Nome                      |
 | Nível       | INT |    |                 | Sim         | Nível do item             |
-| Parte_Corpo | CHAR(100)   |    |                 | Sim         | Parte do corpo afetada    |
+| Parte_Corpo | CHAR(10)   |    |                 | Sim         | Parte do corpo afetada    |
 
 ---
 
@@ -161,7 +161,7 @@
 | Atributo | Tipo    | PK | FK           | Obrigatório | Descrição            |
 | -------- | ------- | -- | ------------ | ----------- | -------------------- |
 | ID_Item  | INT | ✅ | Item_Controle| Sim         | Item relacionado     |
-| Atributo | CHAR(100)   | ✅ |              | Sim         | Atributo afetado     |
+| Atributo | CHAR(15)   | ✅ |              | Sim         | Atributo afetado     |
 | Valor    | INT |    |              | Sim         | Valor da modificação |
 
 ---
@@ -172,7 +172,7 @@
 | ----------- | ------- | -- | -- | ----------- | ------------------- |
 | ID_PI       | INT | ✅ |    | Sim         | Identificador único |
 | Nome        | CHAR(100)   |    |    | Sim         | Nome do local       |
-| Localização | CHAR(100)   |    |    | Sim         | Posição do local    |
+| Localização | CHAR(20)   |    |    | Sim         | Posição do local    |
 | Nível_Rad   | INT |    |    | Sim         | Nível de radiação   |
 
 ---
@@ -194,7 +194,7 @@
 | ID_Instalação  | INT | ✅ |    | Sim         | Identificador da instalação |
 | Nome           | CHAR(100)   |    |    | Sim         | Nome da instalação          |
 | Nível          | INT |    |    | Sim         | Nível de dificuldade        |
-| Requisito      | CHAR(100)   |    |    | Não         | Requisito necessário        |
+| Requisito      | CHAR(200)   |    |    | Não         | Requisito necessário        |
 
 ---
 
@@ -203,7 +203,7 @@
 | Atributo         | Tipo    | PK | FK | Obrigatório | Descrição            |
 | ---------------- | ------- | -- | -- | ----------- | -------------------- |
 | ID_Evento        | INT | ✅ |    | Sim         | ID do evento         |
-| Max_Ocorrências  | CHAR(100)   |    |    | Sim         | Ocorrências máximas  |
+| Max_Ocorrências  | INT   |    |    | Sim         | Ocorrências máximas  |
 
 ---
 
@@ -222,8 +222,8 @@
 | Atributo   | Tipo    | PK | FK     | Obrigatório | Descrição             |
 | ---------- | ------- | -- | ------ | ----------- | ----------------------|
 | ID_Evento  | INT | ✅ |        | Sim         | Evento relacionado    |
-| Req        | CHAR(100)   | ✅ |        | Sim         | Requisito para evento |
-| Status     | CHAR(100)   |    |        | Sim         | Status do requisito   |
+| Req        | CHAR(200)   | ✅ |        | Sim         | Requisito para evento |
+| Status     | BOOLEAN   |    |        | Sim         | Status do requisito   |
 
 ---
 
@@ -233,7 +233,7 @@
 | ---------- | ------- | -- | ------------- | ----------- | ---------------------- |
 | ID_Evento  | INT | ✅ | Evento        | Sim         | Evento em questão      | 
 | ID_Ser     | INT | ✅ | Ser_Controle  | Sim         | Ser que participa      |
-| Req        | CHAR(100)   |    | ID_Evento     | Sim         | Requisitos para evento |
+| Req        | CHAR(200)   |    | ID_Evento     | Sim         | Requisitos para evento |
 
 ---
 
@@ -242,8 +242,8 @@
 | Atributo         | Tipo    | PK | FK     | Obrigatório | Descrição                  |
 | ---------------- | ------- | -- | ------ | ----------- | -------------------------- |
 | ID_Evento        | INT | ✅ | Evento | Sim         | Evento relacionado         |
-| Max_Ocorrências  | CHAR(100)   |    |        | Sim         | Ocorrências máximas        |
-| Status           | CHAR(100)   |    |        | Sim         | Status da missão           |
-| Prox             | CHAR(100)   |    |        | Não         | Próxima missão, se existir |
+| Max_Ocorrências  | INT   |    |        | Sim         | Ocorrências máximas        |
+| Status           | INT   |    |        | Sim         | Status da missão           |
+| Prox             | INT   |    |        | Não         | Próxima missão, se existir |
 
 ---
