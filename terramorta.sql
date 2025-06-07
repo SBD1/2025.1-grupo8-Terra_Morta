@@ -157,6 +157,7 @@ CREATE TABLE nao_inteligente(
     rad_dano SMALLINT NOT NULL,
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)
 );
+
 CREATE TABLE inteligente(
     id_ser SMALLINT PRIMARY KEY NOT NULL,
     nome CHAR(50) NOT NULL,
@@ -180,21 +181,22 @@ CREATE TABLE inteligente(
 );
 
 CREATE TABLE inst_ser(
-    id_ser SMALLINT PRIMARY KEY NOT NULL,
-    id_inst SMALLSERIAL PRIMARY KEY NOT NULL,
+    id_ser SMALLINT NOT NULL,
+    id_inst SMALLSERIAL NOT NULL,
     hp_max SMALLINT NOT NULL,
     hp_atual SMALLINT NOT NULL,
     str_atual SMALLINT NOT NULL,
     dex_atual SMALLINT NOT NULL,
     faccao SMALLINT,
     def_atual SMALLINT NOT NULL,
+    PRIMARY KEY(id_ser,id_inst)
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
 );
 
 CREATE TABLE inst_prota(
-    id_ser SMALLINT PRIMARY KEY NOT NULL,
-    id_inst SMALLSERIAL PRIMARY KEY NOT NULL,
+    id_ser SMALLINT NOT NULL,
+    id_inst SMALLSERIAL NOT NULL,
     hp_max SMALLINT NOT NULL,
     hp_atual SMALLINT NOT NULL,
     str_atual SMALLINT NOT NULL,
@@ -215,14 +217,17 @@ CREATE TABLE inst_prota(
     faccao SMALLINT,
     rad_atual SMALLINT NOT NULL,
     localizacao SMALLINT NOT NULL,
+    PRIMARY KEY(id_ser,id_inst),
     FOREIGN KEY (id_ser) REFERENCES prota(id_ser),
     FOREIGN KEY (faccao) REFERENCES faccao(id_faccao),
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
 );
+
 CREATE TABLE npc_dropa(
-    id_item SMALLINT PRIMARY KEY NOT NULL,
-    id_ser SMALLINT PRIMARY KEY NOT NULL,
+    id_item SMALLINT NOT NULL,
+    id_ser SMALLINT NOT NULL,
     chance SMALLINT NOT NULL,
+    PRIMARY KEY(id_item,id_ser),
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item),
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)
 );
