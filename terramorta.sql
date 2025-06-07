@@ -58,3 +58,61 @@ create table equipamento_atual(
 	FOREIGN KEY (pernas) REFERENCES equipamento(id_equip),
 	FOREIGN KEY (pes) REFERENCES equipamento(id_equip)
 );
+
+CREATE TABLE evento (
+    id_evento SMALLSERIAL PRIMARY KEY,
+    max_ocorrencia SMALLINT 
+);
+
+CREATE TABLE ponto_de_interesse (
+    id_pi SMALLSERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    custo SMALLINT, 
+    nivel_rad DECIMAL(5,2) 
+);
+
+CREATE TABLE requisitos (
+    id_evento SMALLINT PRIMARY KEY,
+    req VARCHAR(50), 
+    status BOOLEAN, 
+    FOREIGN KEY (id_evento) REFERENCES evento(id_evento)
+);
+
+CREATE TABLE ocorre(
+    id_evento smallint ,
+    id_pi smallint ,
+    PRIMARY KEY(id_evento,id_pi),
+    FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
+    FOREIGN KEY (id_pi) REFERENCES ponto_de_interesse(id_pi)
+);
+
+CREATE TABLE missao (
+    id_evento SMALLINT PRIMARY KEY,
+    status CHAR(1) CHECK (status IN ('C', 'A', 'F', 'N')),
+    prox SMALLINT, 
+    FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
+    FOREIGN KEY (prox) REFERENCES evento(id_evento)
+);
+
+CREATE TABLE base (
+    id_pi SMALLINT PRIMARY KEY,
+    nome VARCHAR(50),
+    id_instalacao SMALLINT,
+    FOREIGN KEY (id_pi) REFERENCES ponto_de_interesse(id_pi),
+    FOREIGN KEY (id_instalacao) REFERENCES instalacao_base(id_instalacao)
+);
+
+CREATE TABLE instalacao_base (
+    id_instalacao SMALLSERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    nivel SMALLINT,
+    requisito VARCHAR(100) 
+);
+
+CREATE TABLE evento_dropa(
+    id_item SMALLINT,
+    id_evento SMALLINT,
+    PRIMARY KEY(id_item,id_evento),
+    FOREIGN KEY (id_item) REFERENCES item_controle(id_item),
+    FOREIGN KEY (id_evento) REFERENCES evento(id_evento)
+);
