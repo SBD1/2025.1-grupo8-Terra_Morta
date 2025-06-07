@@ -188,8 +188,9 @@ CREATE TABLE inst_ser(
     str_atual SMALLINT NOT NULL,
     dex_atual SMALLINT NOT NULL,
     def_atual SMALLINT NOT NULL,
-    PRIMARY KEY(id_ser,id_inst)
-    FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)
+    localizacao SMALLINT NOT NULL,
+    PRIMARY KEY(id_ser,id_inst),
+    FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser),
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
 );
 
