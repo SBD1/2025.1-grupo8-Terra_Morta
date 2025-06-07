@@ -14,7 +14,7 @@ create table item_controle(
 );
 
 create table mutacao(
-	id_mutacao smallint primary key,
+	id_mutacao smallint primary key not null,
 	nome char(50) not null,
 	nivel smallint not null,
 	parte_corpo char(4),
@@ -22,7 +22,7 @@ create table mutacao(
 );
 
 create table mutacao_atual(
-	id_ser smallint primary key,
+	id_ser smallint primary key not null,
 	cabeca smallint,
 	torso smallint,
 	maos smallint,
@@ -34,4 +34,27 @@ create table mutacao_atual(
 	FOREIGN KEY (maos) REFERENCES mutacao(id_mutacao),
 	FOREIGN KEY (pernas) REFERENCES mutacao(id_mutacao),
 	FOREIGN KEY (pes) REFERENCES mutacao(id_mutacao)
+);
+
+create table equipamento(
+	id_equip smallint primary key not null,
+	nome char(50) not null,
+	nivel smallint not null,
+	parte_corpo char(4),
+	FOREIGN KEY (id_equip) REFERENCES item_controle(id_item)
+);
+
+create table equipamento_atual(
+	id_ser smallint primary key not null,
+	cabeca smallint,
+	torso smallint,
+	maos smallint,
+	pernas smallint,
+	pes smallint,
+	FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser),
+	FOREIGN KEY (cabeca) REFERENCES equipamento(id_equip),
+	FOREIGN KEY (torso) REFERENCES equipamento(id_equip),
+	FOREIGN KEY (maos) REFERENCES equipamento(id_equip),
+	FOREIGN KEY (pernas) REFERENCES equipamento(id_equip),
+	FOREIGN KEY (pes) REFERENCES equipamento(id_equip)
 );
