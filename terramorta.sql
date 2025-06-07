@@ -187,7 +187,6 @@ CREATE TABLE inst_ser(
     hp_atual SMALLINT NOT NULL,
     str_atual SMALLINT NOT NULL,
     dex_atual SMALLINT NOT NULL,
-    faccao SMALLINT,
     def_atual SMALLINT NOT NULL,
     PRIMARY KEY(id_ser,id_inst)
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)
