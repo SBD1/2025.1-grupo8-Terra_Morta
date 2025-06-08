@@ -94,19 +94,19 @@ CREATE TABLE missao (
     FOREIGN KEY (prox) REFERENCES evento(id_evento)
 );
 
+CREATE TABLE instalacao_base (
+    id_instalacao SMALLSERIAL PRIMARY KEY,
+    nome VARCHAR(50),
+    nivel SMALLINT,
+    requisito VARCHAR(100) 
+);
+
 CREATE TABLE base (
     id_pi SMALLINT PRIMARY KEY,
     nome VARCHAR(50),
     id_instalacao SMALLINT,
     FOREIGN KEY (id_pi) REFERENCES ponto_de_interesse(id_pi),
     FOREIGN KEY (id_instalacao) REFERENCES instalacao_base(id_instalacao)
-);
-
-CREATE TABLE instalacao_base (
-    id_instalacao SMALLSERIAL PRIMARY KEY,
-    nome VARCHAR(50),
-    nivel SMALLINT,
-    requisito VARCHAR(100) 
 );
 
 CREATE TABLE evento_dropa(
