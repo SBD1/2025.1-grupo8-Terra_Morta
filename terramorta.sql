@@ -104,7 +104,8 @@ CREATE TABLE instalacao_base (
     id_instalacao SMALLSERIAL PRIMARY KEY,
     nome VARCHAR(50),
     nivel SMALLINT,
-    requisito VARCHAR(100) 
+    requisito SMALLINT,
+    quantidade SMALLINT
 );
 
 CREATE TABLE base (
