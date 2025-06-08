@@ -13,6 +13,12 @@ create table item_controle(
 	tipo char(1)
 );
 
+CREATE TABLE coletavel(
+    id_item SMALLINT PRIMARY KEY NOT NULL,
+    nome CHAR(50) NOT NULL,
+    FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
+);
+
 create table mutacao(
 	id_mutacao smallint primary key not null,
 	nome char(50) not null,
@@ -236,12 +242,6 @@ CREATE TABLE inventario(
     pos_inv SMALLSERIAL PRIMARY KEY NOT NULL,
     id_item SMALLINT NOT NULL,
     quant SMALLINT NOT NULL,
-    FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
-);
-
-CREATE TABLE coletavel(
-    id_item SMALLINT PRIMARY KEY NOT NULL,
-    nome CHAR(50) NOT NULL,
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 
