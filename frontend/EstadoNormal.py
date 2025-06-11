@@ -53,7 +53,7 @@ class EstadoNormal():
 		os.system('cls' if os.name == 'nt' else 'clear')
 		print(f'Para onde deseja ir?\n')
 		for key in self.locais:
-    			print(f'{self.locais[key]}: {key}')
+			print(f'{self.locais[key]}: {key}')
 		print(f'------------\n')
 		
 		entrada = input('Digite a opção desejada: ')
