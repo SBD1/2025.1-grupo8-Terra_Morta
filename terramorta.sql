@@ -200,8 +200,8 @@ CREATE TABLE instalacao_base (
     id_instalacao SMALLSERIAL PRIMARY KEY,
     nome VARCHAR(50),
     nivel SMALLINT,
-    item SMALLINT,
-    quantidade SMALLINT,
+    id_item SMALLINT,
+    qtd SMALLINT,
     FOREIGN KEY (item) REFERENCES item_controle(id_item)
 );
 

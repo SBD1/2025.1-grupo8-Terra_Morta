@@ -20,7 +20,7 @@ INSERT INTO ponto_de_interesse (nome, custo, nivel_rad) VALUES
 ('Mêtro do Surfista', 9, 0),
 ('Estação de Tratamento de Água', 6, 2);
 
-INSERT INTO item_controle (id_item, tipo) VALUES
+INSERT INTO item_controle (tipo) VALUES
 ('C'),
 ('C'),
 ('C');
