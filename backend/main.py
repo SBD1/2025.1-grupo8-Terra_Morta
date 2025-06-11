@@ -1,8 +1,26 @@
 import psycopg
 import networkx as nx
+from dotenv import load_dotenv
+import os
 
-# Conecta ao banco de dados
-conn = psycopg.connect("dbname=seu_banco user=seu_usuario password=senha")
+# Carrega as variáveis do arquivo .env
+load_dotenv()
+
+# Pega os valores das variáveis de ambiente
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+
+# Conecta ao banco de dados PostgreSQL
+conn = psycopg.connect(
+    dbname=DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=DB_PORT
+)
 cur = conn.cursor()
 
 # Consulta os pontos de interesse
