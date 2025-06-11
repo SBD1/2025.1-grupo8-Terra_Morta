@@ -202,7 +202,7 @@ CREATE TABLE instalacao_base (
     nivel SMALLINT,
     id_item SMALLINT,
     qtd SMALLINT,
-    FOREIGN KEY (item) REFERENCES item_controle(id_item)
+    FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 
 CREATE TABLE base (

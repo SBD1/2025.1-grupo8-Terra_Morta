@@ -58,7 +58,7 @@ INSERT INTO coletavel (id_item, nome) VALUES
 -- 3. INSTALAÇÕES DE BASE
 -- (requer itens já existentes)
 -- =======================================
-INSERT INTO instalacao_base (nome, nivel, item, quantidade) VALUES
+INSERT INTO instalacao_base (nome, nivel, id_item, qtd) VALUES
 ('Acampamento Improvisado', 0, NULL, NULL),
 ('Refúgio de Madeira', 1, 1, 5),
 ('Fortificação de Madeira', 2, 1, 15),
