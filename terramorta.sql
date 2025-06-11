@@ -255,3 +255,12 @@ CREATE TABLE inst_prota(
     FOREIGN KEY (faccao) REFERENCES faccao(id_faccao),
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
 );
+
+CREATE TABLE ligacao (
+    origem SMALLINT NOT NULL,
+    destino SMALLINT NOT NULL,
+    custo SMALLINT NOT NULL,
+    PRIMARY KEY (origem, destino),
+    FOREIGN KEY (origem) REFERENCES ponto_de_interesse(id_pi),
+    FOREIGN KEY (destino) REFERENCES ponto_de_interesse(id_pi)
+);
