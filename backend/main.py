@@ -46,6 +46,10 @@ conexao = cur.fetchall()
 for origem, destino, custo in conexao:
     G.add_edge(origem, destino, weight=custo)
 
+print("\nConexões:")
+for u, v, d in G.edges(data=True):
+    print(f"{u} <--> {v} (custo: {d['weight']})")
+
 
 # Fecha a conexão
 cur.close()
