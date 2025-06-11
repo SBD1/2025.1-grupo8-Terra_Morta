@@ -22,26 +22,26 @@ ALTER SEQUENCE instalacao_base_id_instalacao_seq RESTART WITH 1;
 -- =======================================
 -- 1. PONTOS DE INTERESSE
 -- =======================================
-INSERT INTO ponto_de_interesse (nome, custo, nivel_rad) VALUES
-('Base', 0, 0),
-('Travessia da Poeira', 5, 1),
-('Posto de Vigia Abandonado', 5, 1),
-('Cidade Fantasma', 6, 2),
-('Terra Chamuscada', 5, 1),
-('Subúrbio dos Esquecidos', 7, 2),
-('Nigrum Sanguinem', 30, 30),
-('Base dos Pisa Poeira', 10, 0),
-('Escola Amanhecer Dourado', 7, 1),
-('Cemitério das Máquinas', 20, 3),
-('Colinas Negras', 8, 3),
-('Mercabunker', 7, 0),
-('Poço de água', 5, 0),
-('Hospital Subterrâneo', 10, 4),
-('Aeroporto Militar', 12, 5),
-('Pátio do Ferro-Velho', 6, 1),
-('Lugar Algum', 9, 0),
-('Mêtro do Surfista', 9, 0),
-('Estação de Tratamento de Água', 6, 2);
+INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
+('Base', 0),
+('Travessia da Poeira', 1),
+('Posto de Vigia Abandonado', 1),
+('Cidade Fantasma', 2),
+('Terra Chamuscada', 1),
+('Subúrbio dos Esquecidos', 2),
+('Nigrum Sanguinem', 30),
+('Base dos Pisa Poeira', 0),
+('Escola Amanhecer Dourado', 1),
+('Cemitério das Máquinas', 3),
+('Colinas Negras', 3),
+('Mercabunker', 0),
+('Poço de água', 0),
+('Hospital Subterrâneo', 4),
+('Aeroporto Militar', 5),
+('Pátio do Ferro-Velho', 1),
+('Lugar Algum', 0),
+('Mêtro do Surfista', 0),
+('Estação de Tratamento de Água', 2);
 
 -- =======================================
 -- 2. ITENS COLETÁVEIS
@@ -93,3 +93,7 @@ INSERT INTO prota (
 (4, 'All, the Baran',   100, 15, 0, 10,  0, 0, 0, 0, 0, 0,  100, 100, 200),
 (5, 'Dr. Brasília',     100, 22, 22, -1, 22, 22, 22, 22, 22, 22,  220, 220, 220),
 (6, 'Alyx',             100, 13, 10, 2,  0, 0, 0, 0, 0, 0,  80, 75, 120);
+
+-- =======================================
+-- 7. Conexões entre PIs
+-- =======================================

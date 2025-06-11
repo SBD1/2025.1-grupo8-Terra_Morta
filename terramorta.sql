@@ -168,8 +168,7 @@ CREATE TABLE evento_dropa(
 
 CREATE TABLE ponto_de_interesse (
     id_pi SMALLSERIAL PRIMARY KEY,
-    nome VARCHAR(50),
-    custo SMALLINT, 
+    nome VARCHAR(50), 
     nivel_rad DECIMAL(5,2) 
 );
 
