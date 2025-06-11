@@ -37,6 +37,16 @@ G.add_nodes_from([(id_pi, {"nome": nome}) for (id_pi, nome) in pontos])
 for node, attrs in G.nodes(data=True):
     print(f"ID: {node}, Nome: {attrs['nome']}")
 
+
+# Consulta as conexões entre os pontos
+cur.execute("SELECT origem, destino, custo FROM conexao")
+conexao = cur.fetchall()
+
+# Adiciona as arestas ao grafo (com peso)
+for origem, destino, custo in conexao:
+    G.add_edge(origem, destino, weight=custo)
+
+
 # Fecha a conexão
 cur.close()
 conn.close()

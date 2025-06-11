@@ -255,7 +255,7 @@ CREATE TABLE inst_prota(
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
 );
 
-CREATE TABLE ligacao (
+CREATE TABLE conexao (
     origem SMALLINT NOT NULL,
     destino SMALLINT NOT NULL,
     custo SMALLINT NOT NULL,
