@@ -90,6 +90,7 @@ class EstadoNormal():
 		if(entrada == "menu"):
 			return False
 		nome = self.acessiveis.get(entrada, "notALoca")
+		
 		for con in self.conex:
 			if (con.orig == currLoc and con.dest == entrada) or (con.dest == currLoc and con.orig == entrada):
 				prec = con.custo
