@@ -1,7 +1,12 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import psycopg
 import networkx as nx
 from dotenv import load_dotenv
 import os
+from frontend.EstadoNormal import EstadoNormal
 
 # Carrega as variáveis do arquivo .env
 load_dotenv()
@@ -54,3 +59,6 @@ for u, v, d in G.edges(data=True):
 # Fecha a conexão
 cur.close()
 conn.close()
+
+EN = EstadoNormal(G)
+EN.default()
