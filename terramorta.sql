@@ -187,9 +187,11 @@ CREATE TABLE ocorre(
     FOREIGN KEY (id_pi) REFERENCES ponto_de_interesse(id_pi)
 );
 
+CREATE TYPE status_enum AS ENUM ('C', 'A', 'F', 'N');
+
 CREATE TABLE missao (
     id_evento SMALLINT PRIMARY KEY,
-    status CHAR(1) CHECK (status IN ('C', 'A', 'F', 'N')),
+    status status_enum,
     prox SMALLINT, 
     FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
     FOREIGN KEY (prox) REFERENCES evento(id_evento)
