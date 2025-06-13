@@ -61,4 +61,4 @@ cur.close()
 conn.close()
 
 EN = EstadoNormal(G)
-EN.default()
+EN.menu()
