@@ -4,3 +4,5 @@ pytest
 prompt_toolkit
 rich
 python-dotenv
+inquirer
+dotenv
