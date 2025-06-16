@@ -69,7 +69,13 @@ class EstadoNormal:
         input("Pressione Enter para continuar.")
 
     def base(self):
-        print('\nA sua base está linda nesse dia horrendo! :D\n')
+        nome_local = self.G.nodes[self.localAtual]["nome"]
+
+        if "base" in nome_local.lower():
+            print('\nA sua base está linda nesse dia horrendo! :D\n')
+        else:
+            print('\nVocê não está na sua base para examinar!\n')
+
         input('Pressione Enter para continuar.')
 
     def explorar(self):
