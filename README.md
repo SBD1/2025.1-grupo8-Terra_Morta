@@ -49,11 +49,13 @@ O mundo de **Terra Morta** é recheado de ameaças, como:
 ## Apresentações
 
 <a href="https://youtu.be/0W0nQhkjLXs">Apresentação 1</a> <br>
+<a href="https://youtu.be/Bsivk62-ACQ">Apresentação 2</a> <br>
+
 ## Membros da Equipe 👥
 
-| [![](https://avatars.githubusercontent.com/EnzoEmir)](https://github.com/EnzoEmir) | [![](https://avatars.githubusercontent.com/VictorPontual)](https://github.com/VictorPontual) | [![](https://avatars.githubusercontent.com/Vitor-Ricardo-MS)](https://github.com/Vitor-Ricardo-MS) | [![](https://avatars.githubusercontent.com/IsaacMPereira)](https://github.com/IsaacMPereira) |
-|:-:|:-:|:-:|:-:|
-| [Enzo Emir](https://github.com/EnzoEmir) | [Victor Pontual](https://github.com/VictorPontual) | [Vitor Ricardo](https://github.com/Vitor-Ricardo-MS) | [Isaac Menezes](https://github.com/IsaacMPereira) |
+| [![](https://avatars.githubusercontent.com/EnzoEmir)](https://github.com/EnzoEmir) | [![](https://avatars.githubusercontent.com/VictorPontual)](https://github.com/VictorPontual) | [![](https://avatars.githubusercontent.com/Vitor-Ricardo-MS)](https://github.com/Vitor-Ricardo-MS) | 
+|:-:|:-:|:-:|
+| [Enzo Emir](https://github.com/EnzoEmir) | [Victor Pontual](https://github.com/VictorPontual) | [Vitor Ricardo](https://github.com/Vitor-Ricardo-MS) |
 
 
 <br>
