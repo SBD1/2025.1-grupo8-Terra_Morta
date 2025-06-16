@@ -38,11 +38,6 @@ G = nx.Graph()
 # Adiciona os nós no grafo
 G.add_nodes_from([(id_pi, {"nome": nome}) for (id_pi, nome) in pontos])
 
-# Exemplo: imprime os nós e seus atributos
-for node, attrs in G.nodes(data=True):
-    print(f"ID: {node}, Nome: {attrs['nome']}")
-
-
 # Consulta as conexões entre os pontos
 cur.execute("SELECT origem, destino, custo FROM conexao")
 conexao = cur.fetchall()
@@ -50,11 +45,6 @@ conexao = cur.fetchall()
 # Adiciona as arestas ao grafo (com peso)
 for origem, destino, custo in conexao:
     G.add_edge(origem, destino, weight=custo)
-
-print("\nConexões:")
-for u, v, d in G.edges(data=True):
-    print(f"{u} <--> {v} (custo: {d['weight']})")
-
 
 # Fecha a conexão
 cur.close()
