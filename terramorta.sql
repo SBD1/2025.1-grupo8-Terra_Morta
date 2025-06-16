@@ -168,8 +168,7 @@ CREATE TABLE evento_dropa(
 
 CREATE TABLE ponto_de_interesse (
     id_pi SMALLSERIAL PRIMARY KEY,
-    nome VARCHAR(50),
-    custo SMALLINT, 
+    nome VARCHAR(50), 
     nivel_rad DECIMAL(5,2) 
 );
 
@@ -188,9 +187,11 @@ CREATE TABLE ocorre(
     FOREIGN KEY (id_pi) REFERENCES ponto_de_interesse(id_pi)
 );
 
+CREATE TYPE status_enum AS ENUM ('C', 'A', 'F', 'N');
+
 CREATE TABLE missao (
     id_evento SMALLINT PRIMARY KEY,
-    status CHAR(1) CHECK (status IN ('C', 'A', 'F', 'N')),
+    status status_enum,
     prox SMALLINT, 
     FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
     FOREIGN KEY (prox) REFERENCES evento(id_evento)
@@ -200,9 +201,9 @@ CREATE TABLE instalacao_base (
     id_instalacao SMALLSERIAL PRIMARY KEY,
     nome VARCHAR(50),
     nivel SMALLINT,
-    item SMALLINT,
-    quantidade SMALLINT,
-    FOREIGN KEY (item) REFERENCES item_controle(id_item)
+    id_item SMALLINT,
+    qtd SMALLINT,
+    FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 
 CREATE TABLE base (
@@ -254,4 +255,13 @@ CREATE TABLE inst_prota(
     FOREIGN KEY (id_ser) REFERENCES prota(id_ser),
     FOREIGN KEY (faccao) REFERENCES faccao(id_faccao),
     FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
+);
+
+CREATE TABLE conexao (
+    origem SMALLINT NOT NULL,
+    destino SMALLINT NOT NULL,
+    custo SMALLINT NOT NULL,
+    PRIMARY KEY (origem, destino),
+    FOREIGN KEY (origem) REFERENCES ponto_de_interesse(id_pi),
+    FOREIGN KEY (destino) REFERENCES ponto_de_interesse(id_pi)
 );
