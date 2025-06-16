@@ -1,7 +1,6 @@
 
 -- ======================================================
--- COMPÊNDIO DE QUERYS ÚTEIS PARA O RPG PÓS-APOCALÍPTICO
--- Banco de dados: PostgreSQL
+-- COMPÊNDIO DE QUERYS ÚTEIS
 -- ======================================================
 
 -- ===========================
