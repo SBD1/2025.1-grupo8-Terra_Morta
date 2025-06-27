@@ -76,8 +76,16 @@ INSERT INTO base (id_pi, nome, id_instalacao) VALUES
 -- =======================================
 -- 5. SERES DE CONTROLE
 -- =======================================
-INSERT INTO ser_controle (tipo) VALUES 
-('P'), ('P'), ('P'), ('P'), ('P'), ('P');  -- P = Protagonista
+INSERT INTO ser_controle (id_ser, tipo) VALUES 
+(1, 'P'), (2, 'P'), (3, 'P'), (4, 'P'), (5, 'P'), (6, 'P'),  -- Protagonistas
+(101, 'N'), (102, 'N'), (103, 'N'), (104, 'N'),              -- Inimigos Fáceis
+(201, 'N'), (202, 'I'), (203, 'I'), (204, 'N'),              -- Inimigos Médios
+(301, 'I'), (302, 'N'), (303, 'N');                          -- Inimigos Difíceis
+
+-- Tipos:
+-- 'P' = Protagonista
+-- 'N' = Não Inteligente
+-- 'I' = Inteligente
 
 -- =======================================
 -- 6. DADOS DOS PROTAGONISTAS
@@ -118,3 +126,52 @@ INSERT INTO conexao(
 (16,8,20),
 (16,9,30);
 
+-- =======================================
+-- 8. FACÇÕES
+-- =======================================
+INSERT INTO faccao (
+    nome_faccao
+) 
+VALUES
+('Pisa Poeira'),
+('Nigrum Sanguinem')
+('Inimigo Hostil');
+
+-- =======================================
+-- 8. INIMIGOS NÃO INTELIGENTES
+-- =======================================
+INSERT INTO nao_inteligente (
+    id_ser, nome, hp_base, str_base, dex_base, def_base,
+    res_fogo, res_gelo, res_elet, res_radi, res_cort, res_cont,
+    cabeca, torso, maos, pernas, pes, rad_dano
+) VALUES 
+-- Inimigos Fáceis
+(101, 'Barata Mutante',      20,  4,  8, 0,  0, 0, 0, 0, 0, 0,  FALSE, TRUE,  FALSE, TRUE,  TRUE,  0),
+(102, 'Cachorro Faminto',    40,  7, 10, 1,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
+(103, 'Rato Carniceiro',     25,  6,  9, 0,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
+(104, 'Corvo Mutante',       30,  5, 12, 1,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 0),
+
+-- Inimigos Médios
+(201, 'Cachorro Mutante',    75, 12, 12, 3,  5, 0, 0, 0, 2, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
+(204, 'Robô de Segurança',  110, 15,  6, 6, 10, 5,15, 5, 5,10,  FALSE, TRUE,  TRUE,  TRUE,  TRUE,  0),
+
+-- Inimigos Difíceis
+(302, 'Brutamontes Mutante',180, 20,  6,10, 10, 5, 0, 0, 8, 6,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
+(303, 'Ecohorror',          140, 18, 16, 4,  0,10, 0,10, 5, 4,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE, 15);
+
+
+-- =======================================
+-- 9. INIMIGOS INTELIGENTES
+-- =======================================
+
+INSERT INTO inteligente (
+    id_ser, nome, hp_base, str_base, dex_base, def_base,
+    res_fogo, res_gelo, res_elet, res_radi, res_cort, res_cont,
+    cabeca, torso, maos, pernas, pes, alinhamento
+) VALUES 
+-- Inimigos Médios
+(202, 'Sobrevivente Hostil',  90, 11, 10, 2,  0, 0, 0, 0, 1, 1,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
+(203, 'Canibal',              85, 13,  9, 4,  0, 0, 0, 0, 3, 2,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
+
+-- Inimigos Difíceis
+(301, 'Pessoa Mutante',      130, 16, 12, 6,  5, 5, 5, 0, 5, 5,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3);
