@@ -77,10 +77,35 @@ INSERT INTO base (id_pi, nome, id_instalacao) VALUES
 -- 5. SERES DE CONTROLE
 -- =======================================
 INSERT INTO ser_controle (id_ser, tipo) VALUES 
-(1, 'P'), (2, 'P'), (3, 'P'), (4, 'P'), (5, 'P'), (6, 'P'),  -- Protagonistas
-(101, 'N'), (102, 'N'), (103, 'N'), (104, 'N'),              -- Inimigos Fáceis
-(201, 'N'), (202, 'I'), (203, 'I'), (204, 'N'),              -- Inimigos Médios
-(301, 'I'), (302, 'N'), (303, 'N');                          -- Inimigos Difíceis
+-- Protagonistas
+(1, 'P'), (2, 'P'), (3, 'P'), (4, 'P'), (5, 'P'), (6, 'P'),
+
+-- Inimigos Não Inteligentes Fáceis
+(101, 'N'), (102, 'N'), (103, 'N'), (104, 'N'), (105, 'N'), (106, 'N'),
+
+-- Inimigos Não Inteligentes Médios
+(201, 'N'), (202, 'N'), (203, 'N'),
+
+-- Inimigos Não Inteligentes Difíceis
+(301, 'N'), (302, 'N'), (303, 'N'),
+
+-- Bosses Não Inteligentes
+(997, 'N'), (998, 'N'),
+
+-- Inimigos Inteligentes Fáceis
+(107, 'I'), (108, 'I'),
+
+-- Inimigos Inteligentes Médios
+(204, 'I'), (205, 'I'),
+
+-- Inimigos Inteligentes Difíceis
+(304, 'I'), (305, 'I'),
+
+-- Nigrum Sanguinem (hierarquia)
+(401, 'I'), (402, 'I'), (403, 'I'), (404, 'I'),
+
+-- Boss Inteligente
+(999, 'I');
 
 -- Tipos:
 -- 'P' = Protagonista
@@ -134,11 +159,12 @@ INSERT INTO faccao (
 ) 
 VALUES
 ('Pisa Poeira'),
-('Nigrum Sanguinem')
-('Inimigo Hostil');
+('Nigrum Sanguinem'),
+('Inimigo Hostil'),
+('Neutros');
 
 -- =======================================
--- 8. INIMIGOS NÃO INTELIGENTES
+-- 9. INIMIGOS NÃO INTELIGENTES
 -- =======================================
 INSERT INTO nao_inteligente (
     id_ser, nome, hp_base, str_base, dex_base, def_base,
@@ -150,18 +176,32 @@ INSERT INTO nao_inteligente (
 (102, 'Cachorro Faminto',    40,  7, 10, 1,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
 (103, 'Rato Carniceiro',     25,  6,  9, 0,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
 (104, 'Corvo Mutante',       30,  5, 12, 1,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 0),
+(105, 'Pombo Radioativo',    22,  3, 11, 1,  0, 0, 0, 2, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 2),
+(106, 'Perereca Mutante',    20,  4, 13, 0,  0, 0, 1, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  TRUE,  0),
+
+
 
 -- Inimigos Médios
-(201, 'Cachorro Mutante',    75, 12, 12, 3,  5, 0, 0, 0, 2, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
-(204, 'Robô de Segurança',  110, 15,  6, 6, 10, 5,15, 5, 5,10,  FALSE, TRUE,  TRUE,  TRUE,  TRUE,  0),
+(201, 'Cachorro Mutante',    75, 12, 12, 3,  5, 0, 0, 0, 2, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  5),
+(202, 'Robô de Segurança',  110, 15,  6, 6, 10, 5,15, 5, 5,10,  FALSE, TRUE,  TRUE,  TRUE,  TRUE,  0),
+(203, 'Jacaré Mutante',        90, 16,  6, 4,  3, 0, 0, 0, 3, 3,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  7),
+
 
 -- Inimigos Difíceis
-(302, 'Brutamontes Mutante',180, 20,  6,10, 10, 5, 0, 0, 8, 6,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
-(303, 'Ecohorror',          140, 18, 16, 4,  0,10, 0,10, 5, 4,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE, 15);
+(301, 'Brutamontes Mutante',180, 20,  6,10, 10, 5, 0, 0, 8, 6,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  20),
+(302, 'Ecohorror',          140, 18, 16, 4,  0,10, 0,10, 5, 4,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE, 15),
+(303, 'Urubu de Aço',         130, 14, 18, 3,  0, 3, 0, 7, 3, 2,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 10),
+
+
+-- BOSSES Não Inteligente
+(998, 'Hidra de Carne', 320, 28, 12, 9, 5, 5, 5, 15, 9, 7, TRUE, TRUE, TRUE, TRUE, TRUE, 25),
+(997, 'Omni-mente', 280, 22, 20, 6, 3, 6, 10, 18, 6, 5, TRUE, TRUE, FALSE, TRUE, FALSE, 30);
+
+
 
 
 -- =======================================
--- 9. INIMIGOS INTELIGENTES
+-- 10. INIMIGOS INTELIGENTES
 -- =======================================
 
 INSERT INTO inteligente (
@@ -169,9 +209,29 @@ INSERT INTO inteligente (
     res_fogo, res_gelo, res_elet, res_radi, res_cort, res_cont,
     cabeca, torso, maos, pernas, pes, alinhamento
 ) VALUES 
+
+-- Inimigos Inteligentes Fáceis
+(107, 'Catador',        55,  7, 10, 1,  0, 0, 0, 0, 1, 0,  TRUE, TRUE, TRUE, TRUE, TRUE, 4),
+(108, 'Fanático Desconhecido',   50,  6,  8, 2,  0, 1, 0, 1, 0, 1,  TRUE, TRUE, TRUE, TRUE, TRUE, 2),
+
 -- Inimigos Médios
-(202, 'Sobrevivente Hostil',  90, 11, 10, 2,  0, 0, 0, 0, 1, 1,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
-(203, 'Canibal',              85, 13,  9, 4,  0, 0, 0, 0, 3, 2,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
+(204, 'Sobrevivente Hostil',  90, 11, 10, 2,  0, 0, 0, 0, 1, 1,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
+(205, 'Canibal',              85, 13,  9, 4,  0, 0, 0, 0, 3, 2,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
 
 -- Inimigos Difíceis
-(301, 'Pessoa Mutante',      130, 16, 12, 6,  5, 5, 5, 0, 5, 5,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3);
+(304, 'Pessoa Mutante',      130, 16, 12, 6,  5, 5, 5, 0, 5, 5,  TRUE, TRUE,  TRUE, TRUE,  TRUE, 3),
+(305, 'Ex-Militar Enlouquecido',160, 18, 11, 6,  2, 0, 0, 0, 4, 4, TRUE, TRUE, TRUE, TRUE, TRUE, 3),
+
+
+-- Nigrum Sanguinem: Hierarquia com nomes próprios
+
+(401, 'Discípulo da Luz Verde',      60,  9,  9, 1,  0, 1, 1, 2, 1, 0, TRUE, TRUE, TRUE, TRUE, TRUE, 2),
+(402, 'Portador da Chama',   75, 12, 10, 2,  0, 2, 2, 4, 2, 1, TRUE, TRUE, TRUE, TRUE, TRUE, 2),
+(403, 'Sacerdote da Mutação',       95, 14, 11, 3,  1, 3, 2, 6, 2, 2, TRUE, TRUE, TRUE, TRUE, TRUE, 2),
+(404, 'Profeta Isótopo',           140, 17, 12, 4,  2, 5, 3, 8, 4, 3, TRUE, TRUE, TRUE, TRUE, TRUE, 2),
+
+
+-- BOSSES Inteligentes
+(999, 'Avatar do Núcleo', 300, 25, 15, 10, 8, 10, 10, 20, 10, 8, TRUE, TRUE, TRUE, TRUE, TRUE, 2);
+
+
