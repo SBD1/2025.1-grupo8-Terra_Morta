@@ -3,6 +3,35 @@ import inquirer
 def escolher_protagonista(conn):
     cur = conn.cursor()
 
+    # Verifica se já há instância ativa de protagonista
+    cur.execute("""
+        SELECT inst_prota.id_ser, nome FROM inst_prota
+        JOIN prota ON inst_prota.id_ser = prota.id_ser
+        LIMIT 1
+    """)
+    inst_existente = cur.fetchone()
+
+    if inst_existente:
+        id_salvo, nome_salvo = inst_existente
+
+        pergunta = [
+            inquirer.List(
+                'acao',
+                message=f"Você já tem um jogo salvo com '{nome_salvo.strip()}'. Deseja continuar ou começar um novo jogo?",
+                choices=["Continuar", "Novo Jogo"]
+            )
+        ]
+        resposta = inquirer.prompt(pergunta)
+
+        if resposta and resposta['acao'] == "Continuar":
+            cur.close()
+            return id_salvo
+        else:
+            # Apaga o jogo antigo
+            cur.execute("DELETE FROM inst_prota WHERE id_ser = %s", (id_salvo,))
+            conn.commit()
+
+    # Escolha de novo protagonista
     cur.execute("SELECT id_ser, nome FROM prota")
     protagonistas = cur.fetchall()
 
@@ -33,6 +62,9 @@ def escolher_protagonista(conn):
      rf, rg, re, rr,
      rc, rct,
      fome, sede, carga) = cur.fetchone()
+
+    # Garante que o evento inicial existe
+    cur.execute("INSERT INTO evento (id_evento, max_ocorrencia) VALUES (1, NULL) ON CONFLICT DO NOTHING")
 
     # Inserir na inst_prota
     cur.execute("""
