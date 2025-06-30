@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 import os
 from frontend.EstadoNormal import EstadoNormal
 
+from frontend.Escolher_protagonista import escolher_protagonista
+
+
 # Carrega as variáveis do arquivo .env
 load_dotenv()
 
@@ -27,6 +30,10 @@ conn = psycopg.connect(
     port=DB_PORT
 )
 cur = conn.cursor()
+
+
+# Escolhe e instancia o protagonista
+id_escolhido = escolher_protagonista(conn)
 
 # Consulta os pontos de interesse
 cur.execute("SELECT id_pi, nome FROM ponto_de_interesse")

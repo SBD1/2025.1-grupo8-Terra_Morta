@@ -225,7 +225,7 @@ CREATE TABLE inst_ser(
     localizacao SMALLINT NOT NULL,
     PRIMARY KEY(id_ser,id_inst),
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser),
-    FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
+    FOREIGN KEY (localizacao) REFERENCES ponto_de_interesse(id_pi)
 );
 
 CREATE TABLE inst_prota(
@@ -254,7 +254,7 @@ CREATE TABLE inst_prota(
     PRIMARY KEY(id_ser,id_inst),
     FOREIGN KEY (id_ser) REFERENCES prota(id_ser),
     FOREIGN KEY (faccao) REFERENCES faccao(id_faccao),
-    FOREIGN KEY (localizacao) REFERENCES evento(id_evento)
+    FOREIGN KEY (localizacao) REFERENCES ponto_de_interesse(id_pi)
 );
 
 CREATE TABLE conexao (
