@@ -1,7 +1,7 @@
 import os
 import inquirer
 import psycopg
-from frontend.Encontro_Inimigo import buscar_encontros, criar_instancia_inimigo, processar_encontros
+from frontend.Encontro_Inimigo import processar_encontros,lidar_com_inimigos_ativos
 
 
 class EstadoNormal:
@@ -78,7 +78,6 @@ class EstadoNormal:
             if acao == 'Retornar ao menu principal':
                 print("\nRetornando ao menu principal...\n")
                 break
-            # Executa a ação escolhida
 
             self.opcoes[acao]()
 
@@ -138,6 +137,12 @@ class EstadoNormal:
 
     def explorar(self):
         with self.get_conn() as conn:
+            resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
+            if resultado is True:
+                return  
+            elif resultado is False:
+                return  
+
             encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
             if not encontrou:
                 print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
