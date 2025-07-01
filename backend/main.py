@@ -21,6 +21,14 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 
+db_params = {
+    "dbname": DB_NAME,
+    "user": DB_USER,
+    "password": DB_PASSWORD,
+    "host": DB_HOST,
+    "port": DB_PORT
+}
+
 # Conecta ao banco de dados PostgreSQL
 conn = psycopg.connect(
     dbname=DB_NAME,
@@ -57,5 +65,5 @@ for origem, destino, custo in conexao:
 cur.close()
 conn.close()
 
-EN = EstadoNormal(G)
+EN = EstadoNormal(G, id_escolhido, db_params)
 EN.menu()

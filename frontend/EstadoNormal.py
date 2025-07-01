@@ -1,10 +1,13 @@
 import os
 import inquirer
+import psycopg
 
 class EstadoNormal:
-    def __init__(self, grafo):
+    def __init__(self, grafo, id_prota, db_params):
         self.G = grafo
         self.localAtual = list(grafo.nodes)[0]
+        self.id_prota = id_prota
+        self.db_params = db_params
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
@@ -12,11 +15,50 @@ class EstadoNormal:
             'Retornar ao menu principal': self.end
         }
 
+    def get_conn(self):
+        return psycopg.connect(**self.db_params)
+
+    def get_fome(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT fome_atual, fome_max FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            return cur.fetchone()
+
+    def set_fome(self, nova_fome):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Busca o id_inst mais recente para o protagonista
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET fome_atual = %s WHERE id_inst = %s", (nova_fome, id_inst))
+                conn.commit()
+
+    def set_localizacao(self, novo_local):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Busca o id_inst mais recente para o protagonista
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET localizacao = %s WHERE id_inst = %s", (novo_local, id_inst))
+                conn.commit()
+
+    def get_nome(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT nome FROM prota WHERE id_ser = %s", (self.id_prota,))
+            return cur.fetchone()[0].strip()
+
     def menu(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
             nome = self.G.nodes[self.localAtual]["nome"]
-            print(f'\nVocê se encontra no(a) {nome}.\n')
+            fome_atual, fome_max = self.get_fome()
+            print(f'\nVocê se encontra no(a) {nome}.')
+            print(f'Fome: {fome_atual}/{fome_max}\n')
 
             perguntas = [
                 inquirer.List(
@@ -34,8 +76,8 @@ class EstadoNormal:
             if acao == 'Retornar ao menu principal':
                 print("\nRetornando ao menu principal...\n")
                 break
-
             # Executa a ação escolhida
+
             self.opcoes[acao]()
 
     def andar(self):
@@ -62,11 +104,25 @@ class EstadoNormal:
 
         entrada = resposta['destino'].split(' - ')[0]
         destino = int(entrada)
-
         custo = self.G[self.localAtual][destino]["weight"]
-        self.localAtual = destino
-        print(f'\nVocê foi para {self.G.nodes[destino]["nome"]}, isso custou {custo} de energia.')
-        input("Pressione Enter para continuar.")
+
+        # Atualiza fome
+        fome_atual, fome_max = self.get_fome()
+        nova_fome = fome_atual - custo
+
+        if nova_fome <= 0:
+            nome_prota = self.get_nome()
+            print(f'\n{nome_prota} estava cansado demais para continuar, voltou para casa e tirou um belo cochilo.\n')
+            self.set_localizacao(1)  # 1 = Base
+            self.set_fome(fome_max)
+            self.localAtual = 1
+            input("Pressione Enter para continuar.")
+        else:
+            self.set_fome(nova_fome)
+            self.set_localizacao(destino)
+            self.localAtual = destino
+            print(f'\nVocê foi para {self.G.nodes[destino]["nome"]}, isso custou {custo} de fome.')
+            input("Pressione Enter para continuar.")
 
     def base(self):
         nome_local = self.G.nodes[self.localAtual]["nome"]
@@ -83,5 +139,4 @@ class EstadoNormal:
         input('Pressione Enter para continuar.')
 
     def end(self):
-        # Apenas quebra o loop do menu
         pass
