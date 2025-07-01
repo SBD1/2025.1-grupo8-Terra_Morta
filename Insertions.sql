@@ -1,6 +1,7 @@
 -- =======================================
 -- LIMPEZA OPCIONAL PARA TESTES REINICIADOS
 -- =======================================
+DELETE FROM inst_ser;
 DELETE FROM base;
 DELETE FROM instalacao_base;
 DELETE FROM coletavel;
@@ -8,6 +9,7 @@ DELETE FROM item_controle;
 DELETE FROM prota;
 DELETE FROM ser_controle;
 DELETE FROM ponto_de_interesse;
+
 
 -- =======================================
 -- REINICIAR SEQUÊNCIAS (SEQUENCES)

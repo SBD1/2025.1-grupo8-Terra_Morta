@@ -27,9 +27,7 @@ def escolher_protagonista(conn):
             cur.close()
             return id_salvo
         else:
-            # Apaga o jogo antigo
-            cur.execute("DELETE FROM inst_prota WHERE id_ser = %s", (id_salvo,))
-            conn.commit()
+            iniciar_novo_jogo(conn)
 
     # Escolha de novo protagonista
     cur.execute("SELECT id_ser, nome FROM prota")
@@ -95,3 +93,9 @@ def escolher_protagonista(conn):
     conn.commit()
     cur.close()
     return id_prota
+
+def iniciar_novo_jogo(conn):
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM inst_ser;")
+        # Limpe outras tabelas se quiser resetar mais coisas
+    conn.commit()
