@@ -154,8 +154,11 @@ CREATE TABLE modificador(
 );
 
 CREATE TABLE evento (
-    id_evento SMALLSERIAL PRIMARY KEY,
-    max_ocorrencia SMALLINT 
+    id_evento SERIAL PRIMARY KEY,
+    max_ocorrencia SMALLINT,
+    prioridade CHAR(1),
+    probabilidade CHAR(3),
+    tipo VARCHAR(20) NOT NULL -- 'MISSAO', 'ENCONTRO', 'ACONTECIMENTO MUNDO'
 );
 
 CREATE TABLE evento_dropa(
@@ -192,9 +195,25 @@ CREATE TYPE status_enum AS ENUM ('C', 'A', 'F', 'N');
 CREATE TABLE missao (
     id_evento SMALLINT PRIMARY KEY,
     status status_enum,
+    recompensas TEXT,
     prox SMALLINT, 
     FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
     FOREIGN KEY (prox) REFERENCES evento(id_evento)
+);
+
+CREATE TABLE encontro (
+    id_evento INT PRIMARY KEY REFERENCES evento(id_evento),
+    id_inimigo INT REFERENCES ser_controle(id_ser),
+    quantidade INT,
+    local INT REFERENCES ponto_de_interesse(id_pi)
+);
+
+CREATE TABLE acontecimento_mundo (
+    id_evento INT PRIMARY KEY REFERENCES evento(id_evento),
+    atributo INT REFERENCES ser_controle(id_ser),
+    valor INT,
+    texto VARCHAR,
+    local INT REFERENCES ponto_de_interesse(id_pi)
 );
 
 CREATE TABLE instalacao_base (
