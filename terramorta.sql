@@ -204,16 +204,14 @@ CREATE TABLE missao (
 CREATE TABLE encontro (
     id_evento INT PRIMARY KEY REFERENCES evento(id_evento),
     id_inimigo INT REFERENCES ser_controle(id_ser),
-    quantidade INT,
-    local INT REFERENCES ponto_de_interesse(id_pi)
+    quantidade INT
 );
 
 CREATE TABLE acontecimento_mundo (
     id_evento INT PRIMARY KEY REFERENCES evento(id_evento),
     atributo INT REFERENCES ser_controle(id_ser),
     valor INT,
-    texto VARCHAR,
-    local INT REFERENCES ponto_de_interesse(id_pi)
+    texto VARCHAR
 );
 
 CREATE TABLE instalacao_base (
