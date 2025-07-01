@@ -64,7 +64,11 @@ def escolher_protagonista(conn):
      fome, sede, carga) = cur.fetchone()
 
     # Garante que o evento inicial existe
-    cur.execute("INSERT INTO evento (id_evento, max_ocorrencia) VALUES (1, NULL) ON CONFLICT DO NOTHING")
+    cur.execute("""
+    INSERT INTO evento (id_evento, max_ocorrencia, tipo, prioridade, probabilidade)
+    VALUES (1, NULL, 'MISSAO', '1', '100')
+    ON CONFLICT DO NOTHING
+""")
 
     # Inserir na inst_prota
     cur.execute("""

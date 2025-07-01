@@ -1,6 +1,8 @@
 import os
 import inquirer
 import psycopg
+from frontend.Encontro_Inimigo import buscar_encontros, criar_instancia_inimigo, processar_encontros
+
 
 class EstadoNormal:
     def __init__(self, grafo, id_prota, db_params):
@@ -135,8 +137,11 @@ class EstadoNormal:
         input('Pressione Enter para continuar.')
 
     def explorar(self):
-        print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
-        input('Pressione Enter para continuar.')
+        with self.get_conn() as conn:
+            encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
+            if not encontrou:
+                print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
+            input('Pressione Enter para continuar.')
 
     def end(self):
         pass

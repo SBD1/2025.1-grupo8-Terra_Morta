@@ -234,4 +234,8 @@ INSERT INTO inteligente (
 -- BOSSES Inteligentes
 (999, 'Avatar do Núcleo', 300, 25, 15, 10, 8, 10, 10, 20, 10, 8, TRUE, TRUE, TRUE, TRUE, TRUE, 2);
 
+-- =======================================
+-- 11. ENCONTROS COM INIMIGOS 
+-- =======================================
 
+SELECT criar_encontro(103, 1, 2, NULL::INT, '1', '50');
