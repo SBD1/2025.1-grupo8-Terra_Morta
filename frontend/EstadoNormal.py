@@ -2,6 +2,7 @@ import os
 import inquirer
 import psycopg
 from frontend.Encontro_Inimigo import processar_encontros,lidar_com_inimigos_ativos
+from frontend.Luta import Luta
 
 
 class EstadoNormal:
@@ -19,6 +20,29 @@ class EstadoNormal:
 
     def get_conn(self):
         return psycopg.connect(**self.db_params)
+    
+    def get_hp(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT hp_atual, hp_max FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota))
+            return cur.fetchone()
+        
+    def set_hp(self, novo_hp):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Busca o id_inst mais recente para o protagonista
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET hp_atual = %s WHERE id_inst = %s", (novo_hp, id_inst))
+                conn.commit()
+                
+    def get_str(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT str_atual FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota))
+            return cur.fetchone()
 
     def get_fome(self):
         with self.get_conn() as conn:
@@ -147,6 +171,10 @@ class EstadoNormal:
             if not encontrou:
                 print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
             input('Pressione Enter para continuar.')
+            
+    def iniciar_luta(self, dados_inimigos):
+        luta = Luta(self.get_conn(), self, dados_inimigos)
+        Luta.luta_turno_prota()
 
     def end(self):
         pass

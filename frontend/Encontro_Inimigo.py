@@ -72,6 +72,18 @@ def inimigos_ativos_no_local(conn, id_pi):
         """, (id_pi,))
         return cur.fetchall()
     
+def buscar_dados_inimigos_ativos(conn, id_pi):
+    with conn.cursor() as cur:
+        cur.execute("""
+            SELECT is.id_ser, is.id_inst, s.tipo, COALESCE(ni.nome, i.nome) AS nome, is.hp_max, is.hp_atual, is.str_atual, is.dex_atual, is.def_atual
+            FROM inst_ser is
+            JOIN ser_controle s ON i.id_ser = s.id_ser
+            LEFT JOIN nao_inteligente ni ON s.id_ser = ni.id_ser
+            LEFT JOIN inteligente i ON s.id_ser = i.id_ser
+            WHERE is.localizacao = %s
+        """, (id_pi,))
+        return cur.fetchall()
+    
 def tentar_fuga():
     return random.random() < 0.5  
 
@@ -104,12 +116,14 @@ def lidar_com_inimigos_ativos(conn, id_pi, estado):
                 return True  
             else:
                 print("Você falhou ao fugir! O combate começa!")
-                # Chame o sistema de combate aqui se quiser
+                dados_inimigos = buscar_dados_inimigos_ativos(conn, id_pi)
+                estado.iniciar_luta(dados_inimigos)
                 input("Pressione Enter para continuar.")
                 return False
         else:
             print("Você decidiu enfrentar o inimigo!")
-            # Chame o sistema de combate aqui se quiser
+            dados_inimigos = buscar_dados_inimigos_ativos(conn, id_pi)
+            estado.iniciar_luta(dados_inimigos)
             input("Pressione Enter para continuar.")
             return False
-    return None  
+    return None
