@@ -241,3 +241,20 @@ INSERT INTO inteligente (
 -- =======================================
 
 SELECT criar_encontro(103, 1, 2, NULL::INT, '1', '50');
+-- ENCONTROS INICIAIS FÁCEIS (PI 2, 3, 4, 5)
+
+-- ENCONTROS INICIAIS FÁCEIS (PI 2, 3, 4, 5)
+
+-- PI 2: Travessia da Poeira
+SELECT criar_encontro(101, 2, 2, NULL::INT, '1', '30');  -- 2 Baratas Mutantes
+SELECT criar_encontro(107, 1, 2, NULL::INT, '1', '60');  -- 1 Catador
+
+-- PI 3: Posto de Vigia Abandonado
+SELECT criar_encontro(103, 2, 3, NULL::INT, '1', '35');  -- 2 Ratos Carniceiros
+
+-- PI 4: Cidade Fantasma
+SELECT criar_encontro(105, 3, 4, NULL::INT, '1', '25');  -- 3 Pombos Radioativos
+SELECT criar_encontro(107, 1, 4, NULL::INT, '1', '60');  -- 1 Catador
+
+-- PI 5: Terra Chamuscada
+SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Pererecas Mutantes
