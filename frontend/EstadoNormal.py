@@ -139,12 +139,16 @@ class EstadoNormal:
         with self.get_conn() as conn:
             resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
             if resultado is True:
-                return  
+                return  # Fugiu com sucesso, volta para base
             elif resultado is False:
-                return  
+                # Encontrou inimigos e combate (ou lógica) já foi executada
+                return
 
             encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
-            if not encontrou:
+            if encontrou:
+                # Após encontrar inimigos, imediatamente chama lidar_com_inimigos_ativos para iniciar combate
+                lidar_com_inimigos_ativos(conn, self.localAtual, self)
+            else:
                 print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
             input('Pressione Enter para continuar.')
 
