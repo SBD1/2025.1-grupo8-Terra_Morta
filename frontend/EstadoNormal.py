@@ -138,16 +138,16 @@ class EstadoNormal:
     def explorar(self):
         with self.get_conn() as conn:
             resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
-            if resultado is True:
-                return  # Fugiu com sucesso, volta para base
-            elif resultado is False:
-                # Encontrou inimigos e combate (ou lógica) já foi executada
+            if resultado == True or resultado == "input_ja_foi":
+                return  # Já pediu input, não peça novamente
+            elif resultado == False:
                 return
 
             encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
             if encontrou:
-                # Após encontrar inimigos, imediatamente chama lidar_com_inimigos_ativos para iniciar combate
-                lidar_com_inimigos_ativos(conn, self.localAtual, self)
+                novo_resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
+                if novo_resultado == "input_ja_foi":
+                    return
             else:
                 print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
             input('Pressione Enter para continuar.')

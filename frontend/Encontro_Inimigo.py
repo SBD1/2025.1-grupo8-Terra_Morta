@@ -82,7 +82,7 @@ def lidar_com_inimigos_ativos(conn, id_pi, estado):
         for inimigo in inimigos:
             id_ser, tipo, nome, hp_atual = inimigo
             print(f"{nome.strip() if nome else 'Desconhecido'} (Vida: {hp_atual})")
-        
+
         pergunta = [
             inquirer.List(
                 'acao',
@@ -101,15 +101,13 @@ def lidar_com_inimigos_ativos(conn, id_pi, estado):
                 estado.set_localizacao(1)  #Volta para base
                 estado.localAtual = 1
                 input("Pressione Enter para continuar.")
-                return True  
+                return "input_ja_foi"  # Sinaliza que já pediu input
             else:
                 print("Você falhou ao fugir! O combate começa!")
-                # Chame o sistema de combate aqui se quiser
                 input("Pressione Enter para continuar.")
-                return False
-        else:
-            print("Você decidiu enfrentar o inimigo!")
-            # Chame o sistema de combate aqui se quiser
-            input("Pressione Enter para continuar.")
-            return False
-    return None  
+                return "input_ja_foi"
+
+        print("Você decidiu enfrentar o inimigo!")
+        input("Pressione Enter para continuar.")
+        return "input_ja_foi"
+    return None
