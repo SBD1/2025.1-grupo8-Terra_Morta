@@ -125,6 +125,20 @@ class EstadoNormal:
             print(f'\nVocê foi para {self.G.nodes[destino]["nome"]}, isso custou {custo} de fome.')
             input("Pressione Enter para continuar.")
 
+        # Encontro com inimigos ao chegar no novo local
+        with self.get_conn() as conn:
+            resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
+            if resultado == True or resultado == "input_ja_foi":
+                return
+            elif resultado == False:
+                return
+
+            encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
+            if encontrou:
+                novo_resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
+                if novo_resultado == "input_ja_foi":
+                    return
+
     def base(self):
         nome_local = self.G.nodes[self.localAtual]["nome"]
 
@@ -136,21 +150,10 @@ class EstadoNormal:
         input('Pressione Enter para continuar.')
 
     def explorar(self):
-        with self.get_conn() as conn:
-            resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
-            if resultado == True or resultado == "input_ja_foi":
-                return  # Já pediu input, não peça novamente
-            elif resultado == False:
-                return
-
-            encontrou = processar_encontros(conn, self.localAtual, self.localAtual)
-            if encontrou:
-                novo_resultado = lidar_com_inimigos_ativos(conn, self.localAtual, self)
-                if novo_resultado == "input_ja_foi":
-                    return
-            else:
-                print('\nVocê anda um pouco e examina esse lugar, mas não encontra nada de interesse.\n')
-            input('Pressione Enter para continuar.')
+        # Novo comportamento: explorar não lida mais com encontros de inimigos
+        print('\nVocê explora o local em busca de algo interessante...')
+        # Aqui você pode implementar outra lógica de exploração futuramente
+        input('Pressione Enter para continuar.')
 
     def end(self):
         pass
