@@ -75,8 +75,10 @@ class EstadoNormal:
             os.system('cls' if os.name == 'nt' else 'clear')
             nome = self.G.nodes[self.localAtual]["nome"]
             fome_atual, fome_max = self.get_fome()
+            sede_atual, sede_max = self.get_sede()
             print(f'\nVocê se encontra no(a) {nome}.')
-            print(f'Fome: {fome_atual}/{fome_max}\n')
+            print(f'Fome: {fome_atual}/{fome_max}')
+            print(f'Sede: {sede_atual}/{sede_max}\n')
 
             perguntas = [
                 inquirer.List(
@@ -171,7 +173,7 @@ class EstadoNormal:
         sede_atual, sede_max = self.get_sede()
         nova_sede = max(0, sede_atual - 10)
         self.set_sede(nova_sede)
-        print(f'Sede: {nova_sede}/{sede_max} (-10)')
+        print(f'\nSua boca fica um pouco mais seca, isso custou 10 de sede.')
         if nova_sede <= 0:
             nome_prota = self.get_nome()
             print(f'\n{nome_prota} ficou desidratado demais para continuar, voltou para casa e descansou.\n')
