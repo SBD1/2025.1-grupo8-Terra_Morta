@@ -6,6 +6,21 @@ from frontend.Acontecimento_mundo import processar_acontecimentos
 
 
 class EstadoNormal:
+    def get_sede(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT sede_atual, sede_max FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            return cur.fetchone()
+
+    def set_sede(self, nova_sede):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET sede_atual = %s WHERE id_inst = %s", (nova_sede, id_inst))
+                conn.commit()
     def __init__(self, grafo, id_prota, db_params):
         self.G = grafo
         self.localAtual = list(grafo.nodes)[0]
@@ -152,6 +167,19 @@ class EstadoNormal:
 
     def explorar(self):
         print('\nVocê explora o local em busca de algo interessante...')
+        # Gasta sede ao explorar
+        sede_atual, sede_max = self.get_sede()
+        nova_sede = max(0, sede_atual - 10)
+        self.set_sede(nova_sede)
+        print(f'Sede: {nova_sede}/{sede_max} (-10)')
+        if nova_sede <= 0:
+            nome_prota = self.get_nome()
+            print(f'\n{nome_prota} ficou desidratado demais para continuar, voltou para casa e descansou.\n')
+            self.set_localizacao(1)  # 1 = Base
+            self.set_sede(sede_max)
+            self.localAtual = 1
+            input('Pressione Enter para continuar.')
+            return
         with self.get_conn() as conn:
             teve_acontecimento = processar_acontecimentos(conn, self.localAtual, self)
             if not teve_acontecimento:
