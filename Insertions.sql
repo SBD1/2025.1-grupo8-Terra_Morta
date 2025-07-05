@@ -264,4 +264,4 @@ SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Pererecas Mutantes
 -- 12. ACONTECIMENTOS DE MUNDO
 -- =======================================
 
-SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida e recuperou 10 de fome!', 3, NULL::INT, '1', '25');  -- PI 3: Fogueira (recupera fome)
+SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida, ele pegou um pouco... e recuperou 10 de fome!', 3, NULL::INT, '1', '25');  -- PI 3: Fogueira (recupera fome)
