@@ -108,6 +108,12 @@ create table equipamento(
 	FOREIGN KEY (id_equip) REFERENCES item_controle(id_item)
 );
 
+CREATE TABLE inst_equipamento (
+    id_inst_equip SERIAL PRIMARY KEY,
+    id_equip SMALLINT NOT NULL,
+    FOREIGN KEY (id_equip) REFERENCES equipamento(id_equip)
+);
+
 create table equipamento_atual(
 	id_ser smallint primary key not null,
 	cabeca smallint,
