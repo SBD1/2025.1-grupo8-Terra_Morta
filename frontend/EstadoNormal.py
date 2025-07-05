@@ -2,6 +2,7 @@ import os
 import inquirer
 import psycopg
 from frontend.Encontro_Inimigo import processar_encontros,lidar_com_inimigos_ativos
+from frontend.Acontecimento_mundo import processar_acontecimentos
 
 
 class EstadoNormal:
@@ -150,10 +151,12 @@ class EstadoNormal:
         input('Pressione Enter para continuar.')
 
     def explorar(self):
-        # Novo comportamento: explorar não lida mais com encontros de inimigos
         print('\nVocê explora o local em busca de algo interessante...')
-        # Aqui você pode implementar outra lógica de exploração futuramente
-        input('Pressione Enter para continuar.')
+        with self.get_conn() as conn:
+            teve_acontecimento = processar_acontecimentos(conn, self.localAtual, self)
+            if not teve_acontecimento:
+                print('\nVocê não encontrou nada de especial desta vez.')
+                input('Pressione Enter para continuar.')
 
     def end(self):
         pass
