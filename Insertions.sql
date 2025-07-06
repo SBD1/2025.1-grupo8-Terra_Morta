@@ -217,18 +217,6 @@ INSERT INTO conexao(
 (26, 28, 15);         -- Túnel de Rastro Químico → Centro de Comando Feromon 
 
 -- =======================================
--- 8. FACÇÕES
--- =======================================
-INSERT INTO faccao (
-    nome_faccao
-) 
-VALUES
-('Pisa Poeira'),
-('Nigrum Sanguinem'),
-('Inimigo Hostil'),
-('Neutros');
-
--- =======================================
 -- 9. INIMIGOS NÃO INTELIGENTES
 -- =======================================
 INSERT INTO nao_inteligente (
