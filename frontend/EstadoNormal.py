@@ -5,6 +5,10 @@ import psycopg
 from frontend.Andar import andar
 from frontend.Explorar import explorar
 from frontend.Loja import Loja
+from frontend.Inventario import Inventario
+from frontend.Mutacao import Mutacao
+from frontend.Equipamento import Equipamento
+from frontend.Atributos import Atributos
 
 
 
@@ -16,11 +20,18 @@ class EstadoNormal:
         self.id_prota = id_prota
         self.db_params = db_params
         self.loja_obj = Loja(self)
+        self.inventario_obj = Inventario(self)
+        self.mutacao_obj = Mutacao(self)
+        self.equipamento_obj = Equipamento(self)
+        self.atributos_obj = Atributos(self)
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
             'Explorar o local': self.explorar,
-            'Inventário': self.visualizar_inventario,
+            'Inventário': self.inventario_obj.visualizar_inventario,
+            'Equipamentos Atuais': self.equipamento_obj.visualizar_equipamentos_atuais,
+            'Mutações Atuais': self.mutacao_obj.visualizar_mutacoes_atuais,
+            'Atributos do Protagonista': self.atributos_obj.visualizar_atributos,
             'Retornar ao menu principal': self.end
         }
     
@@ -39,7 +50,7 @@ class EstadoNormal:
                 id_inst = row[0]
                 cur.execute("UPDATE inst_prota SET sede_atual = %s WHERE id_inst = %s", (nova_sede, id_inst))
                 conn.commit()
-                
+                   
     def get_hp(self):
         with self.get_conn() as conn:
             cur = conn.cursor()
@@ -112,50 +123,7 @@ class EstadoNormal:
         self.loja_obj.abrir_loja()
 
     def adicionar_moedas_debug(self):
-        try:
-            quant = int(input("\nQuantas moedas deseja adicionar ao inventário? "))
-            if quant <= 0:
-                print("Quantidade inválida.")
-                input('Pressione Enter para continuar.')
-                return
-        except ValueError:
-            print("Valor inválido.")
-            input('Pressione Enter para continuar.')
-            return
-        with self.get_conn() as conn:
-            cur = conn.cursor()
-            # Verifica se já existe entrada de moedas no inventário
-            cur.execute("SELECT quant FROM inventario WHERE id_item = 1 LIMIT 1")
-            row = cur.fetchone()
-            if row:
-                cur.execute("UPDATE inventario SET quant = quant + %s WHERE id_item = 1", (quant,))
-            else:
-                cur.execute("INSERT INTO inventario (id_item, quant) VALUES (1, %s)", (quant,))
-            conn.commit()
-        print(f"\n{quant} moedas adicionadas ao inventário!")
-        input('Pressione Enter para continuar.')
-
-    def visualizar_inventario(self):
-        with self.get_conn() as conn:
-            cur = conn.cursor()
-            # Busca todos os itens do inventário com nome e quantidade
-            cur.execute('''
-                SELECT i.id_item, COALESCE(c.nome, e.nome, m.nome, 'Desconhecido'), inv.quant
-                FROM inventario inv
-                LEFT JOIN coletavel c ON inv.id_item = c.id_item
-                LEFT JOIN equipamento e ON inv.id_item = e.id_equip
-                LEFT JOIN mutacao m ON inv.id_item = m.id_mutacao
-                JOIN item_controle i ON inv.id_item = i.id_item
-                ORDER BY inv.id_item
-            ''')
-            itens = cur.fetchall()
-        print("\n--- Inventário ---")
-        if not itens:
-            print("Inventário vazio.")
-        else:
-            for id_item, nome, quant in itens:
-                print(f"{nome.strip()} (ID: {id_item}) - Quantidade: {quant}")
-        input('\nPressione Enter para continuar.')
+        self.inventario_obj.adicionar_moedas_debug()
 
     def menu(self):
         while True:
@@ -192,6 +160,12 @@ class EstadoNormal:
                 self.loja()
             elif acao == 'DEBUG: Adicionar moedas':
                 self.adicionar_moedas_debug()
+            elif acao == 'Inventário':
+                self.inventario_obj.visualizar_inventario()
+            elif acao == 'Equipamentos Atuais':
+                self.equipamento_obj.visualizar_equipamentos_atuais()
+            elif acao == 'Mutações Atuais':
+                self.mutacao_obj.visualizar_mutacoes_atuais()
             else:
                 resultado_acao = self.opcoes[acao]()
                 

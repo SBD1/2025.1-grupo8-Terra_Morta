@@ -25,7 +25,7 @@ ALTER SEQUENCE instalacao_base_id_instalacao_seq RESTART WITH 1;
 -- 1. PONTOS DE INTERESSE
 -- =======================================
 INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
-('Base', 0),                              -- ID: 1
+('Base', 0),                             -- ID: 1
 ('Travessia da Poeira', 1),              -- ID: 2
 ('Posto de Vigia Abandonado', 1),        -- ID: 3
 ('Cidade Fantasma', 2),                  -- ID: 4
@@ -37,7 +37,7 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Colinas Negras', 3),                   -- ID: 10
 ('Mercabunker', 0),                      -- ID: 11
 ('Poço de água', 0),                     -- ID: 12
-('Hospital Subterrâneo', 4),            -- ID: 13
+('Hospital Subterrâneo', 4),             -- ID: 13
 ('Aeroporto Militar', 5),                -- ID: 14
 ('Pátio do Ferro-Velho', 1),             -- ID: 15
 ('Lugar Algum', 0),                      -- ID: 16
@@ -45,22 +45,31 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Estação de Tratamento de Água', 2),    -- ID: 18
 
 -- Rota dos Nigrum Sanguinem
-('Portão Esquecido', 9),                -- ID: 19
-('Vales da Praga', 9),                  -- ID: 20
-('Santuário da Desfiguração', 19),       -- ID: 21
-('Coração de Sanguinem', 29),            -- ID: 22
+('Portão Esquecido', 10),                -- ID: 19
+('Vales da Praga', 10),                  -- ID: 20
+('Santuário da Desfiguração', 20),       -- ID: 21
+('Coração de Sanguinem', 30),            -- ID: 22
 
 -- Rota da Hidra de Carne
 ('Brejo Mórbido', 5),                    -- ID: 23
-('Trilho Encharcado', 15),              -- ID: 24
-('Covil da Hidra de Carne', 30);         -- ID: 25
+('Trilho Encharcado', 15),               -- ID: 24
+('Covil da Hidra de Carne', 30),         -- ID: 56
 
 -- ROTA da Omni-Mente
 
-('Túnel de Rastro Químico', 10),     -- ID: 26
-('Ninho de Operárias', 15),          -- ID: 27
-('Centro de Comando Feromon', 20),    -- ID: 28
-('Trono da Omni-Mente', 35);         -- ID: 29
+('Túnel de Rastro Químico', 10),         -- ID: 26
+('Ninho de Operárias', 15),              -- ID: 27
+('Centro de Comando Feromon', 20),       -- ID: 28
+('Trono da Omni-Mente', 35);             -- ID: 29
+
+-- =======================================
+-- 1A. FACCOES (necessário para alinhamento de inteligentes)
+-- =======================================
+INSERT INTO faccao (id_faccao, nome_faccao) VALUES
+(1, 'Neutro'),
+(2, 'Nigrum Sanguinem'),
+(3, 'Hostil'),
+(4, 'Catadores');
 
 -- =======================================
 -- 2. ITENS COLETÁVEIS, EQUIPAMENTOS E MUTAÇÕES (usando procedures)
@@ -83,12 +92,12 @@ SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS C
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
 
--- Mutações (id 20+)
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 20
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 21
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 22
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 23
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 24
+-- Mutações (id 15+)
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 15
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 16
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 17
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 18
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 19
 
 -- =======================================
 -- 3. INSTALAÇÕES DE BASE
@@ -124,6 +133,12 @@ INSERT INTO ser_controle (id_ser, tipo) VALUES
 
 -- Inimigos Não Inteligentes Difíceis
 (301, 'N'), (302, 'N'), (303, 'N'),
+
+-- Hidra de Carne (Lagartos Mutados)
+(501, 'N'), (502, 'N'), (503, 'N'),
+
+-- Omni-Mente (Formigas Mutadas)
+(601, 'N'), (602, 'N'), (603, 'N'),
 
 -- Bosses Não Inteligentes
 (997, 'N'), (998, 'N'),
@@ -186,7 +201,7 @@ INSERT INTO conexao(
 (15,7,20),       -- Pátio do Ferro-Velho → Base dos Pisa Poeira
 (15,8,30),       -- Pátio do Ferro-Velho → Escola Amanhecer Dourado
 (18,17,8),         -- Estação de Tratamento de Água → Mêtro do Surfista
-(17,9,10);        -- Mêtro do Surfista → Cemitério das Máquinas
+(17,9,10),        -- Mêtro do Surfista → Cemitério das Máquinas
 
 -- Rota dos Nigrum Sanguinem
 (3, 19, 10),         -- Posto de Vigia Abandonado → Portão Esquecido
@@ -206,18 +221,6 @@ INSERT INTO conexao(
 (27, 28, 15),        -- Ninho de Operárias → Centro de Comando Feromon
 (28, 29, 20),        -- Centro de Comando Feromon → Trono da Omni-Mente
 (26, 28, 15);         -- Túnel de Rastro Químico → Centro de Comando Feromon 
-
--- =======================================
--- 8. FACÇÕES
--- =======================================
-INSERT INTO faccao (
-    nome_faccao
-) 
-VALUES
-('Pisa Poeira'),
-('Nigrum Sanguinem'),
-('Inimigo Hostil'),
-('Neutros');
 
 -- =======================================
 -- 9. INIMIGOS NÃO INTELIGENTES
@@ -248,12 +251,20 @@ INSERT INTO nao_inteligente (
 (302, 'Ecohorror',          140, 18, 16, 4,  0,10, 0,10, 5, 4,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE, 15),
 (303, 'Urubu de Aço',         130, 14, 18, 3,  0, 3, 0, 7, 3, 2,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 10),
 
+-- Hidra de Carne (Lagartos Mutados)
+(501, 'Lagarto Mutante',      60, 12, 10, 2,  2, 0, 0, 2, 2, 1,  TRUE, TRUE, TRUE, TRUE, TRUE, 5),
+(502, 'Lagarto Putrefato',    90, 16, 12, 4,  3, 0, 0, 4, 3, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 10),
+(503, 'Lagarto Espinhoso',    75, 14, 11, 3,  2, 0, 0, 3, 4, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 8),
+
+-- Omni-Mente (Formigas Mutadas)
+(601, 'Formiga Operária',     25,  6, 14, 0,  0, 0, 0, 2, 1, 0,  TRUE, TRUE, TRUE, TRUE, TRUE, 3),
+(602, 'Formiga Soldado',      55, 12, 12, 2,  1, 0, 0, 4, 2, 1,  TRUE, TRUE, TRUE, TRUE, TRUE, 7),
+(603, 'Formiga Anciã',     90, 15, 10, 4,  2, 0, 0, 6, 3, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 12),
+
 
 -- BOSSES Não Inteligente
 (998, 'Hidra de Carne', 320, 28, 12, 9, 5, 5, 5, 15, 9, 7, TRUE, TRUE, TRUE, TRUE, TRUE, 25),
 (997, 'Omni-mente', 280, 22, 20, 6, 3, 6, 10, 18, 6, 5, TRUE, TRUE, FALSE, TRUE, FALSE, 30);
-
-
 
 
 -- =======================================
@@ -319,3 +330,23 @@ SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Cururus Mutantes
 -- =======================================
 
 SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida, ele pegou um pouco... e recuperou 10 de fome!', 3, NULL::INT, '1', '25');  -- PI 3: Fogueira (recupera fome)
+
+-- =======================================
+-- 13. MODIFICADORES DE EQUIPAMENTOS E MUTAÇÕES
+-- =======================================
+-- Exemplo: (id_item, atributo, valor)
+-- Equipamentos
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(10, 'def', 5),      -- Capacete de Metal: +5 defesa
+(11, 'def', 8),      -- Colete de Couro: +8 defesa
+(12, 'dex', 3),      -- Luvas de Proteção: +3 destreza
+(13, 'def', 4),      -- Botas de Borracha: +4 defesa
+(14, 'carga', 10);   -- Calças Reforçadas: +10 carga
+
+-- Mutações
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(15, 'visao', 1),    -- Visão Noturna: +1 visão
+(16, 'str', 2),      -- Braço Extra: +2 força
+(17, 'def', 4),      -- Pele Resistente: +4 defesa
+(18, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
+(19, 'atk', 3);      -- Garras Afiadas: +3 ataque

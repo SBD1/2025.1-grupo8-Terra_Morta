@@ -287,22 +287,3 @@ CREATE TABLE conexao (
     FOREIGN KEY (origem) REFERENCES ponto_de_interesse(id_pi),
     FOREIGN KEY (destino) REFERENCES ponto_de_interesse(id_pi)
 );
-
-CREATE TABLE inst_coletavel (
-    id_inst_coletavel SERIAL PRIMARY KEY,
-    id_item SMALLINT NOT NULL,
-    quantidade INT NOT NULL DEFAULT 1,
-    FOREIGN KEY (id_item) REFERENCES coletavel(id_item)
-);
-
-CREATE TABLE inst_equipamento (
-    id_inst_equipamento SERIAL PRIMARY KEY,
-    id_equip SMALLINT NOT NULL,
-    FOREIGN KEY (id_equip) REFERENCES equipamento(id_equip)
-);
-
-CREATE TABLE inst_mutacao (
-    id_inst_mutacao SERIAL PRIMARY KEY,
-    id_mutacao SMALLINT NOT NULL,
-    FOREIGN KEY (id_mutacao) REFERENCES mutacao(id_mutacao)
-);
