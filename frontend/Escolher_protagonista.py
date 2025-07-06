@@ -97,5 +97,6 @@ def escolher_protagonista(conn):
 def iniciar_novo_jogo(conn):
     with conn.cursor() as cur:
         cur.execute("DELETE FROM inst_ser;")
+        cur.execute("DELETE FROM inventario;")  # Limpa o inventário ao iniciar novo jogo
         # Limpe outras tabelas se quiser resetar mais coisas
     conn.commit()

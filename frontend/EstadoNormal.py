@@ -3,6 +3,7 @@ import inquirer
 import psycopg
 from frontend.Andar import andar
 from frontend.Explorar import explorar
+from frontend.Loja import Loja
 
 
 
@@ -28,10 +29,12 @@ class EstadoNormal:
         self.localAtual = list(grafo.nodes)[0]
         self.id_prota = id_prota
         self.db_params = db_params
+        self.loja_obj = Loja(self)
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
             'Explorar o local': self.explorar,
+            'Inventário': self.visualizar_inventario,
             'Retornar ao menu principal': self.end
         }
 
@@ -72,6 +75,63 @@ class EstadoNormal:
             cur.execute("SELECT nome FROM prota WHERE id_ser = %s", (self.id_prota,))
             return cur.fetchone()[0].strip()
 
+    def get_moedas(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Supondo que o id do item moeda seja 1
+            cur.execute("SELECT quant FROM inventario WHERE id_item = 1 AND quant > 0 LIMIT 1")
+            row = cur.fetchone()
+            return row[0] if row else 0
+
+    def loja(self):
+        self.loja_obj.abrir_loja()
+
+    def adicionar_moedas_debug(self):
+        try:
+            quant = int(input("\nQuantas moedas deseja adicionar ao inventário? "))
+            if quant <= 0:
+                print("Quantidade inválida.")
+                input('Pressione Enter para continuar.')
+                return
+        except ValueError:
+            print("Valor inválido.")
+            input('Pressione Enter para continuar.')
+            return
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Verifica se já existe entrada de moedas no inventário
+            cur.execute("SELECT quant FROM inventario WHERE id_item = 1 LIMIT 1")
+            row = cur.fetchone()
+            if row:
+                cur.execute("UPDATE inventario SET quant = quant + %s WHERE id_item = 1", (quant,))
+            else:
+                cur.execute("INSERT INTO inventario (id_item, quant) VALUES (1, %s)", (quant,))
+            conn.commit()
+        print(f"\n{quant} moedas adicionadas ao inventário!")
+        input('Pressione Enter para continuar.')
+
+    def visualizar_inventario(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Busca todos os itens do inventário com nome e quantidade
+            cur.execute('''
+                SELECT i.id_item, COALESCE(c.nome, e.nome, m.nome, 'Desconhecido'), inv.quant
+                FROM inventario inv
+                LEFT JOIN coletavel c ON inv.id_item = c.id_item
+                LEFT JOIN equipamento e ON inv.id_item = e.id_equip
+                LEFT JOIN mutacao m ON inv.id_item = m.id_mutacao
+                JOIN item_controle i ON inv.id_item = i.id_item
+                ORDER BY inv.id_item
+            ''')
+            itens = cur.fetchall()
+        print("\n--- Inventário ---")
+        if not itens:
+            print("Inventário vazio.")
+        else:
+            for id_item, nome, quant in itens:
+                print(f"{nome.strip()} (ID: {id_item}) - Quantidade: {quant}")
+        input('\nPressione Enter para continuar.')
+
     def menu(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
@@ -82,11 +142,16 @@ class EstadoNormal:
             print(f'Fome: {fome_atual}/{fome_max}')
             print(f'Sede: {sede_atual}/{sede_max}\n')
 
+            opcoes_menu = list(self.opcoes.keys())
+            if "base" in nome.lower():
+                opcoes_menu.insert(1, "Acessar loja da base")
+                opcoes_menu.insert(2, "DEBUG: Adicionar moedas")
+
             perguntas = [
                 inquirer.List(
                     'acao',
                     message="O que deseja fazer?",
-                    choices=list(self.opcoes.keys())
+                    choices=opcoes_menu
                 )
             ]
 
@@ -98,8 +163,12 @@ class EstadoNormal:
             if acao == 'Retornar ao menu principal':
                 print("\nRetornando ao menu principal...\n")
                 break
-
-            self.opcoes[acao]()
+            if acao == 'Acessar loja da base':
+                self.loja()
+            elif acao == 'DEBUG: Adicionar moedas':
+                self.adicionar_moedas_debug()
+            else:
+                self.opcoes[acao]()
 
     def andar(self):
         return andar(self)

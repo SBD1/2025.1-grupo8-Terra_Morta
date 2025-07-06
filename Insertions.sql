@@ -46,15 +46,32 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Estação de Tratamento de Água', 2);
 
 -- =======================================
--- 2. ITENS COLETÁVEIS
+-- 2. ITENS COLETÁVEIS, EQUIPAMENTOS E MUTAÇÕES (usando procedures)
 -- =======================================
-INSERT INTO item_controle (tipo) VALUES
-('C'), ('C'), ('C');  -- C = Coletável
+-- Coletáveis (inclui moeda id 1)
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Moeda' AS CHAR(50)), 0);         -- id 1
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Madeira' AS CHAR(50)), 5);       -- id 2
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Ferro' AS CHAR(50)), 10);        -- id 3
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Núcleo Radioativo Fundido' AS CHAR(50)), 50); -- id 4
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Água Potável' AS CHAR(50)), 8);  -- id 5
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Comida Enlatada' AS CHAR(50)), 12); -- id 6
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Plástico' AS CHAR(50)), 4);      -- id 7
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Tecido' AS CHAR(50)), 6);        -- id 8
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Sucata Eletrônica' AS CHAR(50)), 15); -- id 9
 
-INSERT INTO coletavel (id_item, nome) VALUES
-(1, 'Madeira'),
-(2, 'Ferro'),
-(3, 'Núcleo Radioativo Fundido');
+-- Equipamentos (id 10+)
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Capacete de Metal' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)), 30);   -- id 10
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Colete de Couro' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('tors' AS CHAR(4)), 35);     -- id 11
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 18);   -- id 12
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
+
+-- Mutações (id 20+)
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 20
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 21
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 22
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 23
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 24
 
 -- =======================================
 -- 3. INSTALAÇÕES DE BASE
