@@ -63,6 +63,15 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Trono da Omni-Mente', 35);             -- ID: 29
 
 -- =======================================
+-- 1A. FACCOES (necessário para alinhamento de inteligentes)
+-- =======================================
+INSERT INTO faccao (id_faccao, nome_faccao) VALUES
+(1, 'Neutro'),
+(2, 'Nigrum Sanguinem'),
+(3, 'Hostil'),
+(4, 'Catadores');
+
+-- =======================================
 -- 2. ITENS COLETÁVEIS, EQUIPAMENTOS E MUTAÇÕES (usando procedures)
 -- =======================================
 -- Coletáveis (inclui moeda id 1)
@@ -83,12 +92,12 @@ SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS C
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
 
--- Mutações (id 20+)
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 20
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 21
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 22
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 23
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 24
+-- Mutações (id 15+)
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 15
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 16
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 17
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 18
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 19
 
 -- =======================================
 -- 3. INSTALAÇÕES DE BASE
@@ -186,7 +195,7 @@ INSERT INTO conexao(
 (15,7,20),       -- Pátio do Ferro-Velho → Base dos Pisa Poeira
 (15,8,30),       -- Pátio do Ferro-Velho → Escola Amanhecer Dourado
 (18,17,8),         -- Estação de Tratamento de Água → Mêtro do Surfista
-(17,9,10);        -- Mêtro do Surfista → Cemitério das Máquinas
+(17,9,10),        -- Mêtro do Surfista → Cemitério das Máquinas
 
 -- Rota dos Nigrum Sanguinem
 (3, 19, 10),         -- Posto de Vigia Abandonado → Portão Esquecido
@@ -334,8 +343,8 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 
 -- Mutações
 INSERT INTO modificador (id_item, atributo, valor) VALUES
-(20, 'visao', 1),    -- Visão Noturna: +1 visão
-(21, 'str', 2),      -- Braço Extra: +2 força
-(22, 'def', 4),      -- Pele Resistente: +4 defesa
-(23, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
-(24, 'atk', 3);      -- Garras Afiadas: +3 ataque
+(15, 'visao', 1),    -- Visão Noturna: +1 visão
+(16, 'str', 2),      -- Braço Extra: +2 força
+(17, 'def', 4),      -- Pele Resistente: +4 defesa
+(18, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
+(19, 'atk', 3);      -- Garras Afiadas: +3 ataque
