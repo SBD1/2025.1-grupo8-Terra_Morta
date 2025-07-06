@@ -68,10 +68,18 @@ class Inventario:
                 confirma = input(f"\nDeseja equipar este item em {parte_nome}? (s/n): ").strip().lower()
                 if confirma == 's':
                     # Equipar
+                    coluna_map = {
+                        'cabe': 'cabeca',
+                        'tors': 'torso',
+                        'maos': 'maos',
+                        'pern': 'pernas',
+                        'pes': 'pes'
+                    }
+                    coluna = coluna_map.get(parte[0].strip(), parte[0].strip())
                     cur.execute(f"""
-                        INSERT INTO equipamento_atual (id_ser, {parte[0].strip()})
+                        INSERT INTO equipamento_atual (id_ser, {coluna})
                         VALUES (%s, %s)
-                        ON CONFLICT (id_ser) DO UPDATE SET {parte[0].strip()} = EXCLUDED.{parte[0].strip()}
+                        ON CONFLICT (id_ser) DO UPDATE SET {coluna} = EXCLUDED.{coluna}
                     """, (self.estado.id_prota, id_item))
                     conn.commit()
                     print(f"\n{nome.strip()} equipado em {parte_nome}!")
