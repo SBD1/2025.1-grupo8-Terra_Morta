@@ -55,7 +55,16 @@ def processar_encontros(conn, id_pi, local):
 
     encontro_escolhido = max(ativados, key=lambda x: x[5]) 
     id_evento, id_inimigo, quantidade, tipo, probabilidade, prioridade = encontro_escolhido
-    print(f"\nVocê encontrou um inimigo!\nInimigo ID: {id_inimigo} | Quantidade: {quantidade} (Prioridade: {prioridade})")
+    # Buscar nome do inimigo
+    with conn.cursor() as cur:
+        cur.execute("""
+            SELECT COALESCE(n.nome, intel.nome) FROM ser_controle s
+            LEFT JOIN nao_inteligente n ON n.id_ser = s.id_ser
+            LEFT JOIN inteligente intel ON intel.id_ser = s.id_ser
+            WHERE s.id_ser = %s
+        """, (id_inimigo,))
+        nome = cur.fetchone()[0] if cur.rowcount else 'Desconhecido'
+    print(f"\nQuantidade: {quantidade} | Inimigo: {nome.strip() if nome else 'Desconhecido'}")
     criar_instancia_inimigo(conn, id_inimigo, local, quantidade)
     return True
 
@@ -78,7 +87,7 @@ def tentar_fuga():
 def lidar_com_inimigos_ativos(conn, id_pi, estado):
     inimigos = inimigos_ativos_no_local(conn, id_pi)
     if inimigos:
-        print("\nVocê já encontrou inimigos aqui!")
+        print("\nInimigos:")
         for inimigo in inimigos:
             id_ser, tipo, nome, hp_atual = inimigo
             print(f"{nome.strip() if nome else 'Desconhecido'} (Vida: {hp_atual})")
