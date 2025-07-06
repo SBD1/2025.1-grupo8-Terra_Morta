@@ -179,7 +179,7 @@ INSERT INTO nao_inteligente (
 (103, 'Rato Carniceiro',     25,  6,  9, 0,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE,  0),
 (104, 'Corvo Mutante',       30,  5, 12, 1,  0, 0, 0, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 0),
 (105, 'Pombo Radioativo',    22,  3, 11, 1,  0, 0, 0, 2, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 2),
-(106, 'Perereca Mutante',    20,  4, 13, 0,  0, 0, 1, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  TRUE,  0),
+(106, 'Cururu Mutante',    20,  4, 13, 0,  0, 0, 1, 0, 0, 0,  TRUE,  TRUE,  FALSE, TRUE,  TRUE,  0),
 
 
 
@@ -257,7 +257,7 @@ SELECT criar_encontro(105, 3, 4, NULL::INT, '1', '25');  -- 3 Pombos Radioativos
 SELECT criar_encontro(107, 1, 4, NULL::INT, '1', '60');  -- 1 Catador
 
 -- PI 5: Terra Chamuscada
-SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Pererecas Mutantes
+SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Cururus Mutantes
 
 
 -- =======================================

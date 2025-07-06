@@ -1,3 +1,7 @@
+-- =======================================
+-- Criar Encontro com Inimigos
+-- =======================================
+
 CREATE OR REPLACE FUNCTION criar_encontro(
     p_id_inimigo INT,
     p_quantidade INT,
@@ -27,6 +31,9 @@ BEGIN
 END;
 $criar_encontro$ LANGUAGE plpgsql;
 
+-- =======================================
+-- Criar Acontecimentos
+-- =======================================
 
 CREATE OR REPLACE FUNCTION criar_acontecimento_mundo(
     p_atributo INT,
@@ -57,3 +64,77 @@ BEGIN
     RETURN v_id_evento;
 END;
 $criar_acontecimento$ LANGUAGE plpgsql;
+
+
+-- =======================================
+-- Criar Missão Matar
+-- =======================================
+
+CREATE OR REPLACE FUNCTION criar_missao_matar(
+    p_id_inimigo INT,
+    p_quantidade INT,
+    p_max_ocorrencia INT DEFAULT 1,
+    p_prioridade CHAR(1) DEFAULT '1',
+    p_probabilidade CHAR(3) DEFAULT '50',
+    p_recompensas TEXT DEFAULT NULL,
+    p_prox INT DEFAULT NULL
+)
+RETURNS INT AS $criar_missao_matar$
+DECLARE
+    v_id_evento INT;
+    v_id_requisito INT;
+BEGIN
+    -- Cria o evento do tipo MISSAO
+    INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
+    VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
+    RETURNING id_evento INTO v_id_evento;
+
+    -- Cria o requisito do tipo MATAR
+    INSERT INTO requisitos (tipo, alvo, quantidade)
+    VALUES ('MATAR', p_id_inimigo, p_quantidade)
+    RETURNING id_requisito INTO v_id_requisito;
+
+    -- Cria a missão vinculando ao requisito
+    INSERT INTO missao (id_evento, id_requisito, status, recompensas, prox)
+    VALUES (v_id_evento, v_id_requisito, 'A', p_recompensas, p_prox);
+
+    RETURN v_id_evento;
+END;
+$criar_missao_matar$ LANGUAGE plpgsql;
+
+
+-- =======================================
+-- Criar Missão Item
+-- =======================================
+
+CREATE OR REPLACE FUNCTION criar_missao_entregar(
+    p_id_item INT,
+    p_quantidade INT,
+    p_max_ocorrencia INT DEFAULT 1,
+    p_prioridade CHAR(1) DEFAULT '1',
+    p_probabilidade CHAR(3) DEFAULT '50',
+    p_recompensas TEXT DEFAULT NULL,
+    p_prox INT DEFAULT NULL
+)
+RETURNS INT AS $criar_missao_entregar$
+DECLARE
+    v_id_evento INT;
+    v_id_requisito INT;
+BEGIN
+    -- Cria o evento do tipo MISSAO
+    INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
+    VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
+    RETURNING id_evento INTO v_id_evento;
+
+    -- Cria o requisito do tipo ENTREGAR
+    INSERT INTO requisitos (tipo, alvo, quantidade)
+    VALUES ('ENTREGAR', p_id_item, p_quantidade)
+    RETURNING id_requisito INTO v_id_requisito;
+
+    -- Cria a missão vinculando ao requisito
+    INSERT INTO missao (id_evento, id_requisito, status, recompensas, prox)
+    VALUES (v_id_evento, v_id_requisito, 'A', p_recompensas, p_prox);
+
+    RETURN v_id_evento;
+END;
+$criar_missao_entregar$ LANGUAGE plpgsql;

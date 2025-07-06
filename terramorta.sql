@@ -181,13 +181,6 @@ CREATE TABLE ponto_de_interesse (
     nivel_rad DECIMAL(5,2) 
 );
 
-CREATE TABLE requisitos (
-    id_evento SMALLINT PRIMARY KEY,
-    req VARCHAR(50), 
-    status BOOLEAN, 
-    FOREIGN KEY (id_evento) REFERENCES evento(id_evento)
-);
-
 CREATE TABLE ocorre(
     id_evento smallint,
     id_pi smallint ,
@@ -198,13 +191,23 @@ CREATE TABLE ocorre(
 
 CREATE TYPE status_enum AS ENUM ('C', 'A', 'F', 'N');
 
+CREATE TABLE requisitos (
+    id_requisito SERIAL PRIMARY KEY,
+    tipo VARCHAR(20) NOT NULL,      -- 'MATAR' ou 'ENTREGAR'
+    alvo SMALLINT,
+    quantidade SMALLINT,
+    status BOOLEAN DEFAULT FALSE
+);
+
 CREATE TABLE missao (
     id_evento SMALLINT PRIMARY KEY,
+    id_requisito INT UNIQUE NOT NULL,
     status status_enum,
     recompensas TEXT,
-    prox SMALLINT, 
+    prox SMALLINT,
     FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
-    FOREIGN KEY (prox) REFERENCES evento(id_evento)
+    FOREIGN KEY (prox) REFERENCES evento(id_evento),
+    FOREIGN KEY (id_requisito) REFERENCES requisitos(id_requisito)
 );
 
 CREATE TABLE encontro (
