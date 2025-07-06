@@ -134,6 +134,12 @@ INSERT INTO ser_controle (id_ser, tipo) VALUES
 -- Inimigos Não Inteligentes Difíceis
 (301, 'N'), (302, 'N'), (303, 'N'),
 
+-- Hidra de Carne (Lagartos Mutados)
+(501, 'N'), (502, 'N'), (503, 'N'),
+
+-- Omni-Mente (Formigas Mutadas)
+(601, 'N'), (602, 'N'), (603, 'N'),
+
 -- Bosses Não Inteligentes
 (997, 'N'), (998, 'N'),
 
@@ -245,12 +251,20 @@ INSERT INTO nao_inteligente (
 (302, 'Ecohorror',          140, 18, 16, 4,  0,10, 0,10, 5, 4,  TRUE,  TRUE,  TRUE,  TRUE,  TRUE, 15),
 (303, 'Urubu de Aço',         130, 14, 18, 3,  0, 3, 0, 7, 3, 2,  TRUE,  TRUE,  FALSE, TRUE,  FALSE, 10),
 
+-- Hidra de Carne (Lagartos Mutados)
+(501, 'Lagarto Mutante',      60, 12, 10, 2,  2, 0, 0, 2, 2, 1,  TRUE, TRUE, TRUE, TRUE, TRUE, 5),
+(502, 'Lagarto Putrefato',    90, 16, 12, 4,  3, 0, 0, 4, 3, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 10),
+(503, 'Lagarto Espinhoso',    75, 14, 11, 3,  2, 0, 0, 3, 4, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 8),
+
+-- Omni-Mente (Formigas Mutadas)
+(601, 'Formiga Operária',     25,  6, 14, 0,  0, 0, 0, 2, 1, 0,  TRUE, TRUE, TRUE, TRUE, TRUE, 3),
+(602, 'Formiga Soldado',      55, 12, 12, 2,  1, 0, 0, 4, 2, 1,  TRUE, TRUE, TRUE, TRUE, TRUE, 7),
+(603, 'Formiga Anciã',     90, 15, 10, 4,  2, 0, 0, 6, 3, 2,  TRUE, TRUE, TRUE, TRUE, TRUE, 12),
+
 
 -- BOSSES Não Inteligente
 (998, 'Hidra de Carne', 320, 28, 12, 9, 5, 5, 5, 15, 9, 7, TRUE, TRUE, TRUE, TRUE, TRUE, 25),
 (997, 'Omni-mente', 280, 22, 20, 6, 3, 6, 10, 18, 6, 5, TRUE, TRUE, FALSE, TRUE, FALSE, 30);
-
-
 
 
 -- =======================================
