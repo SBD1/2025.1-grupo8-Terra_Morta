@@ -319,3 +319,23 @@ SELECT criar_encontro(106, 2, 5, NULL::INT, '1', '30');  -- 2 Cururus Mutantes
 -- =======================================
 
 SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida, ele pegou um pouco... e recuperou 10 de fome!', 3, NULL::INT, '1', '25');  -- PI 3: Fogueira (recupera fome)
+
+-- =======================================
+-- 13. MODIFICADORES DE EQUIPAMENTOS E MUTAÇÕES
+-- =======================================
+-- Exemplo: (id_item, atributo, valor)
+-- Equipamentos
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(10, 'def', 5),      -- Capacete de Metal: +5 defesa
+(11, 'def', 8),      -- Colete de Couro: +8 defesa
+(12, 'dex', 3),      -- Luvas de Proteção: +3 destreza
+(13, 'def', 4),      -- Botas de Borracha: +4 defesa
+(14, 'carga', 10);   -- Calças Reforçadas: +10 carga
+
+-- Mutações
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(20, 'visao', 1),    -- Visão Noturna: +1 visão
+(21, 'str', 2),      -- Braço Extra: +2 força
+(22, 'def', 4),      -- Pele Resistente: +4 defesa
+(23, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
+(24, 'atk', 3);      -- Garras Afiadas: +3 ataque
