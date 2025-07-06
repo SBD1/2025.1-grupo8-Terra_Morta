@@ -63,24 +63,21 @@ def processar_encontros(conn, id_pi, local):
 def inimigos_ativos_no_local(conn, id_pi):
     with conn.cursor() as cur:
         cur.execute("""
-            SELECT i.id_ser, s.tipo, COALESCE(n.nome, intel.nome), i.hp_atual
+            SELECT i.id_ser, i.id_inst, s.tipo, COALESCE(n.nome, intel.nome), i.hp_max, i.hp_atual, i.str_atual, i.dex_atual, i.def_atual
             FROM inst_ser i
             JOIN ser_controle s ON i.id_ser = s.id_ser
             LEFT JOIN nao_inteligente n ON n.id_ser = i.id_ser
             LEFT JOIN inteligente intel ON intel.id_ser = i.id_ser
             WHERE i.localizacao = %s
         """, (id_pi,))
-        return cur.fetchall()
-    
-def tentar_fuga():
-    return random.random() < 0.5  
+        return cur.fetchall() 
 
 def lidar_com_inimigos_ativos(conn, id_pi, estado):
     inimigos = inimigos_ativos_no_local(conn, id_pi)
     if inimigos:
         print("\nVocê já encontrou inimigos aqui!")
         for inimigo in inimigos:
-            id_ser, tipo, nome, hp_atual = inimigo
+            id_ser, id_inst, tipo, nome, hp_max, hp_atual, str_atual, dex_atual, def_atual = inimigo
             print(f"{nome.strip() if nome else 'Desconhecido'} (Vida: {hp_atual})")
 
         pergunta = [
@@ -96,18 +93,34 @@ def lidar_com_inimigos_ativos(conn, id_pi, estado):
             exit()
 
         if resposta['acao'] == "Fugir":
-            if tentar_fuga():
+            if estado.tentar_fuga():
                 print("Você conseguiu fugir!")
                 estado.set_localizacao(1)  #Volta para base
                 estado.localAtual = 1
                 input("Pressione Enter para continuar.")
-                return "input_ja_foi"  # Sinaliza que já pediu input
+                
+                return "conseguiu_fugir"
             else:
-                print("Você falhou ao fugir! O combate começa!")
+                estado.print_clr("Você falhou ao fugir! O combate começa!")
+                resultado_luta = estado.iniciar_luta(inimigos)
                 input("Pressione Enter para continuar.")
-                return "input_ja_foi"
+                
+                if resultado_luta == "derrota_protagonista":
+                    return "derrota_protagonista"
+                elif resultado_luta == "conseguiu_fugir":
+                    return "conseguiu_fugir"
+                elif resultado_luta == "vitoria_protagonista":
+                    return "vitoria_protagonista"
 
-        print("Você decidiu enfrentar o inimigo!")
+        estado.print_clr("Você decidiu enfrentar o inimigo!")
+        resultado_luta = estado.iniciar_luta(inimigos)
         input("Pressione Enter para continuar.")
-        return "input_ja_foi"
-    return None
+        
+        if resultado_luta == "derrota_protagonista":
+            return "derrota_protagonista"
+        elif resultado_luta == "conseguiu_fugir":
+            return "conseguiu_fugir"
+        elif resultado_luta == "vitoria_protagonista":
+            return "vitoria_protagonista"
+    
+    return "sem_inimigos_ativos"

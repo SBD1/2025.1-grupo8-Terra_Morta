@@ -1,4 +1,5 @@
 import os
+import random
 import inquirer
 import psycopg
 from frontend.Andar import andar
@@ -9,6 +10,20 @@ from frontend.Loja import Loja
 
 
 class EstadoNormal:
+    def __init__(self, grafo, id_prota, db_params):
+        self.G = grafo
+        self.localAtual = list(grafo.nodes)[0]
+        self.id_prota = id_prota
+        self.db_params = db_params
+        self.loja_obj = Loja(self)
+        self.opcoes = {
+            'Andar para outro local': self.andar,
+            'Examinar a base': self.base,
+            'Explorar o local': self.explorar,
+            'Inventário': self.visualizar_inventario,
+            'Retornar ao menu principal': self.end
+        }
+    
     def get_sede(self):
         with self.get_conn() as conn:
             cur = conn.cursor()
@@ -24,19 +39,29 @@ class EstadoNormal:
                 id_inst = row[0]
                 cur.execute("UPDATE inst_prota SET sede_atual = %s WHERE id_inst = %s", (nova_sede, id_inst))
                 conn.commit()
-    def __init__(self, grafo, id_prota, db_params):
-        self.G = grafo
-        self.localAtual = list(grafo.nodes)[0]
-        self.id_prota = id_prota
-        self.db_params = db_params
-        self.loja_obj = Loja(self)
-        self.opcoes = {
-            'Andar para outro local': self.andar,
-            'Examinar a base': self.base,
-            'Explorar o local': self.explorar,
-            'Inventário': self.visualizar_inventario,
-            'Retornar ao menu principal': self.end
-        }
+                
+    def get_hp(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT hp_atual, hp_max FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            return cur.fetchone()
+        
+    def set_hp(self, novo_hp):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            # Busca o id_inst mais recente para o protagonista
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET hp_atual = %s WHERE id_inst = %s", (novo_hp, id_inst))
+                conn.commit()
+                
+    def get_str(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT str_atual FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            return cur.fetchone()
 
     def get_conn(self):
         return psycopg.connect(**self.db_params)
@@ -138,7 +163,7 @@ class EstadoNormal:
             nome = self.G.nodes[self.localAtual]["nome"]
             fome_atual, fome_max = self.get_fome()
             sede_atual, sede_max = self.get_sede()
-            print(f'\nVocê se encontra no(a) {nome}.')
+            print(f'Você se encontra no(a) {nome}.')
             print(f'Fome: {fome_atual}/{fome_max}')
             print(f'Sede: {sede_atual}/{sede_max}\n')
 
@@ -168,10 +193,15 @@ class EstadoNormal:
             elif acao == 'DEBUG: Adicionar moedas':
                 self.adicionar_moedas_debug()
             else:
-                self.opcoes[acao]()
-
+                resultado_acao = self.opcoes[acao]()
+                
+                if resultado_acao == "derrota_protagonista":
+                    self.derrota_prota()
+                    break
+    
     def andar(self):
-        return andar(self)
+        lol = andar(self)
+        return lol
 
     def base(self):
         nome_local = self.G.nodes[self.localAtual]["nome"]
@@ -182,9 +212,31 @@ class EstadoNormal:
             print('\nVocê não está na sua base para examinar!\n')
 
         input('Pressione Enter para continuar.')
+        
+    def iniciar_luta(self, inimigos):
+        from frontend.Luta import Luta
+        luta = Luta(self.get_conn(), self, inimigos)
+        return luta.luta_turno_prota()
+        
+    def print_clr(self, string):
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(string)
+        
+    def tentar_fuga(self):
+        return random.random() < 0.5
 
     def explorar(self):
         return explorar(self)
+    
+    def derrota_prota(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("DELETE FROM inst_ser")
+            cur.execute("DELETE FROM inventario")
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            id_inst = cur.fetchone()[0]
+            cur.execute("DELETE FROM inst_prota WHERE id_ser = %s AND id_inst = %s", (self.id_prota, id_inst))
+            conn.commit()
 
     def end(self):
         pass
