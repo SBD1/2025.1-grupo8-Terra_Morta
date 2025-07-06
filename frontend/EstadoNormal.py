@@ -94,6 +94,23 @@ class EstadoNormal:
                 cur.execute("UPDATE inst_prota SET fome_atual = %s WHERE id_inst = %s", (nova_fome, id_inst))
                 conn.commit()
 
+    def get_radiacao(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT rad_atual FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            return row[0] if row else 0
+
+    def set_radiacao(self, nova_radiacao):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            if row:
+                id_inst = row[0]
+                cur.execute("UPDATE inst_prota SET rad_atual = %s WHERE id_inst = %s", (nova_radiacao, id_inst))
+                conn.commit()
+
     def set_localizacao(self, novo_local):
         with self.get_conn() as conn:
             cur = conn.cursor()

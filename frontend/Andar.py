@@ -41,9 +41,16 @@ def andar(self):
         input("Pressione Enter para continuar.")
     else:
         self.set_fome(nova_fome)
+        # Atualiza radiação
+        nivel_rad = self.G.nodes[destino].get("nivel_rad", 0)
+        if hasattr(self, 'get_radiacao') and hasattr(self, 'set_radiacao'):
+            rad_atual = self.get_radiacao()
+            self.set_radiacao(rad_atual + nivel_rad)
+        elif hasattr(self, 'radiacao'):
+            self.radiacao = getattr(self, 'radiacao', 0) + nivel_rad
+        print(f'\nVocê foi para {self.G.nodes[destino]["nome"]}, isso custou {custo} de fome e {nivel_rad} de radiação.\n')
         self.set_localizacao(destino)
         self.localAtual = destino
-        print(f'\nVocê foi para {self.G.nodes[destino]["nome"]}, isso custou {custo} de fome.\n')
         input("Pressione Enter para continuar.")
 
     # Encontro com inimigos ao chegar no novo local

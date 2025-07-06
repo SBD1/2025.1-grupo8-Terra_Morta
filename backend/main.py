@@ -44,14 +44,14 @@ cur = conn.cursor()
 id_escolhido = escolher_protagonista(conn)
 
 # Consulta os pontos de interesse
-cur.execute("SELECT id_pi, nome FROM ponto_de_interesse")
+cur.execute("SELECT id_pi, nome, nivel_rad FROM ponto_de_interesse")
 pontos = cur.fetchall()
 
 # Cria o grafo não direcionado
 G = nx.Graph()
 
-# Adiciona os nós no grafo
-G.add_nodes_from([(id_pi, {"nome": nome}) for (id_pi, nome) in pontos])
+# Adiciona os nós no grafo, incluindo nivel_rad 
+G.add_nodes_from([(id_pi, {"nome": nome, "nivel_rad": int(float(nivel_rad))}) for (id_pi, nome, nivel_rad) in pontos])
 
 # Consulta as conexões entre os pontos
 cur.execute("SELECT origem, destino, custo FROM conexao")
