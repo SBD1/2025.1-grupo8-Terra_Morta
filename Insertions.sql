@@ -25,7 +25,7 @@ ALTER SEQUENCE instalacao_base_id_instalacao_seq RESTART WITH 1;
 -- 1. PONTOS DE INTERESSE
 -- =======================================
 INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
-('Base', 0),                              -- ID: 1
+('Base', 0),                             -- ID: 1
 ('Travessia da Poeira', 1),              -- ID: 2
 ('Posto de Vigia Abandonado', 1),        -- ID: 3
 ('Cidade Fantasma', 2),                  -- ID: 4
@@ -37,7 +37,7 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Colinas Negras', 3),                   -- ID: 10
 ('Mercabunker', 0),                      -- ID: 11
 ('Poço de água', 0),                     -- ID: 12
-('Hospital Subterrâneo', 4),            -- ID: 13
+('Hospital Subterrâneo', 4),             -- ID: 13
 ('Aeroporto Militar', 5),                -- ID: 14
 ('Pátio do Ferro-Velho', 1),             -- ID: 15
 ('Lugar Algum', 0),                      -- ID: 16
@@ -45,22 +45,22 @@ INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
 ('Estação de Tratamento de Água', 2),    -- ID: 18
 
 -- Rota dos Nigrum Sanguinem
-('Portão Esquecido', 9),                -- ID: 19
-('Vales da Praga', 9),                  -- ID: 20
-('Santuário da Desfiguração', 19),       -- ID: 21
-('Coração de Sanguinem', 29),            -- ID: 22
+('Portão Esquecido', 10),                -- ID: 19
+('Vales da Praga', 10),                  -- ID: 20
+('Santuário da Desfiguração', 20),       -- ID: 21
+('Coração de Sanguinem', 30),            -- ID: 22
 
 -- Rota da Hidra de Carne
 ('Brejo Mórbido', 5),                    -- ID: 23
-('Trilho Encharcado', 15),              -- ID: 24
-('Covil da Hidra de Carne', 30);         -- ID: 25
+('Trilho Encharcado', 15),               -- ID: 24
+('Covil da Hidra de Carne', 30),         -- ID: 56
 
 -- ROTA da Omni-Mente
 
-('Túnel de Rastro Químico', 10),     -- ID: 26
-('Ninho de Operárias', 15),          -- ID: 27
-('Centro de Comando Feromon', 20),    -- ID: 28
-('Trono da Omni-Mente', 35);         -- ID: 29
+('Túnel de Rastro Químico', 10),         -- ID: 26
+('Ninho de Operárias', 15),              -- ID: 27
+('Centro de Comando Feromon', 20),       -- ID: 28
+('Trono da Omni-Mente', 35);             -- ID: 29
 
 -- =======================================
 -- 2. ITENS COLETÁVEIS, EQUIPAMENTOS E MUTAÇÕES (usando procedures)
