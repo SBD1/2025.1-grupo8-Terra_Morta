@@ -5,6 +5,8 @@ from frontend.Andar import andar
 from frontend.Explorar import explorar
 from frontend.Loja import Loja
 from frontend.Inventario import Inventario
+from frontend.Mutacao import Mutacao
+from frontend.Equipamento import Equipamento
 
 
 
@@ -32,12 +34,15 @@ class EstadoNormal:
         self.db_params = db_params
         self.loja_obj = Loja(self)
         self.inventario_obj = Inventario(self)
+        self.mutacao_obj = Mutacao(self)
+        self.equipamento_obj = Equipamento(self)
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
             'Explorar o local': self.explorar,
             'Inventário': self.inventario_obj.visualizar_inventario,
-            'Equipamentos Atuais': self.inventario_obj.visualizar_equipamentos_atuais,
+            'Equipamentos Atuais': self.equipamento_obj.visualizar_equipamentos_atuais,
+            'Mutações Atuais': self.mutacao_obj.visualizar_mutacoes_atuais,
             'Retornar ao menu principal': self.end
         }
 
@@ -127,6 +132,12 @@ class EstadoNormal:
                 self.loja()
             elif acao == 'DEBUG: Adicionar moedas':
                 self.adicionar_moedas_debug()
+            elif acao == 'Inventário':
+                self.inventario_obj.visualizar_inventario()
+            elif acao == 'Equipamentos Atuais':
+                self.equipamento_obj.visualizar_equipamentos_atuais()
+            elif acao == 'Mutações Atuais':
+                self.mutacao_obj.visualizar_mutacoes_atuais()
             else:
                 self.opcoes[acao]()
 
