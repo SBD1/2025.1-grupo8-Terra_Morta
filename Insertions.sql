@@ -188,9 +188,9 @@ INSERT INTO conexao(
 (1,3,5),         -- Base → Posto de Vigia Abandonado
 (1,4,5),         -- Base → Cidade Fantasma
 (1,2,7),         -- Base → Travessia da Poeira
-(2,16,9),        -- Travessia da Poeira → Pátio do Ferro-Velho
+(2,15,9),        -- Travessia da Poeira → Pátio do Ferro-Velho 
 (3,6,8),         -- Posto de Vigia Abandonado → Subúrbio dos Esquecidos
-(4,13,7),        -- Cidade Fantasma → Poço de água
+(4,12,7),        -- Cidade Fantasma → Poço de água 
 (5,9,7),        -- Terra Chamuscada → Cemitério das Máquinas
 (5,10,8),        -- Terra Chamuscada → Colinas Negras
 (5,11,7),        -- Terra Chamuscada → Mercabunker
