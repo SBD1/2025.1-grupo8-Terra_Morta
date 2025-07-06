@@ -7,6 +7,7 @@ from frontend.Loja import Loja
 from frontend.Inventario import Inventario
 from frontend.Mutacao import Mutacao
 from frontend.Equipamento import Equipamento
+from frontend.Atributos import Atributos
 
 
 
@@ -36,6 +37,7 @@ class EstadoNormal:
         self.inventario_obj = Inventario(self)
         self.mutacao_obj = Mutacao(self)
         self.equipamento_obj = Equipamento(self)
+        self.atributos_obj = Atributos(self)
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
@@ -43,6 +45,7 @@ class EstadoNormal:
             'Inventário': self.inventario_obj.visualizar_inventario,
             'Equipamentos Atuais': self.equipamento_obj.visualizar_equipamentos_atuais,
             'Mutações Atuais': self.mutacao_obj.visualizar_mutacoes_atuais,
+            'Atributos do Protagonista': self.atributos_obj.visualizar_atributos,
             'Retornar ao menu principal': self.end
         }
 
