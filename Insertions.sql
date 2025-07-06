@@ -25,25 +25,42 @@ ALTER SEQUENCE instalacao_base_id_instalacao_seq RESTART WITH 1;
 -- 1. PONTOS DE INTERESSE
 -- =======================================
 INSERT INTO ponto_de_interesse (nome,  nivel_rad) VALUES
-('Base', 0),
-('Travessia da Poeira', 1),
-('Posto de Vigia Abandonado', 1),
-('Cidade Fantasma', 2),
-('Terra Chamuscada', 1),
-('Subúrbio dos Esquecidos', 2),
-('Nigrum Sanguinem', 30),
-('Base dos Pisa Poeira', 0),
-('Escola Amanhecer Dourado', 1),
-('Cemitério das Máquinas', 3),
-('Colinas Negras', 3),
-('Mercabunker', 0),
-('Poço de água', 0),
-('Hospital Subterrâneo', 4),
-('Aeroporto Militar', 5),
-('Pátio do Ferro-Velho', 1),
-('Lugar Algum', 0),
-('Mêtro do Surfista', 0),
-('Estação de Tratamento de Água', 2);
+('Base', 0),                              -- ID: 1
+('Travessia da Poeira', 1),              -- ID: 2
+('Posto de Vigia Abandonado', 1),        -- ID: 3
+('Cidade Fantasma', 2),                  -- ID: 4
+('Terra Chamuscada', 1),                 -- ID: 5
+('Subúrbio dos Esquecidos', 2),          -- ID: 6
+('Base dos Pisa Poeira', 0),             -- ID: 7
+('Escola Amanhecer Dourado', 1),         -- ID: 8
+('Cemitério das Máquinas', 3),           -- ID: 9
+('Colinas Negras', 3),                   -- ID: 10
+('Mercabunker', 0),                      -- ID: 11
+('Poço de água', 0),                     -- ID: 12
+('Hospital Subterrâneo', 4),            -- ID: 13
+('Aeroporto Militar', 5),                -- ID: 14
+('Pátio do Ferro-Velho', 1),             -- ID: 15
+('Lugar Algum', 0),                      -- ID: 16
+('Mêtro do Surfista', 0),                -- ID: 17
+('Estação de Tratamento de Água', 2),    -- ID: 18
+
+-- Rota dos Nigrum Sanguinem
+('Portão Esquecido', 9),                -- ID: 19
+('Vales da Praga', 9),                  -- ID: 20
+('Santuário da Desfiguração', 19),       -- ID: 21
+('Coração de Sanguinem', 29),            -- ID: 22
+
+-- Rota da Hidra de Carne
+('Brejo Mórbido', 5),                    -- ID: 23
+('Trilho Encharcado', 15),              -- ID: 24
+('Covil da Hidra de Carne', 30);         -- ID: 25
+
+-- ROTA da Omni-Mente
+
+('Túnel de Rastro Químico', 10),     -- ID: 26
+('Ninho de Operárias', 15),          -- ID: 27
+('Centro de Comando Feromon', 20),    -- ID: 28
+('Trono da Omni-Mente', 35);         -- ID: 29
 
 -- =======================================
 -- 2. ITENS COLETÁVEIS
@@ -135,23 +152,43 @@ INSERT INTO prota (
 INSERT INTO conexao(
     origem,destino,custo
 ) VALUES
-(1,5,5),
-(1,3,5),
-(1,4,5),
-(1,2,7),
-(2,16,9),
-(3, 6, 8),
-(4,13,7),
-(5,10,7),
-(5,11,8),
-(5,12,7),
-(6, 7, 4),
-(11,19,10),
-(13,17,9),
-(13,14,20),
-(14,15,30),
-(16,8,20),
-(16,9,30);
+(1,5,5),         -- Base → Terra Chamuscada
+(1,3,5),         -- Base → Posto de Vigia Abandonado
+(1,4,5),         -- Base → Cidade Fantasma
+(1,2,7),         -- Base → Travessia da Poeira
+(2,16,9),        -- Travessia da Poeira → Pátio do Ferro-Velho
+(3,6,8),         -- Posto de Vigia Abandonado → Subúrbio dos Esquecidos
+(4,13,7),        -- Cidade Fantasma → Poço de água
+(5,9,7),        -- Terra Chamuscada → Cemitério das Máquinas
+(5,10,8),        -- Terra Chamuscada → Colinas Negras
+(5,11,7),        -- Terra Chamuscada → Mercabunker
+(10,18,10),      -- Colinas Negras → Estação de Tratamento de Água
+(12,16,9),       -- Poço de água → Lugar Algum
+(12,13,20),      -- Poço de água → Hospital Subterrâneo
+(13,14,30),      -- Hospital Subterrâneo → Aeroporto Militar
+(15,7,20),       -- Pátio do Ferro-Velho → Base dos Pisa Poeira
+(15,8,30),       -- Pátio do Ferro-Velho → Escola Amanhecer Dourado
+(18,17,8),         -- Estação de Tratamento de Água → Mêtro do Surfista
+(17,9,10);        -- Mêtro do Surfista → Cemitério das Máquinas
+
+-- Rota dos Nigrum Sanguinem
+(3, 19, 10),         -- Posto de Vigia Abandonado → Portão Esquecido
+(19, 20, 12),         -- Portão Esquecido → Vales da Praga
+(20, 21, 15),        -- Vales da Praga → Santuário da Desfiguração
+(21, 22, 20),        -- Santuário da Desfiguração → Coração de Sanguinem
+
+-- Rota da Hidra de Carne
+(12, 23, 15),         -- Poço de Água → Brejo Mórbido
+(13, 23, 12),         -- Hospital Subterrâneo → Brejo Mórbido
+(23, 24, 20),        -- Brejo Mórbido → Trilho Encharcado
+(24, 25, 20),        -- Trilho Encharcado → Covil da Hidra de Carne
+
+-- Rota da Omni-Mente
+(10, 26, 10),         -- Colinas Negras → Túnel de Rastro Químico
+(26, 27, 10),         -- Túnel de Rastro Químico → Ninho de Operárias
+(27, 28, 15),        -- Ninho de Operárias → Centro de Comando Feromon
+(28, 29, 20),        -- Centro de Comando Feromon → Trono da Omni-Mente
+(26, 28, 15);         -- Túnel de Rastro Químico → Centro de Comando Feromon 
 
 -- =======================================
 -- 8. FACÇÕES
