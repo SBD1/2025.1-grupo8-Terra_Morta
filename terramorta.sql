@@ -97,6 +97,7 @@ CREATE TABLE npc_dropa(
 CREATE TABLE coletavel(
     id_item SMALLINT PRIMARY KEY NOT NULL,
     nome CHAR(50) NOT NULL,
+    preco INT NOT NULL,
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 
@@ -105,6 +106,7 @@ create table equipamento(
 	nome char(50) not null,
 	nivel smallint not null,
 	parte_corpo char(4),
+	preco INT NOT NULL,
 	FOREIGN KEY (id_equip) REFERENCES item_controle(id_item)
 );
 
