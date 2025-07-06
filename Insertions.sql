@@ -465,7 +465,47 @@ SELECT criar_encontro(999, 1, 22, NULL::INT, '5', '100'); -- 1 Avatar do Núcleo
 -- =======================================
 
 SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida, ele pegou um pouco... e recuperou 10 de fome!', 3, NULL::INT, '1', '25');  -- PI 3: Fogueira (recupera fome)
-
+SELECT criar_acontecimento_mundo(NULL, 10, 'Você encontrou uma fogueira com comida, recuperou 10 de fome!', 3, NULL::INT, '1', '25');
+SELECT criar_acontecimento_mundo(NULL, 8, 'Achou uma garrafa d''água esquecida, recuperou 8 de sede!', 3, NULL::INT, '1', '20');
+SELECT criar_acontecimento_mundo(NULL, 12, 'Você tropeçou em destroços e se feriu, perdeu 12 de vida.', 2, NULL::INT, '1', '15');
+SELECT criar_acontecimento_mundo(NULL, 5, 'Passou por uma área contaminada, ganhou 5 de radiação.', 2, NULL::INT, '1', '10');
+SELECT criar_acontecimento_mundo(NULL, -7, 'Ratos roubaram parte da sua comida, perdeu 7 de fome.', 2, NULL::INT, '1', '10');
+SELECT criar_acontecimento_mundo(NULL, -6, 'Derramou sua água, perdeu 6 de sede.', 2, NULL::INT, '1', '10');
+SELECT criar_acontecimento_mundo(NULL, 15, 'Descansou em um abrigo seguro, recuperou 15 de vida.', 2, NULL::INT, '1', '10');
+SELECT criar_acontecimento_mundo(NULL, -4, 'Encontrou um antídoto, perdeu 4 de radiação.', 2, NULL::INT, '1', '10');
+SELECT criar_acontecimento_mundo(NULL, 20, 'Banquete improvisado! Recuperou 20 de fome.', 1, NULL::INT, '1', '5');
+SELECT criar_acontecimento_mundo(NULL, 10, 'Chuva inesperada, recuperou 10 de sede.', 1, NULL::INT, '1', '5');
+SELECT criar_acontecimento_mundo(NULL, 7, 'Você encontrou frutas silvestres e recuperou 7 de fome.', 2, NULL::INT, '2', '18');
+SELECT criar_acontecimento_mundo(NULL, 5, 'Bebeu água de uma poça, recuperou 5 de sede, mas sente-se estranho.', 2, NULL::INT, '2', '15');
+SELECT criar_acontecimento_mundo(NULL, -8, 'Sua comida estragou, perdeu 8 de fome.', 2, NULL::INT, '2', '10');
+SELECT criar_acontecimento_mundo(NULL, 6, 'Descansou sob uma sombra, recuperou 6 de vida.', 2, NULL::INT, '2', '12');
+SELECT criar_acontecimento_mundo(NULL, 3, 'Achou um cantil velho, recuperou 3 de sede.', 2, NULL::INT, '3', '10');
+SELECT criar_acontecimento_mundo(NULL, 4, 'Encontrou cogumelos comestíveis, recuperou 4 de fome.', 2, NULL::INT, '3', '10');
+SELECT criar_acontecimento_mundo(NULL, -5, 'Foi atacado por insetos, perdeu 5 de vida.', 2, NULL::INT, '3', '8');
+SELECT criar_acontecimento_mundo(NULL, 2, 'Choveu, recuperou 2 de sede.', 2, NULL::INT, '1', '7');
+SELECT criar_acontecimento_mundo(NULL, 8, 'Encontrou um abrigo improvisado, recuperou 8 de vida.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -3, 'Perdeu parte da água ao atravessar destroços, perdeu 3 de sede.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 6, 'Achou um pacote de biscoitos, recuperou 6 de fome.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 5, 'Bebeu água de chuva, recuperou 5 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -4, 'Foi picado por um animal, perdeu 4 de vida.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 3, 'Encontrou um pouco de comida enlatada, recuperou 3 de fome.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 2, 'Achou um pouco de água, recuperou 2 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -2, 'Teve um pesadelo, perdeu 2 de vida.', 2, NULL::INT, '1', '7');
+SELECT criar_acontecimento_mundo(NULL, 9, 'Descansou em um banco, recuperou 9 de vida.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -6, 'Foi surpreendido por um ladrão, perdeu 6 de fome.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 4, 'Achou um filtro de água, recuperou 4 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 7, 'Encontrou um esconderijo com comida, recuperou 7 de fome.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -5, 'Foi exposto à radiação, ganhou 5 de radiação.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 6, 'Achou um kit de primeiros socorros, recuperou 6 de vida.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 3, 'Encontrou uma fonte limpa, recuperou 3 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -4, 'Teve um mal-estar, perdeu 4 de vida.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 5, 'Achou um saco de arroz, recuperou 5 de fome.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 2, 'Bebeu água de um poço, recuperou 2 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -3, 'Foi atacado por um animal selvagem, perdeu 3 de vida.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 8, 'Encontrou um refúgio seguro, recuperou 8 de vida.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, -7, 'Foi roubado durante a noite, perdeu 7 de fome.', 2, NULL::INT, '1', '8');
+SELECT criar_acontecimento_mundo(NULL, 4, 'Achou um galão de água, recuperou 4 de sede.', 2, NULL::INT, '1', '1');
+SELECT criar_acontecimento_mundo(NULL, 10, 'Banquete inesperado! Recuperou 10 de fome.', 2, NULL::INT, '1', '1');
 -- =======================================
 -- 13. MODIFICADORES DE EQUIPAMENTOS E MUTAÇÕES
 -- =======================================

@@ -24,18 +24,34 @@ def processar_acontecimentos(conn, id_pi, estado):
     # Executa o acontecimento de maior valor (pode ser alterado para outro critério)
     id_evento, valor, texto = max(ativados, key=lambda x: x[1])
     print(f"\n{texto}")
-    # Exemplo de efeitos: dano na vida, recuperar fome, sede, etc.
+    # Efeitos: dano/recuperação de vida, fome, sede, radiação
     if 'vida' in texto:
-        hp_atual, hp_max = estado.get_fome()  # Substitua por get_hp se existir
-        novo_hp = max(0, hp_atual - valor)
-        # estado.set_hp(novo_hp)  # Implemente se necessário
+        hp = estado.get_hp()
+        if hp:
+            hp_atual, hp_max = hp
+            novo_hp = max(0, min(hp_max, hp_atual + valor))
+            estado.set_hp(novo_hp)
     elif 'fome' in texto:
-        fome_atual, fome_max = estado.get_fome()
-        novo_fome = min(fome_max, fome_atual + valor)
-        estado.set_fome(novo_fome)
+        fome = estado.get_fome()
+        if fome:
+            fome_atual, fome_max = fome
+            novo_fome = max(0, min(fome_max, fome_atual + valor))
+            estado.set_fome(novo_fome)
     elif 'sede' in texto:
-        pass
-    elif 'radiação' in texto:
-        pass
+        sede = estado.get_sede()
+        if sede:
+            sede_atual, sede_max = sede
+            novo_sede = max(0, min(sede_max, sede_atual + valor))
+            estado.set_sede(novo_sede)
+    elif 'radiação' in texto or 'radiacao' in texto:
+        rad = estado.get_radiacao()
+        # get_radiacao pode retornar só o valor atual
+        if isinstance(rad, tuple):
+            rad_atual, rad_max = rad
+        else:
+            rad_atual = rad
+            rad_max = 100  # valor padrão se não houver máximo
+        novo_rad = max(0, min(rad_max, rad_atual + valor))
+        estado.set_radiacao(novo_rad)
     input('Pressione Enter para continuar.')
     return True
