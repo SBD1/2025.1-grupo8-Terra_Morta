@@ -60,6 +60,7 @@ conexao = cur.fetchall()
 # Adiciona as arestas ao grafo (com peso)
 for origem, destino, custo in conexao:
     G.add_edge(origem, destino, weight=custo)
+    G.add_edge(destino, origem, weight=custo)  # Garante bidirecionalidade
 
 # Fecha a conexão
 cur.close()
