@@ -140,6 +140,20 @@ class Luta:
             self.conn.commit()
             
     def deletar_inst_ser(self, id_inst_ser):
+        # Antes de deletar, verifica se há missão ativa para esse inimigo
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT id_ser FROM inst_ser WHERE id_inst = %s", (id_inst_ser,))
+            row = cur.fetchone()
+            if row:
+                id_ser = row[0]
+                # Busca missões ativas para esse id_ser
+                from frontend.Missoes import Missoes
+                missoes = self.estado.missoes_obj.listar_missoes()
+                for missao in missoes:
+                    id_evento, tipo, alvo, quantidade, status, recompensas, *_ = missao
+                    if tipo == 'MATAR' and alvo == id_ser:
+                        self.estado.missoes_obj.incrementar_progresso(id_evento)
+        # Agora deleta normalmente
         with self.conn.cursor() as cur:
             cur.execute("DELETE FROM inst_ser WHERE id_inst = %s", (id_inst_ser,))
             self.conn.commit()

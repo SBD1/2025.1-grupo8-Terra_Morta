@@ -525,3 +525,51 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 (17, 'def', 4),      -- Pele Resistente: +4 defesa
 (18, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
 (19, 'atk', 3);      -- Garras Afiadas: +3 ataque
+
+-- =======================================
+-- 14. MISSÕES DE MATAR INIMIGOS POR MOEDAS
+-- =======================================
+-- Exemplo: matar 3 baratas mutantes (id 101) para ganhar 20 moedas
+SELECT criar_missao_matar(101, 3, 1, '1', '100', '{"moeda":20}', NULL);
+-- Matar 2 ratos carniceiros (id 103) para ganhar 15 moedas
+SELECT criar_missao_matar(103, 2, 1, '1', '100', '{"moeda":15}', NULL);
+-- Matar 1 cachorro faminto (id 102) para ganhar 10 moedas
+SELECT criar_missao_matar(102, 1, 1, '1', '100', '{"moeda":10}', NULL);
+-- Matar 2 catadores (id 107) para ganhar 25 moedas
+SELECT criar_missao_matar(107, 2, 1, '1', '100', '{"moeda":25}', NULL);
+-- Matar 1 robô de segurança (id 202) para ganhar 30 moedas
+SELECT criar_missao_matar(202, 1, 1, '1', '100', '{"moeda":30}', NULL);
+
+-- Barata Mutante
+SELECT criar_missao_matar(101, 3, 1, '1', '100', '{"moeda":20}', NULL); -- id_evento = A
+SELECT criar_missao_matar(101, 15, 1, '1', '100', '{"moeda":100}', NULL); -- id_evento = B
+-- UPDATE missao SET prox = B WHERE id_evento = A;
+-- UPDATE missao SET status = 'C' WHERE id_evento = B;
+
+-- Rato Carniceiro
+SELECT criar_missao_matar(103, 2, 1, '1', '100', '{"moeda":15}', NULL); -- id_evento = C
+SELECT criar_missao_matar(103, 10, 1, '1', '100', '{"moeda":70}', NULL); -- id_evento = D
+-- UPDATE missao SET prox = D WHERE id_evento = C;
+-- UPDATE missao SET status = 'C' WHERE id_evento = D;
+
+-- Catador
+SELECT criar_missao_matar(107, 2, 1, '1', '100', '{"moeda":25}', NULL); -- id_evento = E
+SELECT criar_missao_matar(107, 8, 1, '1', '100', '{"moeda":90}', NULL); -- id_evento = F
+-- UPDATE missao SET prox = F WHERE id_evento = E;
+-- UPDATE missao SET status = 'C' WHERE id_evento = F;
+
+-- Robô de Segurança
+SELECT criar_missao_matar(202, 1, 1, '1', '100', '{"moeda":30}', NULL); -- id_evento = G
+SELECT criar_missao_matar(202, 5, 1, '1', '100', '{"moeda":150}', NULL); -- id_evento = H
+-- UPDATE missao SET prox = H WHERE id_evento = G;
+-- UPDATE missao SET status = 'C' WHERE id_evento = H;
+
+-- Cachorro Faminto
+SELECT criar_missao_matar(102, 1, 1, '1', '100', '{"moeda":10}', NULL); -- id_evento = I
+SELECT criar_missao_matar(102, 6, 1, '1', '100', '{"moeda":50}', NULL); -- id_evento = J
+-- UPDATE missao SET prox = J WHERE id_evento = I;
+-- UPDATE missao SET status = 'C' WHERE id_evento = J;
+
+-- Chama procedure para resetar status das missões de matar
+CALL resetar_status_missoes_matar();
+

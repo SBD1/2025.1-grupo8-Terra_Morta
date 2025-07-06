@@ -260,3 +260,26 @@ BEGIN
     RETURN novo_id;
 END;
 $$ LANGUAGE plpgsql;
+
+-- =======================================
+-- Procedure para resetar status das missões de matar
+-- =======================================
+CREATE OR REPLACE PROCEDURE resetar_status_missoes_matar()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Deixa todas as missões de matar como inativas
+    UPDATE missao SET status = 'C' WHERE id_evento IN (
+        SELECT m.id_evento FROM missao m
+        JOIN requisitos r ON m.id_requisito = r.id_requisito
+        WHERE r.tipo = 'MATAR'
+    );
+    -- Ativa apenas as primeiras missões de cada cadeia (menor id_evento para cada alvo)
+    UPDATE missao SET status = 'A' WHERE id_evento IN (
+        SELECT MIN(m.id_evento) FROM missao m
+        JOIN requisitos r ON m.id_requisito = r.id_requisito
+        WHERE r.tipo = 'MATAR'
+        GROUP BY r.alvo
+    );
+END;
+$$;

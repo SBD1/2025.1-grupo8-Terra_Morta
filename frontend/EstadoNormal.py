@@ -9,6 +9,7 @@ from frontend.Inventario import Inventario
 from frontend.Mutacao import Mutacao
 from frontend.Equipamento import Equipamento
 from frontend.Atributos import Atributos
+from frontend.Missoes import Missoes
 
 
 
@@ -24,6 +25,7 @@ class EstadoNormal:
         self.mutacao_obj = Mutacao(self)
         self.equipamento_obj = Equipamento(self)
         self.atributos_obj = Atributos(self)
+        self.missoes_obj = Missoes(self)
         self.opcoes = {
             'Andar para outro local': self.andar,
             'Examinar a base': self.base,
@@ -32,6 +34,7 @@ class EstadoNormal:
             'Equipamentos Atuais': self.equipamento_obj.visualizar_equipamentos_atuais,
             'Mutações Atuais': self.mutacao_obj.visualizar_mutacoes_atuais,
             'Atributos do Protagonista': self.atributos_obj.visualizar_atributos,
+            'Missões': self.missoes_obj.menu_missoes,
             'Retornar ao menu principal': self.end
         }
     
@@ -156,6 +159,8 @@ class EstadoNormal:
             if "base" in nome.lower():
                 opcoes_menu.insert(1, "Acessar loja da base")
                 opcoes_menu.insert(2, "DEBUG: Adicionar moedas")
+                if 'Missões' not in opcoes_menu:
+                    opcoes_menu.insert(3, 'Missões')
 
             perguntas = [
                 inquirer.List(
@@ -183,6 +188,8 @@ class EstadoNormal:
                 self.equipamento_obj.visualizar_equipamentos_atuais()
             elif acao == 'Mutações Atuais':
                 self.mutacao_obj.visualizar_mutacoes_atuais()
+            elif acao == 'Missões':
+                self.missoes_obj.menu_missoes()
             else:
                 resultado_acao = self.opcoes[acao]()
                 
