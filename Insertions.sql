@@ -91,12 +91,13 @@ SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Colete de Couro' AS CHAR(
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 18);   -- id 12
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Espada Laser' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 0);        -- id 15
 
 -- Mutações (id 15+)
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 15
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 16
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 17
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 18
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 16
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 17
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 18
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 19
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));
 
 -- Utilizáveis
@@ -524,15 +525,17 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 (11, 'def', 8),      -- Colete de Couro: +8 defesa
 (12, 'dex', 3),      -- Luvas de Proteção: +3 destreza
 (13, 'def', 4),      -- Botas de Borracha: +4 defesa
-(14, 'carga', 10);   -- Calças Reforçadas: +10 carga
+(14, 'carga', 10),   -- Calças Reforçadas: +10 carga
+(15, 'str', 100);   -- Espada laser: +10 str
+
 
 -- Mutações
 INSERT INTO modificador (id_item, atributo, valor) VALUES
-(15, 'visao', 1),    -- Visão Noturna: +1 visão
-(16, 'str', 2),      -- Braço Extra: +2 força
-(17, 'def', 4),      -- Pele Resistente: +4 defesa
-(18, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
-(19, 'atk', 3);      -- Garras Afiadas: +3 ataque
+(16, 'visao', 1),    -- Visão Noturna: +1 visão
+(17, 'str', 2),      -- Braço Extra: +2 força
+(18, 'def', 4),      -- Pele Resistente: +4 defesa
+(19, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
+(20, 'atk', 3);      -- Garras Afiadas: +3 ataque
 
 -- =======================================
 -- 14. MISSÕES DE MATAR INIMIGOS POR MOEDAS
@@ -578,6 +581,12 @@ SELECT criar_missao_matar(102, 6, 1, '1', '100', '{"moeda":50}', NULL); -- id_ev
 -- UPDATE missao SET prox = J WHERE id_evento = I;
 -- UPDATE missao SET status = 'C' WHERE id_evento = J;
 
+-- Exemplo: entregar itens para ganhar moedas ou recompensas especiais
+SELECT criar_missao_entregar(2, 5, 1, '1', '100', '{"moeda":10}', NULL); -- Entregar 5 Madeiras para ganhar 10 moedas
+SELECT criar_missao_entregar(8, 3, 1, '1', '100', '{"moeda":15}', NULL); -- Entregar 3 Tecidos para ganhar 15 moedas
+SELECT criar_missao_entregar(9, 1, 1, '1', '100', '{"moeda":20}', NULL); -- Entregar 1 Sucata Eletrônica para ganhar 20 moedas
+SELECT criar_missao_entregar(4, 1, 1, '1', '100', '{"espada_laser":1}', NULL); -- id_evento = M
+
 -- Chama procedure para resetar status das missões de matar
 CALL resetar_status_missoes_matar();
 
@@ -591,4 +600,8 @@ INSERT INTO npc_dropa (id_item, id_ser, chance, quant) VALUES
 (2, 103, 50, 1), --madeira de ratos carniceiros
 (7, 107, 50, 2), --plastíco de catadores
 (8, 107, 36, 3), --tecido de catadores
-(9, 202, 75, 1); --sucata eletronica de robôs de segurança
+(9, 202, 75, 1), --sucata eletronica de robôs de segurança
+(4, 997, 100, 1), -- Núcleo Radioativo Fundido 
+(4, 998, 100, 1), -- Núcleo Radioativo Fundido 
+(4, 999, 100, 1); -- Núcleo Radioativo Fundido
+

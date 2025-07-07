@@ -74,6 +74,16 @@ class Missoes:
             for missao in completas:
                 id_evento, tipo, alvo, quantidade, status, recompensas, *resto = missao
                 recomp_dict = json.loads(recompensas) if recompensas else {}
+                if tipo == 'ENTREGAR':
+                    # Verifica se o protagonista tem itens suficientes no inventario
+                    cur.execute('SELECT quant FROM inventario WHERE id_item = %s', (alvo,))
+                    row = cur.fetchone()
+                    quant_inventario = row[0] if row else 0
+                    if quant_inventario < quantidade:
+                        print(f'Você não possui itens suficientes para completar a missão de entregar (precisa de {quantidade}, possui {quant_inventario}).')
+                        continue
+                    # Remove os itens do inventário
+                    cur.execute('UPDATE inventario SET quant = quant - %s WHERE id_item = %s', (quantidade, alvo))
                 moedas = recomp_dict.get('moeda', 0)
                 if moedas > 0:
                     cur.execute('UPDATE inventario SET quant = quant + %s WHERE id_item = 1', (moedas,))
