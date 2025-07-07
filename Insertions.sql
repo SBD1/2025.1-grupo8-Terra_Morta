@@ -314,11 +314,13 @@ INSERT INTO inteligente (
 -- 11. ENCONTROS COM INIMIGOS 
 -- =======================================
 
--- Encontros comuns
+SELECT criar_encontro(103, 1, 2, NULL::INT, '1', '50');
+-- ENCONTROS INICIAIS FÁCEIS (PI 2, 3, 4, 5)
+
+-- ENCONTROS INICIAIS FÁCEIS (PI 2, 3, 4, 5)
 
 -- PI 2: Travessia da Poeira
 SELECT criar_encontro(101, 2, 2, NULL::INT, '1', '30');  -- 2 Baratas Mutantes
-SELECT criar_encontro(103, 1, 2, NULL::INT, '1', '50');  -- 1 Rato Carniceiro
 SELECT criar_encontro(107, 1, 2, NULL::INT, '1', '60');  -- 1 Catador
 
 -- PI 3: Posto de Vigia Abandonado
@@ -521,21 +523,59 @@ SELECT criar_acontecimento_mundo(NULL, 10, 'Banquete inesperado! Recuperou 10 de
 -- Exemplo: (id_item, atributo, valor)
 -- Equipamentos
 INSERT INTO modificador (id_item, atributo, valor) VALUES
-(10, 'def', 5),      -- Capacete de Metal: +5 defesa
-(11, 'def', 8),      -- Colete de Couro: +8 defesa
-(12, 'dex', 3),      -- Luvas de Proteção: +3 destreza
-(13, 'def', 4),      -- Botas de Borracha: +4 defesa
-(14, 'carga', 10),   -- Calças Reforçadas: +10 carga
-(15, 'str', 100);   -- Espada laser: +10 str
+(10, 'def', 5),      -- Capacete de Metal: +5 defesa (nível 1)
+(11, 'def', 8),      -- Colete de Couro: +8 defesa (nível 1)
+(12, 'dex', 3),      -- Luvas de Proteção: +3 destreza (nível 1)
+(13, 'def', 4),      -- Botas de Borracha: +4 defesa (nível 1)
+(14, 'carga', 10),   -- Calças Reforçadas: +10 carga (nível 1)
+(15, 'str', 100);     -- Espada laser: +100 str (nível 1)
 
+-- Modificadores adicionais para equipamentos de múltiplos níveis (exemplo: se algum equipamento tiver mais de 1 nível, adicionar aqui)
+-- (No exemplo atual, todos os equipamentos estão como nível 1, então não há modificadores extras necessários)
 
 -- Mutações
 INSERT INTO modificador (id_item, atributo, valor) VALUES
-(16, 'visao', 1),    -- Visão Noturna: +1 visão
-(17, 'str', 2),      -- Braço Extra: +2 força
-(18, 'def', 4),      -- Pele Resistente: +4 defesa
-(19, 'dex', 2),      -- Pernas Saltadoras: +2 destreza
-(20, 'atk', 3);      -- Garras Afiadas: +3 ataque
+(16, 'visao', 1),    -- Visão Noturna: +1 visão (nível 1)
+(17, 'str', 2),      -- Braço Extra: +2 força (nível 1)
+(18, 'def', 2),      -- Pele Resistente: +2 defesa (nível 1)
+(19, 'dex', 2),      -- Pernas Saltadoras: +2 destreza (nível 1)
+(20, 'atk', 1);      -- Garras Afiadas: +1 ataque (nível 1)
+
+-- Modificadores adicionais para mutações de múltiplos níveis
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(17, 'dex', 2),      -- Braço Extra: +2 destreza (nível 2)
+(18, 'res_cort', 2), -- Pele Resistente: +2 resistência corte (nível 2)
+(19, 'pulo', 2);     -- Pernas Saltadoras: +2 pulo (nível 2)
+
+-- Peso dos Equipamentos
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(10, 'peso', 5),   -- Capacete de Metal: 5kg
+(11, 'peso', 8),   -- Colete de Couro: 8kg
+(12, 'peso', 2),   -- Luvas de Proteção: 2kg
+(13, 'peso', 3),   -- Botas de Borracha: 3kg
+(14, 'peso', 4),   -- Calças Reforçadas: 4kg
+(15, 'peso', 7);   -- Espada Laser: 7kg
+
+-- Peso dos Coletáveis
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(1, 'peso', 0),    -- Moeda: 0kg
+(2, 'peso', 1),    -- Madeira: 1kg
+(3, 'peso', 2),    -- Ferro: 2kg
+(4, 'peso', 3),    -- Núcleo Radioativo Fundido: 3kg
+(5, 'peso', 1),    -- Pele de Lagarto: 1kg
+(6, 'peso', 1),    -- Pedras: 1kg
+(7, 'peso', 1),    -- Plástico: 1kg
+(8, 'peso', 1),    -- Tecido: 1kg
+(9, 'peso', 1);    -- Sucata Eletrônica: 1kg
+
+-- Peso dos Utilizáveis
+INSERT INTO modificador (id_item, atributo, valor) VALUES
+(21, 'peso', 1),   -- Curativo: 1kg
+(22, 'peso', 2),   -- Kit de Primeiros Socorros: 2kg
+(23, 'peso', 1),   -- Carne Seca: 1kg
+(24, 'peso', 1),   -- Frutas em Conserva: 1kg
+(25, 'peso', 1),   -- Água Potável: 1kg
+(26, 'peso', 1);   -- Água Purificada: 1kg
 
 -- =======================================
 -- 14. MISSÕES DE MATAR INIMIGOS POR MOEDAS

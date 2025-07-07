@@ -159,9 +159,10 @@ create table mutacao_atual(
 );
 
 CREATE TABLE modificador(
-    id_item SMALLINT PRIMARY KEY NOT NULL,
+    id_item SMALLINT NOT NULL,
     atributo CHAR(50) NOT NULL,
     valor SMALLINT NOT NULL,
+    PRIMARY KEY (id_item, atributo),
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 

@@ -51,3 +51,37 @@ AFTER UPDATE OF status ON missao
 FOR EACH ROW
 WHEN (OLD.status <> 'F' AND NEW.status = 'F')
 EXECUTE FUNCTION ativar_proxima_missao();
+
+-- =======================================
+-- TRIGGER PARA ATUALIZAR STATUS AUTOMATICAMENTE
+-- =======================================
+
+-- Função trigger para equipamento_atual
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_equip() RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM atualizar_status_inst_prota(NEW.id_ser);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Função trigger para mutacao_atual
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_mut() RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM atualizar_status_inst_prota(NEW.id_ser);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Drop triggers antigos se existirem
+DROP TRIGGER IF EXISTS trigger_atualizar_status_equip ON equipamento_atual;
+DROP TRIGGER IF EXISTS trigger_atualizar_status_mut ON mutacao_atual;
+
+-- Trigger para atualizar status ao equipar equipamento
+CREATE TRIGGER trigger_atualizar_status_equip
+AFTER UPDATE OR INSERT ON equipamento_atual
+FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_equip();
+
+-- Trigger para atualizar status ao equipar mutação
+CREATE TRIGGER trigger_atualizar_status_mut
+AFTER UPDATE OR INSERT ON mutacao_atual
+FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_mut();
