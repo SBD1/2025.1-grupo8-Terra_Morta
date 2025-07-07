@@ -4,6 +4,15 @@ from frontend.Encontro_Inimigo import processar_encontros, lidar_com_inimigos_at
 
 def andar(self):
     os.system('cls' if os.name == 'nt' else 'clear')
+    # Verifica carga antes de permitir andar
+    with self.get_conn() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT carga_atual, carga_max FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+        row = cur.fetchone()
+        if row and row[0] > row[1]:
+            print(f'Você está sobrecarregado! Carga atual: {row[0]}/{row[1]}. Esvazie seu inventário para poder andar.')
+            input('Pressione Enter para continuar.')
+            return
     print('Para onde deseja ir?\n')
 
     vizinhos = sorted(self.G.neighbors(self.localAtual))

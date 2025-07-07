@@ -91,7 +91,7 @@ SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Colete de Couro' AS CHAR(
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 18);   -- id 12
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
-SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Espada Laser' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 0);        -- id 15
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Espada Laser' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 800);        -- id 15
 
 -- Mutações (id 15+)
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 16
@@ -527,7 +527,7 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 (11, 'def', 8),      -- Colete de Couro: +8 defesa (nível 1)
 (12, 'dex', 3),      -- Luvas de Proteção: +3 destreza (nível 1)
 (13, 'def', 4),      -- Botas de Borracha: +4 defesa (nível 1)
-(14, 'carga', 10),   -- Calças Reforçadas: +10 carga (nível 1)
+(14, 'def', 10),   -- Calças Reforçadas: +10 carga (nível 1)
 (15, 'str', 100);     -- Espada laser: +100 str (nível 1)
 
 -- Modificadores adicionais para equipamentos de múltiplos níveis (exemplo: se algum equipamento tiver mais de 1 nível, adicionar aqui)
@@ -535,17 +535,17 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 
 -- Mutações
 INSERT INTO modificador (id_item, atributo, valor) VALUES
-(16, 'visao', 1),    -- Visão Noturna: +1 visão (nível 1)
+(16, 'dex', 1),    -- Visão Noturna: +1 visão (nível 1)
 (17, 'str', 2),      -- Braço Extra: +2 força (nível 1)
 (18, 'def', 2),      -- Pele Resistente: +2 defesa (nível 1)
 (19, 'dex', 2),      -- Pernas Saltadoras: +2 destreza (nível 1)
-(20, 'atk', 1);      -- Garras Afiadas: +1 ataque (nível 1)
+(20, 'str', 1);      -- Garras Afiadas: +1 força (nível 1)
 
 -- Modificadores adicionais para mutações de múltiplos níveis
 INSERT INTO modificador (id_item, atributo, valor) VALUES
 (17, 'dex', 2),      -- Braço Extra: +2 destreza (nível 2)
 (18, 'res_cort', 2), -- Pele Resistente: +2 resistência corte (nível 2)
-(19, 'pulo', 2);     -- Pernas Saltadoras: +2 pulo (nível 2)
+(19, 'dex', 2);     -- Pernas Saltadoras: +2 pulo (nível 2)
 
 -- Peso dos Equipamentos
 INSERT INTO modificador (id_item, atributo, valor) VALUES
