@@ -24,7 +24,7 @@ class Missoes:
                     ELSE 'Desconhecido'
                 END as nome_alvo
                 FROM missao m
-                JOIN requisitos r ON m.id_requisito = r.id_requisito
+                JOIN requisito r ON m.id_requisito = r.id_requisito
                 WHERE m.status = 'A'
             ''')
             missoes = cur.fetchall()
@@ -39,7 +39,7 @@ class Missoes:
             # Descobre o alvo da missão
             cur.execute('''
                 SELECT r.alvo FROM missao m
-                JOIN requisitos r ON m.id_requisito = r.id_requisito
+                JOIN requisito r ON m.id_requisito = r.id_requisito
                 WHERE m.id_evento = %s
             ''', (id_evento,))
             alvo = cur.fetchone()

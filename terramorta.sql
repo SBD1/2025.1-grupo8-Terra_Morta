@@ -198,7 +198,7 @@ CREATE TABLE ocorre(
 
 CREATE TYPE status_enum AS ENUM ('C', 'A', 'F', 'N');
 
-CREATE TABLE requisitos (
+CREATE TABLE requisito (
     id_requisito SERIAL PRIMARY KEY,
     tipo VARCHAR(20) NOT NULL,      -- 'MATAR' ou 'ENTREGAR'
     alvo SMALLINT,
@@ -214,7 +214,7 @@ CREATE TABLE missao (
     prox SMALLINT,
     FOREIGN KEY (id_evento) REFERENCES evento(id_evento),
     FOREIGN KEY (prox) REFERENCES evento(id_evento),
-    FOREIGN KEY (id_requisito) REFERENCES requisitos(id_requisito)
+    FOREIGN KEY (id_requisito) REFERENCES requisito(id_requisito)
 );
 
 CREATE TABLE encontro (

@@ -77,7 +77,7 @@ BEGIN
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
     RETURNING id_evento INTO v_id_evento;
     -- Cria o requisito do tipo MATAR
-    INSERT INTO requisitos (tipo, alvo, quantidade)
+    INSERT INTO requisito (tipo, alvo, quantidade)
     VALUES ('MATAR', p_id_inimigo, p_quantidade)
     RETURNING id_requisito INTO v_id_requisito;
     -- Cria a missão vinculando ao requisito
@@ -107,7 +107,7 @@ BEGIN
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
     RETURNING id_evento INTO v_id_evento;
     -- Cria o requisito do tipo ENTREGAR
-    INSERT INTO requisitos (tipo, alvo, quantidade)
+    INSERT INTO requisito (tipo, alvo, quantidade)
     VALUES ('ENTREGAR', p_id_item, p_quantidade)
     RETURNING id_requisito INTO v_id_requisito;
     -- Cria a missão vinculando ao requisito
@@ -255,13 +255,13 @@ BEGIN
     -- Deixa todas as missões de matar como inativas
     UPDATE missao SET status = 'C' WHERE id_evento IN (
         SELECT m.id_evento FROM missao m
-        JOIN requisitos r ON m.id_requisito = r.id_requisito
+        JOIN requisito r ON m.id_requisito = r.id_requisito
         WHERE r.tipo = 'MATAR'
     );
     -- Ativa apenas as primeiras missões de cada cadeia (menor id_evento para cada alvo)
     UPDATE missao SET status = 'A' WHERE id_evento IN (
         SELECT MIN(m.id_evento) FROM missao m
-        JOIN requisitos r ON m.id_requisito = r.id_requisito
+        JOIN requisito r ON m.id_requisito = r.id_requisito
         WHERE r.tipo = 'MATAR'
         GROUP BY r.alvo
     );

@@ -192,5 +192,5 @@ WHERE ip.id_ser = 15;
 -- Uso: Verificar pré-requisitos para disparar eventos
 -- ===========================
 SELECT r.req, r.status
-FROM requisitos r
+FROM requisito r
 WHERE r.id_evento = 8;
