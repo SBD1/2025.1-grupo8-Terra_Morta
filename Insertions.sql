@@ -573,3 +573,14 @@ SELECT criar_missao_matar(102, 6, 1, '1', '100', '{"moeda":50}', NULL); -- id_ev
 -- Chama procedure para resetar status das missões de matar
 CALL resetar_status_missoes_matar();
 
+-- =======================================
+-- 15. DROPS DE INIMIGOS
+-- =======================================
+-- Exemplo: (id_item, id_ser, chance, quantidade)
+-- Equipamentos
+INSERT INTO npc_dropa (id_item, id_ser, chance, quant) VALUES
+(1, 101, 100, 2), --moeda de baratas mutantes
+(2, 103, 50, 1), --madeira de ratos carniceiros
+(7, 107, 50, 2), --plastíco de catadores
+(8, 107, 36, 3), --tecido de catadores
+(9, 202, 75, 1); --sucata eletronica de robôs de segurança

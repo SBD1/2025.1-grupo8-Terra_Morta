@@ -89,6 +89,7 @@ CREATE TABLE npc_dropa(
     id_item SMALLINT NOT NULL,
     id_ser SMALLINT NOT NULL,
     chance SMALLINT NOT NULL,
+    quant SMALLINT NOT NULL,
     PRIMARY KEY(id_item,id_ser),
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item),
     FOREIGN KEY (id_ser) REFERENCES ser_controle(id_ser)

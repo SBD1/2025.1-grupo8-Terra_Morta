@@ -1,4 +1,5 @@
 import os
+import random
 import inquirer
 import psycopg
 
@@ -55,12 +56,12 @@ class Luta:
                     continue
         
         if not self.dados_inimigos:
-            self.estado.print_clr("Todos os inimigos foram derrotados! Você venceu a luta!\n")
+            print("Todos os inimigos foram derrotados! Você venceu a luta!\n")
             return "vitoria_protagonista"
         
     def luta_turno_inimigos(self):
         while self.dados_inimigos:
-            print(f'\nTurno dos Inimigos\n\nVida atual: {self.estado.get_hp()[0]}/{self.estado.get_hp()[1]}\n\nInimigos:')
+            print(f'Turno dos Inimigos\n\nVida atual: {self.estado.get_hp()[0]}/{self.estado.get_hp()[1]}\n\nInimigos:')
 
             # Turno dos inimigos
             for inimigo in self.dados_inimigos:
@@ -118,6 +119,7 @@ class Luta:
             self.estado.print_clr(f'Vôce atacou o {self.dados_inimigos[index_inst][3].strip()} e deu {hp_inimigo - new_hp} de dano!')
         else:
             self.estado.print_clr(f'Vôce matou o {self.dados_inimigos[index_inst][3].strip()}!\n')
+            self.inimigo_dropar(id_inst_ser)
             self.deletar_inst_ser(id_inst_ser)
             self.dados_inimigos.pop(index_inst)
         
@@ -139,6 +141,29 @@ class Luta:
             cur.execute("UPDATE inst_ser SET hp_atual = %s WHERE id_inst = %s", (novo_hp, id_inst_ser))
             self.conn.commit()
             
+    def inimigo_dropar(self, id_inst_ser):
+        with self.conn.cursor() as cur:
+            # Busca o id_ser do inimigo
+            cur.execute("SELECT id_ser FROM inst_ser WHERE id_inst = %s", (id_inst_ser,))
+            row = cur.fetchone()
+            if row:
+                id_ser = row[0]
+                # Busca os itens que o inimigo pode dropar
+                cur.execute("SELECT id_item, chance, quant FROM npc_dropa WHERE id_ser = %s", (id_ser,))
+                drops = cur.fetchall()
+                for id_item, chance, quant in drops:
+                    if random.randint(1, 100) <= chance:
+                        # Insere no inventário do protagonista
+                        cur.execute("SELECT quant FROM inventario WHERE id_item = %s LIMIT 1", (id_item,))
+                        row = cur.fetchone()
+                        if row:
+                            cur.execute("UPDATE inventario SET quant = quant + %s WHERE id_item = %s", (quant, id_item,))
+                        else:
+                            cur.execute("INSERT INTO inventario (id_item, quant) VALUES (%s, %s)", (id_item, quant))
+                        print(f"Você obteve {quant} {self.get_item_name(id_item)}(s) do inimigo!\n")
+            self.conn.commit()
+
+            
     def deletar_inst_ser(self, id_inst_ser):
         # Antes de deletar, verifica se há missão ativa para esse inimigo
         with self.conn.cursor() as cur:
@@ -157,6 +182,19 @@ class Luta:
         with self.conn.cursor() as cur:
             cur.execute("DELETE FROM inst_ser WHERE id_inst = %s", (id_inst_ser,))
             self.conn.commit()
+            
+    def get_item_name(self, id_item):
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT nome FROM coletavel WHERE id_item = %s", (id_item,))
+            row = cur.fetchone()
+            if row:
+                return row[0].strip()
+            else:
+                cur.execute("SELECT nome FROM equipamento WHERE id_equip = %s", (id_item,))
+                row = cur.fetchone()
+                if row:
+                    return row[0].strip()
+        return "Item Desconhecido"
         
     def end(self):
         pass

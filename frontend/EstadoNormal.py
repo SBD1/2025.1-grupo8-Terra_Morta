@@ -149,9 +149,11 @@ class EstadoNormal:
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')
             nome = self.G.nodes[self.localAtual]["nome"]
+            hp_atual, hp_max = self.get_hp()
             fome_atual, fome_max = self.get_fome()
             sede_atual, sede_max = self.get_sede()
             print(f'Você se encontra no(a) {nome}.')
+            print(f'Vida: {hp_atual}/{hp_max}')
             print(f'Fome: {fome_atual}/{fome_max}')
             print(f'Sede: {sede_atual}/{sede_max}\n')
 
