@@ -47,7 +47,38 @@ class Inventario:
         id_item, nome, quant, tipo = itens[idx]
         print(f"\n--- Detalhes do item ---")
         print(f"Nome: {nome.strip()} (ID: {id_item})\nQuantidade: {quant}")
+        acoes = []
         if tipo == 'equipamento':
+            acoes = ["Equipar", "Destruir", "Voltar"]
+        elif tipo == 'utilizavel':
+            acoes = ["Consumir", "Destruir", "Voltar"]
+        else:
+            acoes = ["Destruir", "Voltar"]
+        os.system('cls' if os.name == 'nt' else 'clear')  # Limpa terminal ao entrar no submenu de ações
+        perguntas_acao = [
+            inquirer.List(
+                'acao',
+                message="O que deseja fazer com este item?",
+                choices=acoes
+            )
+        ]
+        resposta_acao = inquirer.prompt(perguntas_acao)
+        if not resposta_acao or resposta_acao['acao'] == "Voltar":
+            return
+        acao = resposta_acao['acao']
+        if acao == "Destruir":
+            with self.get_conn() as conn:
+                cur = conn.cursor()
+                if quant > 1:
+                    cur.execute("UPDATE inventario SET quant = quant - 1 WHERE id_item = %s", (id_item,))
+                else:
+                    cur.execute("DELETE FROM inventario WHERE id_item = %s", (id_item,))
+                conn.commit()
+            print(f"Item '{nome.strip()}' destruído!")
+            input('Pressione Enter para continuar.')
+            return
+        if tipo == 'equipamento' and acao == "Equipar":
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpa terminal ao entrar no submenu de equipar
             with self.get_conn() as conn:
                 cur = conn.cursor()
                 cur.execute('SELECT parte_corpo FROM equipamento WHERE id_equip = %s', (id_item,))
@@ -68,28 +99,24 @@ class Inventario:
                         print(f"  {atributo.strip()}: {valor:+}")
                 else:
                     print("Sem modificadores.")
-                confirma = input(f"\nDeseja equipar este item em {parte_nome}? (s/n): ").strip().lower()
-                if confirma == 's':
-                    # Equipar
-                    coluna_map = {
-                        'cabe': 'cabeca',
-                        'tors': 'torso',
-                        'maos': 'maos',
-                        'pern': 'pernas',
-                        'pes': 'pes'
-                    }
-                    coluna = coluna_map.get(parte[0].strip(), parte[0].strip())
-                    cur.execute(f"""
-                        INSERT INTO equipamento_atual (id_ser, {coluna})
-                        VALUES (%s, %s)
-                        ON CONFLICT (id_ser) DO UPDATE SET {coluna} = EXCLUDED.{coluna}
-                    """, (self.estado.id_prota, id_item))
-                    conn.commit()
-                    print(f"\n{nome.strip()} equipado em {parte_nome}!")
-                else:
-                    print("Ação cancelada.")
+                coluna_map = {
+                    'cabe': 'cabeca',
+                    'tors': 'torso',
+                    'maos': 'maos',
+                    'pern': 'pernas',
+                    'pes': 'pes'
+                }
+                coluna = coluna_map.get(parte[0].strip(), parte[0].strip())
+                cur.execute(f"""
+                    INSERT INTO equipamento_atual (id_ser, {coluna})
+                    VALUES (%s, %s)
+                    ON CONFLICT (id_ser) DO UPDATE SET {coluna} = EXCLUDED.{coluna}
+                """, (self.estado.id_prota, id_item))
+                conn.commit()
+                print(f"\n{nome.strip()} equipado em {parte_nome}!")
                 input('Pressione Enter para continuar.')
-        elif tipo == 'utilizavel':
+        elif tipo == 'utilizavel' and acao == "Consumir":
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpa terminal ao entrar no submenu de consumir
             with self.get_conn() as conn:
                 cur = conn.cursor()
                 cur.execute('SELECT atributo, valor FROM utilizavel WHERE id_util = %s', (id_item,))
@@ -97,45 +124,40 @@ class Inventario:
                 if util:
                     atributo, valor = util
                     print(f"Atributo: {atributo.strip()} | Valor: {valor}")
-                    confirma = input(f"\nDeseja usar {nome.strip()}? (s/n): ").strip().lower()
-                    if confirma == 's':
-                        if atributo.strip() == 'hp':
-                            hp = self.estado.get_hp()
-                            if hp:
-                                hp_atual, hp_max = hp
-                                novo_hp = max(0, min(hp_max, hp_atual + valor))
-                                self.estado.set_hp(novo_hp)
-                        elif atributo.strip() == 'fome':
-                            fome = self.estado.get_fome()
-                            if fome:
-                                fome_atual, fome_max = fome
-                                novo_fome = max(0, min(fome_max, fome_atual + valor))
-                                self.estado.set_fome(novo_fome)
-                        elif atributo.strip() == 'sede':
-                            sede = self.estado.get_sede()
-                            if sede:
-                                sede_atual, sede_max = sede
-                                novo_sede = max(0, min(sede_max, sede_atual + valor))
-                                self.estado.set_sede(novo_sede)
-                        elif atributo.strip() == 'rad':
-                            rad = self.estado.get_radiacao()
-                            # get_radiacao pode retornar só o valor atual
-                            if isinstance(rad, tuple):
-                                rad_atual, rad_max = rad
-                            else:
-                                rad_atual = rad
-                                rad_max = 100  # valor padrão se não houver máximo
-                            novo_rad = max(0, min(rad_max, rad_atual + valor))
-                            self.estado.set_radiacao(novo_rad)
-                        print(f"\n{nome.strip()} usado com sucesso!")
-                        # Remove do inventário
-                        if quant > 1:
-                            cur.execute("UPDATE inventario SET quant = quant - 1 WHERE id_item = %s", (id_item,))
+                    if atributo.strip() == 'hp':
+                        hp = self.estado.get_hp()
+                        if hp:
+                            hp_atual, hp_max = hp
+                            novo_hp = max(0, min(hp_max, hp_atual + valor))
+                            self.estado.set_hp(novo_hp)
+                    elif atributo.strip() == 'fome':
+                        fome = self.estado.get_fome()
+                        if fome:
+                            fome_atual, fome_max = fome
+                            novo_fome = max(0, min(fome_max, fome_atual + valor))
+                            self.estado.set_fome(novo_fome)
+                    elif atributo.strip() == 'sede':
+                        sede = self.estado.get_sede()
+                        if sede:
+                            sede_atual, sede_max = sede
+                            novo_sede = max(0, min(sede_max, sede_atual + valor))
+                            self.estado.set_sede(novo_sede)
+                    elif atributo.strip() == 'rad':
+                        rad = self.estado.get_radiacao()
+                        if isinstance(rad, tuple):
+                            rad_atual, rad_max = rad
                         else:
-                            cur.execute("DELETE FROM inventario WHERE id_item = %s", (id_item,))
-                        conn.commit()
+                            rad_atual = rad
+                            rad_max = 100
+                        novo_rad = max(0, min(rad_max, rad_atual + valor))
+                        self.estado.set_radiacao(novo_rad)
+                    print(f"\n{nome.strip()} usado com sucesso!")
+                    # Remove do inventário
+                    if quant > 1:
+                        cur.execute("UPDATE inventario SET quant = quant - 1 WHERE id_item = %s", (id_item,))
                     else:
-                        print("Ação cancelada.")
+                        cur.execute("DELETE FROM inventario WHERE id_item = %s", (id_item,))
+                    conn.commit()
                 else:
                     print("Item não encontrado.")
                 input('Pressione Enter para continuar.')

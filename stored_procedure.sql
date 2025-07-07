@@ -432,3 +432,40 @@ DROP TRIGGER IF EXISTS trigger_atualizar_status_inventario ON inventario;
 CREATE TRIGGER trigger_atualizar_status_inventario
 AFTER INSERT OR UPDATE OR DELETE ON inventario
 FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_inventario();
+
+-- Trigger para remover equipamento_atual ao deletar item do inventário
+CREATE OR REPLACE FUNCTION trigger_remover_equipamento_atual() RETURNS TRIGGER AS $$
+BEGIN
+    -- Remove o equipamento_atual se o item deletado do inventário estiver equipado
+    UPDATE equipamento_atual
+    SET cabeca = NULL WHERE cabeca = OLD.id_item;
+    UPDATE equipamento_atual
+    SET torso = NULL WHERE torso = OLD.id_item;
+    UPDATE equipamento_atual
+    SET maos = NULL WHERE maos = OLD.id_item;
+    UPDATE equipamento_atual
+    SET pernas = NULL WHERE pernas = OLD.id_item;
+    UPDATE equipamento_atual
+    SET pes = NULL WHERE pes = OLD.id_item;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trigger_remover_equipamento_atual ON inventario;
+CREATE TRIGGER trigger_remover_equipamento_atual
+AFTER DELETE ON inventario
+FOR EACH ROW EXECUTE FUNCTION trigger_remover_equipamento_atual();
+
+-- Trigger para atualizar atributos ao remover equipamento_atual
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_apos_remover_equipamento() RETURNS TRIGGER AS $$
+BEGIN
+    -- Atualiza os atributos do protagonista afetado
+    PERFORM atualizar_status_inst_prota(OLD.id_ser);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trigger_atualizar_status_apos_remover_equipamento ON equipamento_atual;
+CREATE TRIGGER trigger_atualizar_status_apos_remover_equipamento
+AFTER DELETE ON equipamento_atual
+FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_apos_remover_equipamento();
