@@ -417,4 +417,57 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- =======================================
+-- TRIGGER FUNCTION: Adiciona mutação ao atingir certos níveis de radiação
+-- =======================================
+
+CREATE OR REPLACE FUNCTION trigger_mutacao_por_radiacao() RETURNS TRIGGER AS $$
+DECLARE
+    v_rad_novo INT;
+    v_id_ser INT;
+    v_slots TEXT[] := ARRAY['cabeca', 'torso', 'maos', 'pernas', 'pes'];
+    v_slot_livre TEXT;
+    v_id_mutacao INT;
+    v_mutacao INT;
+BEGIN
+    v_rad_novo := NEW.rad_atual;
+    v_id_ser := NEW.id_ser;
+    -- Só age se atingiu 5, 10 ou 15 de radiação
+    IF v_rad_novo IN (50, 100, 150) THEN
+        -- Procura um slot livre em mutacao_atual
+        SELECT unnest(v_slots) INTO v_slot_livre
+        FROM mutacao_atual
+        WHERE id_ser = v_id_ser
+        AND (
+            cabeca IS NULL OR torso IS NULL OR maos IS NULL OR pernas IS NULL OR pes IS NULL
+        )
+        LIMIT 1;
+        IF v_slot_livre IS NOT NULL THEN
+            -- Sorteia uma mutação aleatória que não esteja equipada
+            SELECT id_mutacao INTO v_id_mutacao
+            FROM mutacao
+            WHERE parte_corpo = v_slot_livre
+            AND id_mutacao NOT IN (
+                SELECT cabeca FROM mutacao_atual WHERE id_ser = v_id_ser
+                UNION
+                SELECT torso FROM mutacao_atual WHERE id_ser = v_id_ser
+                UNION
+                SELECT maos FROM mutacao_atual WHERE id_ser = v_id_ser
+                UNION
+                SELECT pernas FROM mutacao_atual WHERE id_ser = v_id_ser
+                UNION
+                SELECT pes FROM mutacao_atual WHERE id_ser = v_id_ser
+            )
+            ORDER BY random() LIMIT 1;
+            IF v_id_mutacao IS NOT NULL THEN
+                -- Atualiza o slot livre com a mutação sorteada
+                EXECUTE format('UPDATE mutacao_atual SET %I = $1 WHERE id_ser = $2', v_slot_livre)
+                USING v_id_mutacao, v_id_ser;
+            END IF;
+        END IF;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Os comandos de CREATE TRIGGER devem ser executados no arquivo triggers.sql, mas as funções ficam aqui.
