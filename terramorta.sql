@@ -102,6 +102,15 @@ CREATE TABLE coletavel(
     FOREIGN KEY (id_item) REFERENCES item_controle(id_item)
 );
 
+CREATE TABLE utilizavel(
+    id_util SMALLINT PRIMARY KEY NOT NULL,
+    nome CHAR(50) NOT NULL,
+    preco INT NOT NULL,
+    atributo CHAR(10) NOT NULL,
+    valor SMALLINT NOT NULL,
+    FOREIGN KEY (id_util) REFERENCES item_controle(id_item)
+);
+
 create table equipamento(
 	id_equip smallint primary key not null,
 	nome char(50) not null,

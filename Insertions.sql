@@ -72,15 +72,15 @@ INSERT INTO faccao (id_faccao, nome_faccao) VALUES
 (4, 'Catadores');
 
 -- =======================================
--- 2. ITENS COLETÁVEIS, EQUIPAMENTOS E MUTAÇÕES (usando procedures)
+-- 2. ITENS COLETÁVEIS, EQUIPAMENTOS, MUTAÇÕES E UTILIZÁVEIS (usando procedures)
 -- =======================================
 -- Coletáveis (inclui moeda id 1)
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Moeda' AS CHAR(50)), 0);         -- id 1
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Madeira' AS CHAR(50)), 5);       -- id 2
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Ferro' AS CHAR(50)), 10);        -- id 3
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Núcleo Radioativo Fundido' AS CHAR(50)), 50); -- id 4
-SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Água Potável' AS CHAR(50)), 8);  -- id 5
-SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Comida Enlatada' AS CHAR(50)), 12); -- id 6
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Pele de Lagarto' AS CHAR(50)), 8);  -- id 5
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Pedras' AS CHAR(50)), 12); -- id 6
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Plástico' AS CHAR(50)), 4);      -- id 7
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Tecido' AS CHAR(50)), 6);        -- id 8
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Sucata Eletrônica' AS CHAR(50)), 15); -- id 9
@@ -97,7 +97,15 @@ SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)),
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Braço Extra' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('maos' AS CHAR(4)));        -- id 16
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pele Resistente' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('tors' AS CHAR(4)));    -- id 17
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Pernas Saltadoras' AS CHAR(50)), CAST(2 AS SMALLINT), CAST('pern' AS CHAR(4)));  -- id 18
-SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));     -- id 19
+SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)));
+
+-- Utilizáveis
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Curativo' AS CHAR(50)), CAST(25 AS SMALLINT), CAST('hp' AS CHAR(10)), CAST(25 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Kit de Primeiros Socorros' AS CHAR(50)), CAST(50 AS SMALLINT), CAST('hp' AS CHAR(10)), CAST(60 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Carne Seca' AS CHAR(50)), CAST(20 AS SMALLINT), CAST('fome' AS CHAR(10)), CAST(20 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Frutas em Conserva' AS CHAR(50)), CAST(35 AS SMALLINT), CAST('fome' AS CHAR(10)), CAST(40 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Água Potável' AS CHAR(50)), CAST(15 AS SMALLINT), CAST('sede' AS CHAR(10)), CAST(20 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Água Purificada' AS CHAR(50)), CAST(30 AS SMALLINT), CAST('sede' AS CHAR(10)), CAST(45 AS SMALLINT));
 
 -- =======================================
 -- 3. INSTALAÇÕES DE BASE

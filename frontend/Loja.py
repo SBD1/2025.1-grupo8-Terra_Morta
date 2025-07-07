@@ -42,7 +42,7 @@ class Loja:
         with self.estado.get_conn() as conn:
             cur = conn.cursor()
             # Exclui moedas (id_item = 1) da listagem
-            cur.execute("SELECT id_item, nome, preco FROM coletavel WHERE id_item <> 1 UNION ALL SELECT id_equip, nome, preco FROM equipamento")
+            cur.execute("SELECT id_item, nome, preco FROM coletavel WHERE id_item <> 1 UNION ALL SELECT id_equip, nome, preco FROM equipamento UNION ALL SELECT id_util, nome, preco FROM utilizavel")
             itens = cur.fetchall()
         moedas = self.get_moedas()
         print(f"\nBem-vindo à loja da base!\nVocê possui {moedas} moedas.")

@@ -237,6 +237,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Para utilizável
+CREATE OR REPLACE FUNCTION inserir_utilizavel(tipo CHAR(1), nome_utilizavel CHAR(50), preco INT, atributo CHAR(10), valor SMALLINT)
+RETURNS INTEGER AS $$
+DECLARE
+    novo_id INTEGER;
+BEGIN
+    INSERT INTO item_controle (tipo) VALUES (tipo) RETURNING id_item INTO novo_id;
+    INSERT INTO utilizavel (id_util, nome, preco, atributo, valor) VALUES (novo_id, nome_utilizavel, preco, atributo, valor);
+    RETURN novo_id;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Para equipamento
 CREATE OR REPLACE FUNCTION inserir_equipamento(tipo CHAR(1), nome_equip CHAR(50), nivel SMALLINT, parte_corpo CHAR(4), preco INT)
 RETURNS INTEGER AS $$

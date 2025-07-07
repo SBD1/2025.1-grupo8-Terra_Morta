@@ -42,9 +42,9 @@ class Luta:
             if acao == 'Fugir':
                 if resultado_opcao == "conseguiu_fugir":
                     return "conseguiu_fugir"
-            if acao == "Atacar":
-                if resultado_opcao == "voltar":
-                    continue
+                
+            if resultado_opcao == "voltar":
+                continue
                 
             if self.dados_inimigos:
                 resultado = self.luta_turno_inimigos()
@@ -124,7 +124,9 @@ class Luta:
             self.dados_inimigos.pop(index_inst)
         
     def usar_item(self):
-        self.estado.print_clr(f'Vôce usou!')
+        resultado_usar = self.estado.inventario_obj.visualizar_inventario()
+        if resultado_usar == "voltar":
+            return "voltar"
         return "usou_item"
         
     def fugir_da_luta(self):
