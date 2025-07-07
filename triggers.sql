@@ -118,3 +118,20 @@ FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_apos_remover_equipamento(
 CREATE TRIGGER trigger_mutacao_por_radiacao
 AFTER UPDATE OF rad_atual ON inst_prota
 FOR EACH ROW EXECUTE FUNCTION trigger_mutacao_por_radiacao();
+
+
+-- =======================================
+-- TRIGGERS DE MUTACAO_ATUAL PARA ATUALIZAR ATRIBUTOS
+-- =======================================
+
+DROP TRIGGER IF EXISTS mutacao_atual_update_trigger ON mutacao_atual;
+CREATE TRIGGER mutacao_atual_update_trigger
+AFTER UPDATE ON mutacao_atual
+FOR EACH ROW
+EXECUTE FUNCTION trigger_atualizar_status_mut_update();
+
+DROP TRIGGER IF EXISTS mutacao_atual_delete_trigger ON mutacao_atual;
+CREATE TRIGGER mutacao_atual_delete_trigger
+AFTER DELETE ON mutacao_atual
+FOR EACH ROW
+EXECUTE FUNCTION trigger_atualizar_status_mut_delete();

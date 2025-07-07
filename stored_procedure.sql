@@ -398,3 +398,23 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+-- =======================================
+-- TRIGGERS DE MUTACAO_ATUAL PARA ATUALIZAR ATRIBUTOS
+-- =======================================
+
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_mut_update() RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM atualizar_status_inst_prota(NEW.id_ser);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_mut_delete() RETURNS TRIGGER AS $$
+BEGIN
+    PERFORM atualizar_status_inst_prota(OLD.id_ser);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Os comandos de CREATE TRIGGER devem ser executados no arquivo triggers.sql, mas as funções ficam aqui.
