@@ -1,3 +1,7 @@
+-- =======================================
+-- TRIGGERS DE INTEGRIDADE
+-- =======================================
+
 -- Triggers para coletavel
 DROP TRIGGER IF EXISTS trg_garantir_integridade_coletavel_insert ON coletavel;
 CREATE TRIGGER trg_garantir_integridade_coletavel_insert
@@ -33,6 +37,10 @@ FOR EACH ROW EXECUTE FUNCTION garantir_integridade_mutacao();
 
 
 -- =======================================
+-- TRIGGERS DE MISSÃO E EVENTOS
+-- =======================================
+
+-- =======================================
 -- TRIGGER PARA ATIVAR PRÓXIMA MISSÃO AUTOMATICAMENTE
 -- =======================================
 CREATE OR REPLACE FUNCTION ativar_proxima_missao()
@@ -52,8 +60,9 @@ FOR EACH ROW
 WHEN (OLD.status <> 'F' AND NEW.status = 'F')
 EXECUTE FUNCTION ativar_proxima_missao();
 
+
 -- =======================================
--- TRIGGER PARA ATUALIZAR STATUS AUTOMATICAMENTE
+-- TRIGGERS DE STATUS E ATRIBUTOS
 -- =======================================
 
 -- Função trigger para equipamento_atual
@@ -75,6 +84,10 @@ $$ LANGUAGE plpgsql;
 -- Drop triggers antigos se existirem
 DROP TRIGGER IF EXISTS trigger_atualizar_status_equip ON equipamento_atual;
 DROP TRIGGER IF EXISTS trigger_atualizar_status_mut ON mutacao_atual;
+DROP TRIGGER IF EXISTS trigger_atualizar_status_inventario ON inventario;
+DROP TRIGGER IF EXISTS trigger_remover_equipamento_atual ON inventario;
+DROP TRIGGER IF EXISTS trigger_atualizar_status_apos_remover_equipamento ON equipamento_atual;
+DROP TRIGGER IF EXISTS trigger_mutacao_por_radiacao ON inst_prota;
 
 -- Trigger para atualizar status ao equipar equipamento
 CREATE TRIGGER trigger_atualizar_status_equip
@@ -85,3 +98,23 @@ FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_equip();
 CREATE TRIGGER trigger_atualizar_status_mut
 AFTER UPDATE OR INSERT ON mutacao_atual
 FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_mut();
+
+-- Trigger para atualizar status ao inserir ou atualizar inventário
+CREATE TRIGGER trigger_atualizar_status_inventario
+AFTER INSERT OR UPDATE OR DELETE ON inventario
+FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_inventario();
+
+-- Trigger para remover equipamento_atual ao deletar item do inventário
+CREATE TRIGGER trigger_remover_equipamento_atual
+AFTER DELETE ON inventario
+FOR EACH ROW EXECUTE FUNCTION trigger_remover_equipamento_atual();
+
+-- Trigger para atualizar atributos ao remover equipamento_atual
+CREATE TRIGGER trigger_atualizar_status_apos_remover_equipamento
+AFTER DELETE ON equipamento_atual
+FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_apos_remover_equipamento();
+
+-- Trigger para adicionar mutação ao atingir certos níveis de radiação
+CREATE TRIGGER trigger_mutacao_por_radiacao
+AFTER UPDATE OF rad_atual ON inst_prota
+FOR EACH ROW EXECUTE FUNCTION trigger_mutacao_por_radiacao();

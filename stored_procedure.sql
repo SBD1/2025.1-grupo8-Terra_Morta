@@ -1,7 +1,8 @@
 -- =======================================
--- Criar Encontro com Inimigos
+-- FUNÇÕES DE EVENTOS E MISSÕES
 -- =======================================
 
+-- Função para criar encontro com inimigos
 CREATE OR REPLACE FUNCTION criar_encontro(
     p_id_inimigo INT,
     p_quantidade INT,
@@ -18,23 +19,17 @@ BEGIN
     INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'ENCONTRO')
     RETURNING id_evento INTO v_id_evento;
-
     -- Cria o encontro vinculado ao evento
     INSERT INTO encontro (id_evento, id_inimigo, quantidade)
     VALUES (v_id_evento, p_id_inimigo, p_quantidade);
-
     -- Relaciona o evento ao ponto de interesse
     INSERT INTO ocorre (id_evento, id_pi)
     VALUES (v_id_evento, p_local);
-
     RETURN v_id_evento;
 END;
 $criar_encontro$ LANGUAGE plpgsql;
 
--- =======================================
--- Criar Acontecimentos
--- =======================================
-
+-- Função para criar acontecimento mundo
 CREATE OR REPLACE FUNCTION criar_acontecimento_mundo(
     p_atributo INT,
     p_valor INT,
@@ -52,24 +47,17 @@ BEGIN
     INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'ACONTECIMENTO MUNDO')
     RETURNING id_evento INTO v_id_evento;
-
     -- Cria o acontecimento_mundo vinculado ao evento
     INSERT INTO acontecimento_mundo (id_evento, atributo, valor, texto)
     VALUES (v_id_evento, p_atributo, p_valor, p_texto);
-
     -- Relaciona o evento ao ponto de interesse
     INSERT INTO ocorre (id_evento, id_pi)
     VALUES (v_id_evento, p_local);
-
     RETURN v_id_evento;
 END;
 $criar_acontecimento$ LANGUAGE plpgsql;
 
-
--- =======================================
--- Criar Missão Matar
--- =======================================
-
+-- Função para criar missão matar
 CREATE OR REPLACE FUNCTION criar_missao_matar(
     p_id_inimigo INT,
     p_quantidade INT,
@@ -88,25 +76,18 @@ BEGIN
     INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
     RETURNING id_evento INTO v_id_evento;
-
     -- Cria o requisito do tipo MATAR
     INSERT INTO requisitos (tipo, alvo, quantidade)
     VALUES ('MATAR', p_id_inimigo, p_quantidade)
     RETURNING id_requisito INTO v_id_requisito;
-
     -- Cria a missão vinculando ao requisito
     INSERT INTO missao (id_evento, id_requisito, status, recompensas, prox)
     VALUES (v_id_evento, v_id_requisito, 'A', p_recompensas, p_prox);
-
     RETURN v_id_evento;
 END;
 $criar_missao_matar$ LANGUAGE plpgsql;
 
-
--- =======================================
--- Criar Missão Item
--- =======================================
-
+-- Função para criar missão entregar
 CREATE OR REPLACE FUNCTION criar_missao_entregar(
     p_id_item INT,
     p_quantidade INT,
@@ -125,25 +106,21 @@ BEGIN
     INSERT INTO evento (max_ocorrencia, prioridade, probabilidade, tipo)
     VALUES (p_max_ocorrencia, p_prioridade, p_probabilidade, 'MISSAO')
     RETURNING id_evento INTO v_id_evento;
-
     -- Cria o requisito do tipo ENTREGAR
     INSERT INTO requisitos (tipo, alvo, quantidade)
     VALUES ('ENTREGAR', p_id_item, p_quantidade)
     RETURNING id_requisito INTO v_id_requisito;
-
     -- Cria a missão vinculando ao requisito
     INSERT INTO missao (id_evento, id_requisito, status, recompensas, prox)
     VALUES (v_id_evento, v_id_requisito, 'A', p_recompensas, p_prox);
-
     RETURN v_id_evento;
 END;
 $criar_missao_entregar$ LANGUAGE plpgsql;
 
 -- =======================================
--- Garantias de Integridade
+-- FUNÇÕES DE INTEGRIDADE
 -- =======================================
 
--- Garantias para COLETAVEL
 CREATE OR REPLACE FUNCTION garantir_integridade_coletavel()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -169,7 +146,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Garantias para EQUIPAMENTO
 CREATE OR REPLACE FUNCTION garantir_integridade_equipamento()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -195,7 +171,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Garantias para MUTACAO
 CREATE OR REPLACE FUNCTION garantir_integridade_mutacao()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -222,10 +197,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =======================================
--- Funções para Inserção de Itens
+-- FUNÇÕES DE INSERÇÃO DE ITENS
 -- =======================================
 
--- Para coletável
 CREATE OR REPLACE FUNCTION inserir_coletavel(tipo CHAR(1), nome_coletavel CHAR(50), preco INT)
 RETURNS INTEGER AS $$
 DECLARE
@@ -237,7 +211,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Para utilizável
 CREATE OR REPLACE FUNCTION inserir_utilizavel(tipo CHAR(1), nome_utilizavel CHAR(50), preco INT, atributo CHAR(10), valor SMALLINT)
 RETURNS INTEGER AS $$
 DECLARE
@@ -249,7 +222,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Para equipamento
 CREATE OR REPLACE FUNCTION inserir_equipamento(tipo CHAR(1), nome_equip CHAR(50), nivel SMALLINT, parte_corpo CHAR(4), preco INT)
 RETURNS INTEGER AS $$
 DECLARE
@@ -261,7 +233,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Para mutação
 CREATE OR REPLACE FUNCTION inserir_mutacao(tipo CHAR(1), nome_mutacao CHAR(50), nivel SMALLINT, parte_corpo CHAR(4))
 RETURNS INTEGER AS $$
 DECLARE
@@ -274,8 +245,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =======================================
--- Procedure para resetar status das missões de matar
+-- PROCEDURES DE MISSÕES
 -- =======================================
+
 CREATE OR REPLACE PROCEDURE resetar_status_missoes_matar()
 LANGUAGE plpgsql
 AS $$
@@ -296,7 +268,10 @@ BEGIN
 END;
 $$;
 
--- Procedure para atualizar os status do inst_prota com modificadores de equipamentos e mutações atuais
+-- =======================================
+-- FUNÇÕES DE STATUS E ATRIBUTOS
+-- =======================================
+
 CREATE OR REPLACE FUNCTION atualizar_status_inst_prota(p_id_ser INT) RETURNS VOID AS $$
 DECLARE
     v_id_inst INT;
@@ -407,10 +382,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- =======================================
--- TRIGGER PARA ATUALIZAR CARGA AO MODIFICAR INVENTÁRIO
+-- FUNÇÕES DE TRIGGER
 -- =======================================
 
--- Função trigger para atualizar status ao inserir ou atualizar inventário
 CREATE OR REPLACE FUNCTION trigger_atualizar_status_inventario() RETURNS TRIGGER AS $$
 DECLARE
     v_id_ser INT;
@@ -424,48 +398,3 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-
--- Drop triggers antigos se existirem
-DROP TRIGGER IF EXISTS trigger_atualizar_status_inventario ON inventario;
-
--- Trigger para atualizar status ao inserir ou atualizar inventário
-CREATE TRIGGER trigger_atualizar_status_inventario
-AFTER INSERT OR UPDATE OR DELETE ON inventario
-FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_inventario();
-
--- Trigger para remover equipamento_atual ao deletar item do inventário
-CREATE OR REPLACE FUNCTION trigger_remover_equipamento_atual() RETURNS TRIGGER AS $$
-BEGIN
-    -- Remove o equipamento_atual se o item deletado do inventário estiver equipado
-    UPDATE equipamento_atual
-    SET cabeca = NULL WHERE cabeca = OLD.id_item;
-    UPDATE equipamento_atual
-    SET torso = NULL WHERE torso = OLD.id_item;
-    UPDATE equipamento_atual
-    SET maos = NULL WHERE maos = OLD.id_item;
-    UPDATE equipamento_atual
-    SET pernas = NULL WHERE pernas = OLD.id_item;
-    UPDATE equipamento_atual
-    SET pes = NULL WHERE pes = OLD.id_item;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS trigger_remover_equipamento_atual ON inventario;
-CREATE TRIGGER trigger_remover_equipamento_atual
-AFTER DELETE ON inventario
-FOR EACH ROW EXECUTE FUNCTION trigger_remover_equipamento_atual();
-
--- Trigger para atualizar atributos ao remover equipamento_atual
-CREATE OR REPLACE FUNCTION trigger_atualizar_status_apos_remover_equipamento() RETURNS TRIGGER AS $$
-BEGIN
-    -- Atualiza os atributos do protagonista afetado
-    PERFORM atualizar_status_inst_prota(OLD.id_ser);
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS trigger_atualizar_status_apos_remover_equipamento ON equipamento_atual;
-CREATE TRIGGER trigger_atualizar_status_apos_remover_equipamento
-AFTER DELETE ON equipamento_atual
-FOR EACH ROW EXECUTE FUNCTION trigger_atualizar_status_apos_remover_equipamento();

@@ -110,8 +110,7 @@ class EstadoNormal:
             cur.execute("SELECT id_inst FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
             row = cur.fetchone()
             if row:
-                id_inst = row[0]
-                cur.execute("UPDATE inst_prota SET rad_atual = %s WHERE id_inst = %s", (nova_radiacao, id_inst))
+                cur.execute("UPDATE inst_prota SET rad_atual = %s WHERE id_ser = %s AND id_inst = %s", (nova_radiacao, self.id_prota, row[0]))
                 conn.commit()
 
     def set_localizacao(self, novo_local):
