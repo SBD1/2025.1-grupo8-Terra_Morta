@@ -37,11 +37,38 @@ O mundo de **Terra Morta** é recheado de ameaças, como:
 - **Facções organizadas com objetivos próprios (aliadas ou inimigas)**
 
 ---
+# Como Rodar o Projeto
+
+## 1. Configuração do Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+
+DB_NAME=TerraMorta
+DB_USER=postgres
+DB_PASSWORD=
+DB_HOST=localhost
+DB_PORT=5432
+
+
+> 💡 Preencha o campo `DB_PASSWORD` com a senha do seu usuário PostgreSQL, caso necessário.
+
+---
+
+## 2. Execução dos Scripts SQL
+
+No PostgreSQL, execute os arquivos a seguir **nesta ordem**:
+
+1. terramorta.sql
+2. stored_procedure.sql
+3. triggers.sql
+4. Insertions.sql
+
+-------
+
 
 ## 🔧 Status
 
-<p align="center">
-    <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=RED&style=for-the-badge"/>
+Concluido
     
 </p>
 
@@ -50,6 +77,8 @@ O mundo de **Terra Morta** é recheado de ameaças, como:
 
 <a href="https://youtu.be/0W0nQhkjLXs">Apresentação 1</a> <br>
 <a href="https://youtu.be/Bsivk62-ACQ">Apresentação 2</a> <br>
+<a href="https://youtu.be/dGhyHtTdaO4?si=d7iWuBZRmyRRB_je">Apresentação 3</a> <br>
+
 
 ## Membros da Equipe 👥
 
