@@ -498,3 +498,38 @@ BEGIN
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
+
+-- =======================================
+-- FUNÇÃO DE INTEGRIDADE PARA SERES
+-- =======================================
+
+CREATE OR REPLACE FUNCTION garantir_integridade_ser()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Se for inserir em prota, não pode existir em inteligente ou nao_inteligente
+    IF TG_TABLE_NAME = 'prota' THEN
+        IF EXISTS (SELECT 1 FROM inteligente WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM nao_inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em inteligente ou nao_inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    -- Se for inserir em inteligente, não pode existir em prota ou nao_inteligente
+    IF TG_TABLE_NAME = 'inteligente' THEN
+        IF EXISTS (SELECT 1 FROM prota WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM nao_inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em prota ou nao_inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    -- Se for inserir em nao_inteligente, não pode existir em prota ou inteligente
+    IF TG_TABLE_NAME = 'nao_inteligente' THEN
+        IF EXISTS (SELECT 1 FROM prota WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em prota ou inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;

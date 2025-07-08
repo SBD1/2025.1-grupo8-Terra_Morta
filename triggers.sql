@@ -135,3 +135,24 @@ CREATE TRIGGER mutacao_atual_delete_trigger
 AFTER DELETE ON mutacao_atual
 FOR EACH ROW
 EXECUTE FUNCTION trigger_atualizar_status_mut_delete();
+
+
+-- =======================================
+-- TRIGGERS DE INTEGRIDADE SERES
+-- =======================================
+
+-- Triggers de integridade para seres
+DROP TRIGGER IF EXISTS trg_integridade_prota ON prota;
+CREATE TRIGGER trg_integridade_prota
+BEFORE INSERT ON prota
+FOR EACH ROW EXECUTE FUNCTION garantir_integridade_ser();
+
+DROP TRIGGER IF EXISTS trg_integridade_inteligente ON inteligente;
+CREATE TRIGGER trg_integridade_inteligente
+BEFORE INSERT ON inteligente
+FOR EACH ROW EXECUTE FUNCTION garantir_integridade_ser();
+
+DROP TRIGGER IF EXISTS trg_integridade_nao_inteligente ON nao_inteligente;
+CREATE TRIGGER trg_integridade_nao_inteligente
+BEFORE INSERT ON nao_inteligente
+FOR EACH ROW EXECUTE FUNCTION garantir_integridade_ser();
