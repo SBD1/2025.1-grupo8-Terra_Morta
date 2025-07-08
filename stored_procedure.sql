@@ -432,8 +432,8 @@ DECLARE
 BEGIN
     v_rad_novo := NEW.rad_atual;
     v_id_ser := NEW.id_ser;
-    -- Só age se atingiu 5, 10 ou 15 de radiação
-    IF v_rad_novo IN (50, 100, 150) THEN
+    -- Só age se passou de múltiplo de 50 de radiação
+    IF v_rad_novo >= 50 AND FLOOR(v_rad_novo/50) > FLOOR(OLD.rad_atual/50) THEN
         -- Procura um slot livre em mutacao_atual
         SELECT unnest(v_slots) INTO v_slot_livre
         FROM mutacao_atual
