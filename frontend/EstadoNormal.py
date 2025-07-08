@@ -103,6 +103,20 @@ class EstadoNormal:
             cur.execute("SELECT rad_atual FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
             row = cur.fetchone()
             return row[0] if row else 0
+        
+    def get_rad_res(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT res_radi_at FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            return row[0] if row else 0
+        
+    def get_def(self):
+        with self.get_conn() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT def_atual FROM inst_prota WHERE id_ser = %s ORDER BY id_inst DESC LIMIT 1", (self.id_prota,))
+            row = cur.fetchone()
+            return row[0] if row else 0
 
     def set_radiacao(self, nova_radiacao):
         with self.get_conn() as conn:

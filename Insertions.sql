@@ -78,9 +78,9 @@ INSERT INTO faccao (id_faccao, nome_faccao) VALUES
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Moeda' AS CHAR(50)), 0);         -- id 1
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Madeira' AS CHAR(50)), 5);       -- id 2
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Ferro' AS CHAR(50)), 10);        -- id 3
-SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Núcleo Radioativo Fundido' AS CHAR(50)), 50); -- id 4
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Núcleo Radioativo Fundido' AS CHAR(50)), 5000); -- id 4
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Pele de Lagarto' AS CHAR(50)), 8);  -- id 5
-SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Pedras' AS CHAR(50)), 12); -- id 6
+SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Pedras Preciosas' AS CHAR(50)), 12); -- id 6
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Plástico' AS CHAR(50)), 4);      -- id 7
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Tecido' AS CHAR(50)), 6);        -- id 8
 SELECT inserir_coletavel(CAST('C' AS CHAR(1)), CAST('Sucata Eletrônica' AS CHAR(50)), 15); -- id 9
@@ -91,7 +91,7 @@ SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Colete de Couro' AS CHAR(
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Luvas de Proteção' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 18);   -- id 12
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Botas de Borracha' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pes' AS CHAR(4)), 20);    -- id 13
 SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Calças Reforçadas' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('pern' AS CHAR(4)), 25);   -- id 14
-SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Espada Laser' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 800);        -- id 15
+SELECT inserir_equipamento(CAST('E' AS CHAR(1)), CAST('Espada Laser' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('maos' AS CHAR(4)), 15000);        -- id 15
 
 -- Mutações (id 15+)
 SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Visão Noturna' AS CHAR(50)), CAST(1 AS SMALLINT), CAST('cabe' AS CHAR(4)));      -- id 16
@@ -104,9 +104,11 @@ SELECT inserir_mutacao(CAST('M' AS CHAR(1)), CAST('Garras Afiadas' AS CHAR(50)),
 SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Curativo' AS CHAR(50)), CAST(25 AS SMALLINT), CAST('hp' AS CHAR(10)), CAST(25 AS SMALLINT));
 SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Kit de Primeiros Socorros' AS CHAR(50)), CAST(50 AS SMALLINT), CAST('hp' AS CHAR(10)), CAST(60 AS SMALLINT));
 SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Carne Seca' AS CHAR(50)), CAST(20 AS SMALLINT), CAST('fome' AS CHAR(10)), CAST(20 AS SMALLINT));
-SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Frutas em Conserva' AS CHAR(50)), CAST(35 AS SMALLINT), CAST('fome' AS CHAR(10)), CAST(40 AS SMALLINT));
-SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Água Potável' AS CHAR(50)), CAST(15 AS SMALLINT), CAST('sede' AS CHAR(10)), CAST(20 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Corte Refinado de Carne' AS CHAR(50)), CAST(35 AS SMALLINT), CAST('fome' AS CHAR(10)), CAST(40 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Água Suja' AS CHAR(50)), CAST(15 AS SMALLINT), CAST('sede' AS CHAR(10)), CAST(20 AS SMALLINT));
 SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Água Purificada' AS CHAR(50)), CAST(30 AS SMALLINT), CAST('sede' AS CHAR(10)), CAST(45 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Medicamento Velho' AS CHAR(50)), CAST(20 AS SMALLINT), CAST('rad' AS CHAR(10)), CAST(-20 AS SMALLINT));
+SELECT inserir_utilizavel(CAST('U' AS CHAR(1)), CAST('Pílulas Anti-radição' AS CHAR(50)), CAST(40 AS SMALLINT), CAST('rad' AS CHAR(10)), CAST(-50 AS SMALLINT));
 
 -- =======================================
 -- 3. INSTALAÇÕES DE BASE
@@ -544,8 +546,7 @@ INSERT INTO modificador (id_item, atributo, valor) VALUES
 -- Modificadores adicionais para mutações de múltiplos níveis
 INSERT INTO modificador (id_item, atributo, valor) VALUES
 (17, 'dex', 2),      -- Braço Extra: +2 destreza (nível 2)
-(18, 'res_cort', 2), -- Pele Resistente: +2 resistência corte (nível 2)
-(19, 'dex', 2);     -- Pernas Saltadoras: +2 pulo (nível 2)
+(18, 'res_cort', 2); -- Pele Resistente: +2 resistência corte (nível 2)
 
 -- Peso dos Equipamentos
 INSERT INTO modificador (id_item, atributo, valor) VALUES
@@ -634,13 +635,44 @@ CALL resetar_status_missoes_matar();
 -- 15. DROPS DE INIMIGOS
 -- =======================================
 -- Exemplo: (id_item, id_ser, chance, quantidade)
--- Equipamentos
 INSERT INTO npc_dropa (id_item, id_ser, chance, quant) VALUES
-(1, 101, 100, 2), --moeda de baratas mutantes
+(1, 101, 60, 2), --moeda de baratas mutantes
+(21, 102, 30, 1), --curativo de cachorro faminto
+(23, 102, 50, 3), --carne de cachorro faminto
 (2, 103, 50, 1), --madeira de ratos carniceiros
+(25, 103, 35, 1), --agua de rato carniceiro
+(1, 104, 80, 5), --moeda de corvo mutante
+(8, 105, 90, 2), --tecido de pombo radioativo
+(7, 106, 60, 3), --plastico de cururu mutante
 (7, 107, 50, 2), --plastíco de catadores
-(8, 107, 36, 3), --tecido de catadores
+(8, 108, 40, 3), --tecido de fanatico
+(27, 201, 30, 2), --medic velho de cachorro mutante
 (9, 202, 75, 1), --sucata eletronica de robôs de segurança
+(3, 202, 50, 2), --ferro de robôs de segurança
+(24, 203, 50, 2), --Corte de carne de jacare
+(11, 204, 63, 2), --colete de sobrev host
+(10, 205, 30, 2), --capacete de canibal 
+(5, 301, 20, 1), --pele de lagarto de brutamontes mutante
+(28, 302, 75, 3), --Pilulas rad de ecohorror
+(3, 303, 80, 2), --ferro de urubu de aço
+(13, 304, 40, 1), --botas de pessoa mutante
+(3, 305, 35, 3), --ferro de ex-militar enlouquecido
+(6, 401, 55, 4), --pedras preciosas de discípulo da luz verde
+(12, 402, 25, 1), --luvas de portador da chama
+(14, 403, 40, 1), --calça de sacerdote da mutação
+(22, 403, 25, 1), --kit socorro de sacerdote da mutação
+(9, 404, 30, 2), --sucata de profeta isótopo
+(11, 404, 40, 1), --colete de profeta isótopo
+(5, 501, 80, 1), --pele de lagarto de lagarto mutante
+(23, 501, 50, 2), --carne seca de lagarto mutante
+(5, 502, 70, 1), --pele de lagarto de lagarto putrefato
+(5, 503, 60, 1), --pele de lagarto de lagarto espinhoso
+(6, 503, 40, 2), --pedras preciosas de lagarto espinhoso
+(2, 601, 30, 3), --madeira de formiga operária
+(24, 602, 30, 1), --corte de carne de formiga soldado
+(6, 603, 45, 2), --pedras preciosas de formiga anciã
+(26, 603, 20, 2), --agua pura preciosas de formiga anciã
+
 (4, 997, 100, 1), -- Núcleo Radioativo Fundido 
 (4, 998, 100, 1), -- Núcleo Radioativo Fundido 
 (4, 999, 100, 1); -- Núcleo Radioativo Fundido

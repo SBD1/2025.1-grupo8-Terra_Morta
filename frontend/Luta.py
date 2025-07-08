@@ -66,12 +66,32 @@ class Luta:
             # Turno dos inimigos
             for inimigo in self.dados_inimigos:
                 id_ser, id_inst, tipo, nome, hp_max, hp_atual, str_atual, dex_atual, def_atual = inimigo
-                dano = max(0, str_atual - def_atual)
+                
+                def_prota = self.estado.get_def()
+                dano = max(0, (str_atual - def_prota))
                 new_hp = self.estado.get_hp()[0] - dano
                 
                 if new_hp > 0:
                     self.estado.set_hp(new_hp)
                     print(f'\nO {nome.strip()}({id_inst}) atacou você e causou {dano} de dano!\n\nVida atual: {new_hp}/{self.estado.get_hp()[1]}\n')
+                    
+                    if tipo == 'N':
+                        with self.conn.cursor() as cur:
+                        # Busca o id_ser do inimigo
+                            cur.execute("SELECT rad_dano FROM nao_inteligente WHERE id_ser = %s", (id_ser,))
+                            row = cur.fetchone()
+                            dano_rad = row[0] if row else 0
+                            
+                            rad_atual = self.estado.get_radiacao()
+                            def_rad_prota = self.estado.get_rad_res()
+                            
+                            rad_dano = max(0, (dano_rad - def_rad_prota))
+                            
+                            if rad_dano > 0:
+                                new_rad = rad_atual + rad_dano
+                                self.estado.set_radiacao(new_rad)
+                                print(f'O {nome.strip()} causou {rad_dano} de radiação!\n')
+                            
                     input("Pressione Enter para continuar.")
                 else:
                     return "derrota_protagonista"
@@ -109,7 +129,8 @@ class Luta:
         str_prota = self.estado.get_str()[0]
         hp_inimigo = self.dados_inimigos[index_inst][5] # hp_atual do inimigo
         
-        new_hp = hp_inimigo - str_prota
+        def_inimigo = self.dados_inimigos[index_inst][8]  # def_atual do inimigo
+        new_hp = hp_inimigo - max(0, (str_prota - def_inimigo))
         
         if new_hp > 0:
             self.set_hp_inimigo(new_hp, id_inst_ser)
@@ -196,6 +217,11 @@ class Luta:
                 row = cur.fetchone()
                 if row:
                     return row[0].strip()
+                else:
+                    cur.execute("SELECT nome FROM utilizavel WHERE id_util = %s", (id_item,))
+                    row = cur.fetchone()
+                    if row:
+                        return row[0].strip()
         return "Item Desconhecido"
         
     def end(self):
