@@ -471,3 +471,65 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Os comandos de CREATE TRIGGER devem ser executados no arquivo triggers.sql, mas as funções ficam aqui.
+
+-- Trigger para remover equipamento_atual ao deletar item do inventário
+CREATE OR REPLACE FUNCTION trigger_remover_equipamento_atual() RETURNS TRIGGER AS $$
+BEGIN
+    -- Remove o equipamento_atual se o item deletado do inventário estiver equipado
+    UPDATE equipamento_atual
+    SET cabeca = NULL WHERE cabeca = OLD.id_item;
+    UPDATE equipamento_atual
+    SET torso = NULL WHERE torso = OLD.id_item;
+    UPDATE equipamento_atual
+    SET maos = NULL WHERE maos = OLD.id_item;
+    UPDATE equipamento_atual
+    SET pernas = NULL WHERE pernas = OLD.id_item;
+    UPDATE equipamento_atual
+    SET pes = NULL WHERE pes = OLD.id_item;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger para atualizar atributos ao remover equipamento_atual
+CREATE OR REPLACE FUNCTION trigger_atualizar_status_apos_remover_equipamento() RETURNS TRIGGER AS $$
+BEGIN
+    -- Atualiza os atributos do protagonista afetado
+    PERFORM atualizar_status_inst_prota(OLD.id_ser);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- =======================================
+-- FUNÇÃO DE INTEGRIDADE PARA SERES
+-- =======================================
+
+CREATE OR REPLACE FUNCTION garantir_integridade_ser()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Se for inserir em prota, não pode existir em inteligente ou nao_inteligente
+    IF TG_TABLE_NAME = 'prota' THEN
+        IF EXISTS (SELECT 1 FROM inteligente WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM nao_inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em inteligente ou nao_inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    -- Se for inserir em inteligente, não pode existir em prota ou nao_inteligente
+    IF TG_TABLE_NAME = 'inteligente' THEN
+        IF EXISTS (SELECT 1 FROM prota WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM nao_inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em prota ou nao_inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    -- Se for inserir em nao_inteligente, não pode existir em prota ou inteligente
+    IF TG_TABLE_NAME = 'nao_inteligente' THEN
+        IF EXISTS (SELECT 1 FROM prota WHERE id_ser = NEW.id_ser)
+           OR EXISTS (SELECT 1 FROM inteligente WHERE id_ser = NEW.id_ser) THEN
+            RAISE EXCEPTION 'id_ser % já existe em prota ou inteligente', NEW.id_ser;
+        END IF;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
